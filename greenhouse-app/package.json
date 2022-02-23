@@ -30,12 +30,14 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@eva-design/eva": "^2.1.1",
     "@expo/webpack-config": "^0.12.71",
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/native": "~6.0.1",
     "@react-navigation/native-stack": "^6.0.2",
     "@react-navigation/stack": "~6.0.1",
+    "@ui-kitten/components": "^5.1.1",
     "apisauce": "2.0.0",
     "expo": "43.0.0",
     "expo-linear-gradient": "~10.0.3",
@@ -52,6 +54,7 @@
     "react-native-keychain": "6.2.0",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "3.8.0",
+    "react-native-svg": "12.1.1",
     "react-native-tailwindcss": "^1.1.11",
     "reactotron-mst": "3.1.4",
     "reactotron-react-js": "^3.3.7",
