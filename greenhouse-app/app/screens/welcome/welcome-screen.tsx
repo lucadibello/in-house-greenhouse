@@ -88,7 +88,7 @@ const FOOTER_CONTENT: ViewStyle = {
 
 export const WelcomeScreen: FC<StackScreenProps<NavigatorParamList, "welcome">> = observer(
   ({ navigation }) => {
-    const nextScreen = () => navigation.navigate("demo")
+    const nextScreen = () => navigation.navigate("homepage")
 
     return (
       <View testID="WelcomeScreen" style={FULL}>
