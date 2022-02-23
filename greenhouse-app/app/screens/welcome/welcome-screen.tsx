@@ -86,10 +86,12 @@ const FOOTER_CONTENT: ViewStyle = {
   paddingHorizontal: spacing[4],
 }
 
+
 export const WelcomeScreen: FC<StackScreenProps<NavigatorParamList, "welcome">> = observer(
   ({ navigation }) => {
-    const nextScreen = () => navigation.navigate("homepage")
-
+    // FIXME: Fix typescript type annotations
+    const nextScreen = () => navigation.navigate("bottomnav", { screen: 'homepage' });
+    
     return (
       <View testID="WelcomeScreen" style={FULL}>
         <GradientBackground colors={["#422443", "#281b34"]} />
