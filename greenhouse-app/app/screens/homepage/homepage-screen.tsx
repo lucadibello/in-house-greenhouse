@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite"
 import { StackScreenProps } from "@react-navigation/stack"
 import { TabParamList } from "../../navigators"
 import { Layout, Text } from "@ui-kitten/components"
+import { GreenhouseCard } from "../../components/greenhouse-card/greenhouse-card"
 
 export const HomepageScreen: FC<StackScreenProps<TabParamList, "homepage">> = observer(
   ({navigation}) => {
@@ -11,10 +12,7 @@ export const HomepageScreen: FC<StackScreenProps<TabParamList, "homepage">> = ob
     return (
       <Layout style={styles.container}>
         <Text category='h2'>My greenhouses</Text>
-        <Text>...List here...</Text>
-
-        <Text category='h2'>My greenhouses</Text>
-
+        <GreenhouseCard title="GreenHouse demmerda" subtitle="Homespace" />
       </Layout>
     )
   }
