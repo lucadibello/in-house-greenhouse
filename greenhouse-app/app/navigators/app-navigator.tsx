@@ -5,12 +5,13 @@
  * and a "main" flow which the user will use once logged in.
  */
 import React from "react"
-import { useColorScheme } from "react-native"
+import { useColorScheme, StyleSheet } from "react-native"
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { WelcomeScreen, DemoScreen, DemoListScreen, HomepageScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
+import { BottomNavigation, BottomNavigationTab, Icon } from "@ui-kitten/components";
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -37,13 +38,31 @@ export type TabParamList = {
   // 🔥 Your tabs go here
 }
 
+// Create custom stylesheet
+const styles = StyleSheet.create({
+  kittenBar: {
+    height: 75
+  }
+});
+
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<NavigatorParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
 
+const UIKittenBar = ({ navigation, state }) => (
+  <BottomNavigation
+    style={styles.kittenBar}
+    selectedIndex={state.index}
+    onSelect={index => navigation.navigate(state.routeNames[index])}>
+    <BottomNavigationTab icon={<Icon name='people-outline'/>}/>
+    <BottomNavigationTab icon={<Icon name='options-2-outline'/>}/>
+    <BottomNavigationTab icon={<Icon name='settings-outline'/>}/>
+  </BottomNavigation>
+);
+
 const AppBottomTab = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator tabBar={props => <UIKittenBar {...props} />}>
       <Tab.Screen
         name="demo"
         component={DemoScreen}
@@ -53,7 +72,7 @@ const AppBottomTab = () => {
       <Tab.Screen 
         name="homepage"
         component={HomepageScreen}
-        options={{ title: 'My greenhouses' }}
+        options={{ title: 'Home' }}
       />
       
       <Tab.Screen
