@@ -6,15 +6,6 @@ import { NavigatorParamList } from "../../navigators"
 import { Button, GradientBackground, Screen, Text } from "../../components"
 import { t, color } from 'react-native-tailwindcss'
 
-// STOP! READ ME FIRST!
-// To fix the TS error below, you'll need to add the following things in your navigation config:
-// - Add `homepage: undefined` to NavigatorParamList
-// - Import your screen, and add it to the stack:
-//     `<Stack.Screen name="homepage" component={HomepageScreen} />`
-// Hint: Look for the 🔥!
-
-
-// REMOVE ME! ⬇️ This TS ignore will not be necessary after you've added the correct navigator param type
 export const HomepageScreen: FC<StackScreenProps<NavigatorParamList, "homepage">> = observer(
   ({navigation}) => {
     // Pull in one of our MST stores
