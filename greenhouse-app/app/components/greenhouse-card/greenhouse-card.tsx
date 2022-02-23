@@ -1,36 +1,51 @@
 import * as React from "react"
-import { StyleProp, TextStyle, View, ViewStyle } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { observer } from "mobx-react-lite"
-import { color, typography } from "../../theme"
-import { Text } from "../text/text"
-
-const CONTAINER: ViewStyle = {
-  justifyContent: "center",
-}
-
-const TEXT: TextStyle = {
-  fontFamily: typography.primary,
-  fontSize: 14,
-  color: color.primary,
-}
+import { Card, Layout, Text } from "@ui-kitten/components"
 
 export interface GreenhouseCardProps {
-  /**
-   * An optional style override useful for padding & margin.
-   */
-  style?: StyleProp<ViewStyle>
+  title: string,
+  subtitle?: string,
+  status?: 'primary' | 'success' | 'info' | 'warning' | 'danger' | 'basic'
 }
+
+interface HeaderProps {
+  title: string,
+  subtitle?: string 
+}
+
+
+const Header = (props: HeaderProps) => (
+  <View>
+    <Text category='h6'>{props.title}</Text>
+    <Text category='s1'>{props.subtitle}</Text>
+  </View>
+);
 
 /**
  * Describe your component here
  */
 export const GreenhouseCard = observer(function GreenhouseCard(props: GreenhouseCardProps) {
-  const { style } = props
-  const styles = Object.assign({}, CONTAINER, style)
-
   return (
-    <View style={styles}>
-      <Text style={TEXT}>Hello</Text>
-    </View>
+    <React.Fragment>
+      <Layout style={styles.container} level='3'>
+        <Card style={styles.card} header={<Header title={props.title} subtitle={props.subtitle} />}>
+          <Text>Hello bello</Text>
+        </Card>
+      </Layout>
+
+    </React.Fragment>
   )
 })
+
+const styles = StyleSheet.create({
+  card: {
+    flex: 1,
+    margin: 2,
+    padding: 10
+  },
+  container: {
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+});
