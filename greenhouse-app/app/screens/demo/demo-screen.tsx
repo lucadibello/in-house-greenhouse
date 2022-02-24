@@ -11,7 +11,7 @@ import {
   AutoImage as Image,
   GradientBackground,
 } from "../../components"
-import { NavigatorParamList } from "../../navigators"
+import { TabParamList } from "../../navigators"
 import { color, spacing } from "../../theme"
 import { Api } from "../../services/api"
 import { save } from "../../utils/storage"
@@ -93,7 +93,7 @@ const platformCommand = Platform.select({
   android: "Cmd/Ctrl + M",
 })
 
-export const DemoScreen: FC<StackScreenProps<NavigatorParamList, "demo">> = observer(
+export const DemoScreen: FC<StackScreenProps<TabParamList, "demo">> = observer(
   ({ navigation }) => {
     const goBack = () => navigation.goBack()
 
