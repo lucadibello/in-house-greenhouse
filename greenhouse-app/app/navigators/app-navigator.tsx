@@ -11,14 +11,17 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { WelcomeScreen, DemoScreen, DemoListScreen, HomepageScreen, ScanScreen, GreenhouseScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
-import { BottomNavigation, BottomNavigationTab, Icon, Layout, Button, TopNavigation, Text} from "@ui-kitten/components";
+import { BottomNavigation, BottomNavigationTab, Icon, Layout, Button } from "@ui-kitten/components";
+import { GreenhouseInformation } from "../components";
 
 export type NavigatorParamList = {
   welcome: undefined
   bottomnav: undefined
   // 🔥 Your screens go here
   scan: undefined
-  greenhouse: undefined
+  greenhouse: {
+    details: GreenhouseInformation
+  }
 }
 
 export type TabParamList = {
@@ -109,7 +112,7 @@ const AppStack = () => {
       <Stack.Screen name="scan" component={ScanScreen} options={{
         title: "Find your greenhouse",
         animation: "fade",
-        headerBackVisible: false
+        headerBackVisible: false,
       }}/>
       <Stack.Screen name="greenhouse" component={GreenhouseScreen} />
     </Stack.Navigator>
