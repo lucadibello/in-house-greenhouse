@@ -46,7 +46,6 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
               })
             }}
           />
-          <Text category='h2'>General statistics</Text>
         </VirtualizedView>
       </Layout>
     )
