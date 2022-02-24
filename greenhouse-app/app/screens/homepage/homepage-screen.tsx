@@ -2,9 +2,9 @@ import React, { FC } from "react"
 import { StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import { StackScreenProps } from "@react-navigation/stack"
-import { TabParamList } from "../../navigators"
+import { TabParamList, NavigatorParamList } from "../../navigators"
 import { Layout, Text } from "@ui-kitten/components"
-import { GreenhouseCard, GreenhouseList } from "../../components"
+import { GreenhouseCard, GreenhouseCardProps, GreenhouseList } from "../../components"
 import { FlatList } from "react-native-gesture-handler"
 
 const VirtualizedView = (props: any) => {
@@ -13,7 +13,7 @@ const VirtualizedView = (props: any) => {
       nestedScrollEnabled
       data={[]}
       ListEmptyComponent={null}
-      keyExtractor={() => "dummy"}
+      keyExtractor={() => "fakescrollableview"}
       renderItem={null}
       ListHeaderComponent={() => (
         <React.Fragment>{props.children}</React.Fragment>
@@ -22,7 +22,7 @@ const VirtualizedView = (props: any) => {
   );
 }
 
-export const HomepageScreen: FC<StackScreenProps<TabParamList, "homepage">> = observer(
+export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamList), "homepage">> = observer(
   ({navigation}) => {
     // Pull in one of our MST stores
     return (
@@ -32,14 +32,19 @@ export const HomepageScreen: FC<StackScreenProps<TabParamList, "homepage">> = ob
           <GreenhouseList
             style={styles.greenhouseList}
             greenhouses={[
-              {title:"Office", subtitle: "Lettuce, Tomatoes", status: "danger"},
-              {title:"Ciao", subtitle: "Other", status: "success"},
-              {title:"Ciao", subtitle: "IDK", status: "success"},
-              {title:"Picio", subtitle: "IDK", status: "danger"},
+              {title:"Office", subtitle: "Lettuce, Tomatoes", status: "danger", id: "1"},
+              {title:"Ciao", subtitle: "Other", status: "success", id: "2"},
+              {title:"Ciao", subtitle: "IDK", status: "success", id: "3"},
+              {title:"Picio", subtitle: "IDK", status: "danger", id: "4"},
             ]}
+            onGreenhouseClick={(greenhouse: GreenhouseCardProps) => {
+              // TODO: REMOVE THIS
+              console.tron.log("Clicked a greenhouse! ", greenhouse.title, greenhouse.id)
+              // navigate to greenhouse screen
+              navigation.navigate("greenhouse")
+            }}
           />
           <Text category='h2'>General statistics</Text>
-          <GreenhouseCard title="Prova" />
         </VirtualizedView>
       </Layout>
     )
