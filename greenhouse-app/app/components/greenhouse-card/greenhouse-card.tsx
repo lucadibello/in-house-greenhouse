@@ -1,12 +1,13 @@
 import * as React from "react"
-import { StyleSheet, View } from "react-native"
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
 import { Card, Layout, Text } from "@ui-kitten/components"
 
 export interface GreenhouseCardProps {
   title: string,
   subtitle?: string,
-  status?: 'primary' | 'success' | 'info' | 'warning' | 'danger' | 'basic'
+  status?: 'primary' | 'success' | 'info' | 'warning' | 'danger' | 'basic',
+  style?: StyleProp<ViewStyle>
 }
 
 interface HeaderProps {
@@ -28,8 +29,8 @@ const Header = (props: HeaderProps) => (
 export const GreenhouseCard = observer(function GreenhouseCard(props: GreenhouseCardProps) {
   return (
     <React.Fragment>
-      <Layout style={styles.container} level='3'>
-        <Card style={styles.card} header={<Header title={props.title} subtitle={props.subtitle} />}>
+      <Layout style={[props.style, styles.container]} level='3'>
+        <Card style={styles.card} status={props.status || 'basic'} header={<Header title={props.title} subtitle={props.subtitle} />}>
           <Text>Hello bello</Text>
         </Card>
       </Layout>
