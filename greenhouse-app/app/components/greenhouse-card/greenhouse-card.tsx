@@ -3,11 +3,15 @@ import { StyleProp, StyleSheet, View, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
 import { Card, Layout, Text } from "@ui-kitten/components"
 
-export interface GreenhouseCardProps {
+export interface GreenhouseInformation {
+  id: string,
   title: string,
   subtitle?: string,
+}
+
+export interface GreenhouseCardProps extends GreenhouseInformation {
   status?: 'primary' | 'success' | 'info' | 'warning' | 'danger' | 'basic',
-  style?: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle>,
 }
 
 interface HeaderProps {
