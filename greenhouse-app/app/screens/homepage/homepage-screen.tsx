@@ -40,8 +40,10 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
             onGreenhouseClick={(greenhouse: GreenhouseCardProps) => {
               // TODO: REMOVE THIS
               console.tron.log("Clicked a greenhouse! ", greenhouse.title, greenhouse.id)
-              // navigate to greenhouse screen
-              navigation.navigate("greenhouse")
+              // navigate to greenhouse screen and passing greenhouse information
+              navigation.navigate("greenhouse", {
+                details: greenhouse
+              })
             }}
           />
           <Text category='h2'>General statistics</Text>
