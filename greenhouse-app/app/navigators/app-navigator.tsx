@@ -9,10 +9,9 @@ import { useColorScheme, StyleSheet } from "react-native"
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { WelcomeScreen, DemoScreen, DemoListScreen, HomepageScreen } from "../screens"
+import { WelcomeScreen, DemoScreen, DemoListScreen, HomepageScreen, ScanScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
-import { BottomNavigation, BottomNavigationTab, Icon } from "@ui-kitten/components";
-import { ScanGreenhousesButton } from "../components";
+import { BottomNavigation, BottomNavigationTab, Icon, Layout, Button} from "@ui-kitten/components";
 
 export type NavigatorParamList = {
   welcome: undefined
@@ -67,19 +66,21 @@ const AppBottomTab = () => {
       <Tab.Screen 
         name="homepage"
         component={HomepageScreen}
-        options={{
+        options={({navigation}) => ({
           title: 'Home',
-          headerRight: function Scan () {
+          headerRight: function scanButton() {
             return (
-              <ScanGreenhousesButton
-                style={styles.scanButton} 
-                onClick={(event) => {
-                  alert(event.type)
-                }}  
-              />
-            )
-          }
-        }}
+              <Layout style={styles.scanButton}>
+                <Button
+                  appearance='ghost'
+                  status='info' 
+                  accessoryLeft={<Icon name='plus'/>}
+                  onPress={() => navigation.navigate("scan")}
+                />
+              </Layout>
+            );
+          },
+        })}
       />
       
       <Tab.Screen
@@ -102,7 +103,7 @@ const AppStack = () => {
       <Stack.Screen name="welcome" component={WelcomeScreen} />
       {/** 🔥 Your screens go here */}
       <Stack.Screen name="bottomnav" component={AppBottomTab} />
-      <Stack.Screen name="scan" component={} />
+      <Stack.Screen name="scan" component={ScanScreen} />
     </Stack.Navigator>
   )
 }
