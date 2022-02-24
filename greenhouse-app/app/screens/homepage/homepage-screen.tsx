@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite"
 import { StackScreenProps } from "@react-navigation/stack"
 import { TabParamList, NavigatorParamList } from "../../navigators"
 import { Layout, Text } from "@ui-kitten/components"
-import { GreenhouseCard, GreenhouseCardProps, GreenhouseList } from "../../components"
+import { GreenhouseCardProps, GreenhouseList } from "../../components"
 import { FlatList } from "react-native-gesture-handler"
 
 const VirtualizedView = (props: any) => {
