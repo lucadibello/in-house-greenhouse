@@ -1,36 +1,46 @@
 import * as React from "react"
-import { StyleProp, TextStyle, View, ViewStyle } from "react-native"
+import { StyleSheet, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
-import { color, typography } from "../../theme"
-import { Text } from "../text/text"
-
-const CONTAINER: ViewStyle = {
-  justifyContent: "center",
-}
-
-const TEXT: TextStyle = {
-  fontFamily: typography.primary,
-  fontSize: 14,
-  color: color.primary,
-}
+import { GreenhouseCard, GreenhouseCardProps } from ".."
+import { FlatList } from "react-native-gesture-handler"
 
 export interface GreenhouseListProps {
-  /**
-   * An optional style override useful for padding & margin.
-   */
-  style?: StyleProp<ViewStyle>
+  greenhouses?: GreenhouseCardProps[],
+  style?: ViewStyle,
+  itemsStyle?: ViewStyle
 }
 
 /**
  * Describe your component here
  */
 export const GreenhouseList = observer(function GreenhouseList(props: GreenhouseListProps) {
-  const { style } = props
-  const styles = Object.assign({}, CONTAINER, style)
-
   return (
-    <View style={styles}>
-      <Text style={TEXT}>Hello</Text>
-    </View>
+    <FlatList
+      nestedScrollEnabled
+      style={[props.style, styles.container]}
+      data={props.greenhouses}
+      renderItem={({ item }) => {
+        return (
+          <GreenhouseCard
+            key={item.title}
+            title={item.title}
+            subtitle={item.subtitle}
+            status={item.status}
+            style={[styles.item, props.itemsStyle]}
+          />
+        );
+      }}
+      keyExtractor={(item, index) => index.toString()}
+    />
   )
+})
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 22
+  },
+  item: {
+    marginVertical: 4,
+  },
 })
