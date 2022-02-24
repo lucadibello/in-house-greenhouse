@@ -12,6 +12,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { WelcomeScreen, DemoScreen, DemoListScreen, HomepageScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { BottomNavigation, BottomNavigationTab, Icon } from "@ui-kitten/components";
+import { ScanGreenhousesButton } from "../components";
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -42,6 +43,9 @@ export type TabParamList = {
 const styles = StyleSheet.create({
   kittenBar: {
     height: 75
+  },
+  scanButton: {
+    height: 10
   }
 });
 
@@ -62,7 +66,9 @@ const UIKittenBar = ({ navigation, state }) => (
 
 const AppBottomTab = () => {
   return (
-    <Tab.Navigator tabBar={props => <UIKittenBar {...props} />}>
+    <Tab.Navigator 
+      tabBar={props => <UIKittenBar {...props} />}
+    >
       <Tab.Screen
         name="demo"
         component={DemoScreen}
@@ -72,7 +78,19 @@ const AppBottomTab = () => {
       <Tab.Screen 
         name="homepage"
         component={HomepageScreen}
-        options={{ title: 'Home' }}
+        options={{
+          title: 'Home',
+          headerRight: function Scan () {
+            return (
+              <ScanGreenhousesButton
+                style={styles.scanButton} 
+                onClick={(event) => {
+                  alert(event.type)
+                }}  
+              />
+            )
+          }
+        }}
       />
       
       <Tab.Screen
