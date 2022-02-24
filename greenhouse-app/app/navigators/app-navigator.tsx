@@ -11,7 +11,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { WelcomeScreen, DemoScreen, DemoListScreen, HomepageScreen, ScanScreen, GreenhouseScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
-import { BottomNavigation, BottomNavigationTab, Icon, Layout, Button} from "@ui-kitten/components";
+import { BottomNavigation, BottomNavigationTab, Icon, Layout, Button, TopNavigation, Text} from "@ui-kitten/components";
 
 export type NavigatorParamList = {
   welcome: undefined
@@ -29,13 +29,15 @@ export type TabParamList = {
 }
 
 // Create custom stylesheet
+const bgTransparent="transparent";
 const styles = StyleSheet.create({
   kittenBar: {
     height: 75
   },
   scanButton: {
-    height: 10
-  }
+    backgroundColor: bgTransparent,
+    height: "auto"
+  },
 });
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -57,6 +59,7 @@ const AppBottomTab = () => {
   return (
     <Tab.Navigator 
       tabBar={props => <UIKittenBar {...props} />}
+      initialRouteName="homepage"
     >
       <Tab.Screen
         name="demo"
@@ -96,15 +99,18 @@ const AppBottomTab = () => {
 const AppStack = () => {
   return (
     <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
       initialRouteName="bottomnav"
     >
       <Stack.Screen name="welcome" component={WelcomeScreen} />
       {/** 🔥 Your screens go here */}
-      <Stack.Screen name="bottomnav" component={AppBottomTab} />
-      <Stack.Screen name="scan" component={ScanScreen} />
+      <Stack.Screen name="bottomnav" component={AppBottomTab} options={{
+        headerShown: false
+      }}/>
+      <Stack.Screen name="scan" component={ScanScreen} options={{
+        title: "Find your greenhouse",
+        animation: "fade",
+        headerBackVisible: false
+      }}/>
       <Stack.Screen name="greenhouse" component={GreenhouseScreen} />
     </Stack.Navigator>
   )
