@@ -1,0 +1,23 @@
+""" @model """
+type Note {
+  """ @id """
+  id: ID!
+  title: String!
+  description: String
+  """
+  @oneToMany(field: 'note')
+  """
+  comments: [Comment]!
+}
+
+""" @model """
+type Comment {
+  """ @id """
+  id: ID!
+  text: String
+  description: String
+}
+
+type Query {
+  getDraftNotes: [Note]
+}
