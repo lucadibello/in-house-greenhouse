@@ -9,7 +9,7 @@ import { useColorScheme, StyleSheet } from "react-native"
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { WelcomeScreen, DemoScreen, DemoListScreen, HomepageScreen, ScanScreen, GreenhouseScreen } from "../screens"
+import { WelcomeScreen, HomepageScreen, ScanScreen, GreenhouseScreen, SettingsScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { BottomNavigation, BottomNavigationTab, Icon, Layout, Button } from "@ui-kitten/components";
 import { GreenhouseInformation } from "../components";
@@ -29,6 +29,7 @@ export type TabParamList = {
   demoList: undefined
   homepage: undefined
   // 🔥 Your tabs go here
+  settings: undefined
 }
 
 // Create custom stylesheet
@@ -52,7 +53,11 @@ const UIKittenBar = ({ navigation, state }) => (
     style={styles.kittenBar}
     selectedIndex={state.index}
     onSelect={index => navigation.navigate(state.routeNames[index])}>
-    <BottomNavigationTab icon={<Icon name='people-outline'/>}/>
+    {
+      /*
+        <BottomNavigationTab icon={<Icon name='people-outline'/>}/>
+      */
+    }
     <BottomNavigationTab icon={<Icon name='options-2-outline'/>}/>
     <BottomNavigationTab icon={<Icon name='settings-outline'/>}/>
   </BottomNavigation>
@@ -63,12 +68,16 @@ const AppBottomTab = () => {
     <Tab.Navigator 
       tabBar={props => <UIKittenBar {...props} />}
       initialRouteName="homepage"
-    >
-      <Tab.Screen
-        name="demo"
-        component={DemoScreen}
-        options={{ title: 'Friends' }}
-      />
+    > 
+      {
+        /*
+          <Tab.Screen
+            name="demo"
+            component={DemoScreen}
+            options={{ title: 'Friends' }}
+          />
+        */
+      }
       
       <Tab.Screen 
         name="homepage"
@@ -89,12 +98,14 @@ const AppBottomTab = () => {
           },
         })}
       />
-      
+
       <Tab.Screen
-        name="demoList"
-        component={DemoListScreen}
-        options={{ title: 'Account' }}
-      /> 
+        name="settings"
+        component={SettingsScreen}
+        options={() => ({
+          title: 'Settings'
+        })}
+      />
     </Tab.Navigator>
   )
 }
@@ -115,6 +126,7 @@ const AppStack = () => {
         headerBackVisible: false,
       }}/>
       <Stack.Screen name="greenhouse" component={GreenhouseScreen} />
+      
     </Stack.Navigator>
   )
 }
