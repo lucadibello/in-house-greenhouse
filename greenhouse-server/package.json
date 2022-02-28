@@ -18,6 +18,7 @@
   "dependencies": {
     "@prisma/client": "3.10.0",
     "apollo-server": "3.6.3",
+    "dotenv": "^16.0.0",
     "graphql": "15.8.0",
     "graphql-scalars": "1.14.1",
     "nexus": "1.2.0"
