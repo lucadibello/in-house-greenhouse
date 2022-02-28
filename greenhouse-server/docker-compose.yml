@@ -5,6 +5,6 @@ services:
     ports:
       - "55432:5432"
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgresql
-      POSTGRES_DB: users
+      POSTGRES_PASSWORD: i-love-plants
+      POSTGRES_USER: greenhouse
+      POSTGRES_DB: greenhouse
