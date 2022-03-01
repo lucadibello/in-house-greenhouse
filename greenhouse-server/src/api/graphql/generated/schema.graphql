@@ -3,11 +3,22 @@
 
 
 type Greenhouse {
+  """Creation timestamp"""
   created_at: dateTime!
+
+  """Greenhouse description (ex: "Office greenhouse")"""
   description: String
+
+  """Greenhouse identification number"""
   id: String!
+
+  """User-defined greenhouse name"""
   name: String!
+
+  """List of plants that are planted in this greenhouse"""
   plants: [Plant]
+
+  """Last update timestamp"""
   updated_at: dateTime!
 }
 
@@ -25,8 +36,20 @@ input PlantInput {
 }
 
 type Query {
-  addGreenhouse(description: String, name: String!, plants: [PlantInput!]): Greenhouse
+  """Create a new greenhouse"""
+  addGreenhouse(
+    """New greenhouse's description"""
+    description: String
+
+    """New greenhouse's name"""
+    name: String!
+
+    """List of plants that will be planted inside this greenhouse"""
+    plants: [PlantInput!]
+  ): Greenhouse
   addUser(email: String!, name: String!, password: String!, surname: String!): User!
+
+  """List of all known greenhouses"""
   greenhouses: [Greenhouse!]
   users: [User!]
 }

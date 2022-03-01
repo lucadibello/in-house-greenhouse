@@ -1,15 +1,16 @@
-import { extendType, list, nonNull, nullable, objectType, stringArg } from 'nexus'
+import { arg, extendType, list, nonNull, nullable, objectType, stringArg } from 'nexus'
 
 export const Greenhouse = objectType({
   name: 'Greenhouse',
   definition(t) {
-    t.nonNull.string('id')
-    t.nonNull.string('name')
-    t.string('description')
-    t.nonNull.field('created_at', { type: "dateTime" })
-    t.nonNull.field('updated_at', { type: "dateTime" })
+    t.nonNull.string('id', { description: 'Greenhouse identification number'})
+    t.nonNull.string('name', { description: 'User-defined greenhouse name'})
+    t.string('description', {description: 'Greenhouse description (ex: "Office greenhouse")'})
+    t.nonNull.field('created_at', { type: "dateTime", description: 'Creation timestamp'})
+    t.nonNull.field('updated_at', { type: "dateTime", description: 'Last update timestamp' })
     t.field('plants', {
       type: list('Plant'),
+      description: 'List of plants that are planted in this greenhouse',
       resolve(_, args, context) {
         return context.prisma.plant.findMany({
           where: {greenhouseId: _.id}
@@ -22,8 +23,10 @@ export const Greenhouse = objectType({
 export const GreenhouseQuery = extendType({
   type: 'Query',
   definition(t) {
+    // List all greenhouses
     t.list.nonNull.field('greenhouses', {
       type: 'Greenhouse',
+      description: 'List of all known greenhouses',
       resolve(_, args, context) {
         return context.prisma.greenhouse.findMany();
       },
@@ -31,10 +34,18 @@ export const GreenhouseQuery = extendType({
     // Create a new greenhouse
     t.field('addGreenhouse', {
       type: 'Greenhouse',
+      description: 'Create a new greenhouse',
       args: {
-        name: nonNull(stringArg()),
-        description: nullable(stringArg()),
-        plants: nullable(list(nonNull('PlantInput')))
+        name: nonNull(stringArg({
+          description: "New greenhouse's name"
+        })),
+        description: nullable(stringArg({
+          description: "New greenhouse's description"
+        })),
+        plants: nullable(list(nonNull(arg({
+          type: 'PlantInput',
+          description: "List of plants that will be planted inside this greenhouse"
+        }))))
       },
       resolve(_, args, context) {
         return context.prisma.greenhouse.create({
@@ -43,7 +54,7 @@ export const GreenhouseQuery = extendType({
             description: args.description,
             plants: args.plants != null ? {
               createMany: {
-                data: args.plants!
+                data: args.plants
               }
             } : undefined
           },
