@@ -11,7 +11,7 @@ export const User = objectType({
   },
 })
 
-export const PostQuery = extendType({
+export const UserQuery = extendType({
   type: 'Query',
   definition(t) {
     t.list.nonNull.field('users', {
