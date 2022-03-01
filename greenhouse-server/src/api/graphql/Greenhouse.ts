@@ -1,4 +1,4 @@
-import { asNexusMethod, extendType, nonNull, objectType, stringArg } from 'nexus'
+import { objectType } from 'nexus'
 
 export const Greenhouse = objectType({
   name: 'Greenhouse',
