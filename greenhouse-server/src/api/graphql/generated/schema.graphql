@@ -14,3 +14,6 @@ type User {
   password: String!
   surname: String!
 }
+
+"""Date custom scalar type"""
+scalar dateTime
