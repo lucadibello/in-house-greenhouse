@@ -44,6 +44,13 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Greenhouse: { // root type
+    created_at?: NexusGenScalars['dateTime'] | null; // dateTime
+    description?: string | null; // String
+    id: string; // String!
+    name: string; // String!
+    updated_at?: NexusGenScalars['dateTime'] | null; // dateTime
+  }
   Query: {};
   User: { // root type
     email: string; // String!
@@ -65,8 +72,16 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Greenhouse: { // field return type
+    created_at: NexusGenScalars['dateTime'] | null; // dateTime
+    description: string | null; // String
+    id: string; // String!
+    name: string; // String!
+    updated_at: NexusGenScalars['dateTime'] | null; // dateTime
+  }
   Query: { // field return type
     addUser: NexusGenRootTypes['User']; // User!
+    greenhouses: NexusGenRootTypes['Greenhouse'][] | null; // [Greenhouse!]
     users: NexusGenRootTypes['User'][] | null; // [User!]
   }
   User: { // field return type
@@ -79,8 +94,16 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  Greenhouse: { // field return type name
+    created_at: 'dateTime'
+    description: 'String'
+    id: 'String'
+    name: 'String'
+    updated_at: 'dateTime'
+  }
   Query: { // field return type name
     addUser: 'User'
+    greenhouses: 'Greenhouse'
     users: 'User'
   }
   User: { // field return type name
