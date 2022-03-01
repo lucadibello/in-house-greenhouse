@@ -3,14 +3,15 @@
 
 
 type Greenhouse {
-  created_at: dateTime
+  created_at: dateTime!
   description: String
   id: String!
   name: String!
-  updated_at: dateTime
+  updated_at: dateTime!
 }
 
 type Query {
+  addGreenhouse(description: String, name: String!): Greenhouse
   addUser(email: String!, name: String!, password: String!, surname: String!): User!
   greenhouses: [Greenhouse!]
   users: [User!]
