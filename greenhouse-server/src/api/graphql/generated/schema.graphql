@@ -7,11 +7,25 @@ type Greenhouse {
   description: String
   id: String!
   name: String!
+  plants: [Plant]
   updated_at: dateTime!
 }
 
+type Plant {
+  created_at: dateTime
+  description: String
+  id: Int!
+  name: String!
+  updated_at: dateTime
+}
+
+input PlantInput {
+  description: String
+  name: String!
+}
+
 type Query {
-  addGreenhouse(description: String, name: String!): Greenhouse
+  addGreenhouse(description: String, name: String!, plants: [PlantInput!]): Greenhouse
   addUser(email: String!, name: String!, password: String!, surname: String!): User!
   greenhouses: [Greenhouse!]
   users: [User!]

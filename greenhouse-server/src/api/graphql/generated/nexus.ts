@@ -29,6 +29,10 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  PlantInput: { // input type
+    description?: string | null; // String
+    name: string; // String!
+  }
 }
 
 export interface NexusGenEnums {
@@ -50,6 +54,13 @@ export interface NexusGenObjects {
     id: string; // String!
     name: string; // String!
     updated_at: NexusGenScalars['dateTime']; // dateTime!
+  }
+  Plant: { // root type
+    created_at?: NexusGenScalars['dateTime'] | null; // dateTime
+    description?: string | null; // String
+    id: number; // Int!
+    name: string; // String!
+    updated_at?: NexusGenScalars['dateTime'] | null; // dateTime
   }
   Query: {};
   User: { // root type
@@ -77,7 +88,15 @@ export interface NexusGenFieldTypes {
     description: string | null; // String
     id: string; // String!
     name: string; // String!
+    plants: Array<NexusGenRootTypes['Plant'] | null> | null; // [Plant]
     updated_at: NexusGenScalars['dateTime']; // dateTime!
+  }
+  Plant: { // field return type
+    created_at: NexusGenScalars['dateTime'] | null; // dateTime
+    description: string | null; // String
+    id: number; // Int!
+    name: string; // String!
+    updated_at: NexusGenScalars['dateTime'] | null; // dateTime
   }
   Query: { // field return type
     addGreenhouse: NexusGenRootTypes['Greenhouse'] | null; // Greenhouse
@@ -99,6 +118,14 @@ export interface NexusGenFieldTypeNames {
     created_at: 'dateTime'
     description: 'String'
     id: 'String'
+    name: 'String'
+    plants: 'Plant'
+    updated_at: 'dateTime'
+  }
+  Plant: { // field return type name
+    created_at: 'dateTime'
+    description: 'String'
+    id: 'Int'
     name: 'String'
     updated_at: 'dateTime'
   }
@@ -122,6 +149,7 @@ export interface NexusGenArgTypes {
     addGreenhouse: { // args
       description?: string | null; // String
       name: string; // String!
+      plants?: NexusGenInputs['PlantInput'][] | null; // [PlantInput!]
     }
     addUser: { // args
       email: string; // String!
@@ -140,7 +168,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = never;
 
