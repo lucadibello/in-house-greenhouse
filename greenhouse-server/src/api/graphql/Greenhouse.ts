@@ -1,4 +1,4 @@
-import { extendType, objectType } from 'nexus'
+import { extendType, nonNull, nullable, objectType, stringArg } from 'nexus'
 
 export const Greenhouse = objectType({
   name: 'Greenhouse',
@@ -6,8 +6,8 @@ export const Greenhouse = objectType({
     t.nonNull.string('id')
     t.nonNull.string('name')
     t.string('description')
-    t.field('created_at', { type: "dateTime" })
-    t.field('updated_at', { type: "dateTime" })
+    t.nonNull.field('created_at', { type: "dateTime" })
+    t.nonNull.field('updated_at', { type: "dateTime" })
   },
 })
 
@@ -20,5 +20,20 @@ export const GreenhouseQuery = extendType({
         return context.prisma.greenhouse.findMany();
       },
     });
+    t.field('addGreenhouse', {
+      type: 'Greenhouse',
+      args: {
+        name: nonNull(stringArg()),
+        description: nullable(stringArg())
+      },
+      resolve(_, args, context) {
+        return context.prisma.greenhouse.create({
+          data: {
+            name: args.name,
+            description: args.description
+          }
+        })
+      }
+    })
   }
 })
