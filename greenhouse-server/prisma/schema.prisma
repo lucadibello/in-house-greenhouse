@@ -13,4 +13,25 @@ model User {
   name  String
   surname  String
   password String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt @default(now())
+}
+
+model Greenhouse {
+  id String @id @default(uuid())
+  name String
+  description String
+  plants Plant[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt @default(now())
+}
+
+model Plant {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  greenhouse Greenhouse @relation(fields: [greenhouseId], references: [id])
+  greenhouseId String // relation scalar field  (used in the `@relation` attribute above)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt @default(now())
 }
