@@ -4,13 +4,13 @@ import { PlantModel } from "../plant/plant"
 /**
  * Greenhouse model
  */
-export const GreenhouseModel = types.model("Greenhouse").props({
+export const GreenhouseModel = types.model("Greenhouse", {
   id: types.identifierNumber,
   name: types.string,
-  plants: types.array(PlantModel),
   description: types.maybe(types.string),
-  created_at: types.Date,
-  updated_at: types.Date
+  plants: types.array(types.maybe(PlantModel)),
+  updated_at: types.Date,
+  created_at: types.Date
 })
 
 type GreenhouseType = Instance<typeof GreenhouseModel>
