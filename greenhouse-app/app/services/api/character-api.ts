@@ -1,7 +1,5 @@
 import { ApiResponse } from "apisauce"
-import { Api } from "./api"
-import { GetCharactersResult } from "./api.types"
-import { getGeneralApiProblem } from "./api-problem"
+import { Api, GetCharactersResult, getGeneralApiProblem } from "./"
 
 const API_PAGE_SIZE = 50
 
