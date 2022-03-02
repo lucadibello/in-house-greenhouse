@@ -82,3 +82,5 @@ web-build/
 # Configurations
 app/config/env.*.js
 !env.js
+app/config/env.*.ts
+!env.ts
