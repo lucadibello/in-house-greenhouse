@@ -9,7 +9,7 @@ import { useColorScheme, StyleSheet } from "react-native"
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { WelcomeScreen, HomepageScreen, ScanScreen, GreenhouseScreen, SettingsScreen } from "../screens"
+import { HomepageScreen, ScanScreen, GreenhouseScreen, SettingsScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { BottomNavigation, BottomNavigationTab, Icon, Layout, Button } from "@ui-kitten/components";
 import { GreenhouseInformation } from "../components";
@@ -115,7 +115,6 @@ const AppStack = () => {
     <Stack.Navigator
       initialRouteName="bottomnav"
     >
-      <Stack.Screen name="welcome" component={WelcomeScreen} />
       {/** 🔥 Your screens go here */}
       <Stack.Screen name="bottomnav" component={AppBottomTab} options={{
         headerShown: false
