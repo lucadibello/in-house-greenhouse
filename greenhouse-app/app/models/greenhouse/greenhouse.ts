@@ -1,5 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { PlantModel } from ".."
+import { PlantModel } from "../plant/plant"
 
 /**
  * Greenhouse model
