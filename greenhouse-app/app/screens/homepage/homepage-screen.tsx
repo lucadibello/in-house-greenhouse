@@ -5,7 +5,7 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { TabParamList, NavigatorParamList } from "../../navigators"
 import { Layout, Text } from "@ui-kitten/components"
 import { GreenhouseCardProps, GreenhouseList } from "../../components"
-import { useStores } from "../../models"
+import { Greenhouse, useStores } from "../../models"
 
 export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamList), "homepage">> = observer(
   ({navigation}) => {
@@ -31,13 +31,8 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
         <Text category='h2'>My greenhouses</Text>
         <GreenhouseList
           style={styles.greenhouseList}
-          greenhouses={[
-            {title:"Office", subtitle: "Lettuce, Tomatoes", status: "danger", id: "1"},
-            {title:"Ciao", subtitle: "Other", status: "success", id: "2"},
-            {title:"Ciao", subtitle: "IDK", status: "success", id: "3"},
-            {title:"Picio", subtitle: "IDK", status: "danger", id: "4"},
-          ]}
-          onGreenhouseClick={(greenhouse: GreenhouseCardProps) => {
+          greenhouses={greenhouseStore.greenhouses}
+          onGreenhouseClick={(greenhouse: Greenhouse) => {
             // TODO: REMOVE THIS
             // navigate to greenhouse screen and passing greenhouse information
             navigation.navigate("greenhouse", {
