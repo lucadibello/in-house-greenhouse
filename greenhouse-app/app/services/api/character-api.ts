@@ -25,7 +25,6 @@ export class CharacterApi {
       }
 
       const characters = response.data.results
-
       return { kind: "ok", characters }
     } catch (e) {
       __DEV__ && console.tron.log(e.message)
