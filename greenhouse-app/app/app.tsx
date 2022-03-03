@@ -60,7 +60,6 @@ function App() {
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
       <IconRegistry icons={EvaIconsPack} />
-      <ToggleStorybook>
         <RootStoreProvider value={rootStore}>
           <SafeAreaProvider initialMetrics={initialWindowMetrics}>
             <ErrorBoundary catchErrors={"always"}>
@@ -71,7 +70,6 @@ function App() {
             </ErrorBoundary>
           </SafeAreaProvider>
         </RootStoreProvider>
-      </ToggleStorybook>
     </ApplicationProvider>
   )
 }
