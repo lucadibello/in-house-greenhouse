@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite"
 import { StackScreenProps } from "@react-navigation/stack"
 import { TabParamList, NavigatorParamList } from "../../navigators"
 import { Layout, Text } from "@ui-kitten/components"
-import { GreenhouseCardProps, GreenhouseList } from "../../components"
+import { GreenhouseList } from "../../components"
 import { Greenhouse, useStores } from "../../models"
 
 export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamList), "homepage">> = observer(
