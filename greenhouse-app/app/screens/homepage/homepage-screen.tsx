@@ -1,13 +1,30 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import { StackScreenProps } from "@react-navigation/stack"
 import { TabParamList, NavigatorParamList } from "../../navigators"
 import { Layout, Text } from "@ui-kitten/components"
 import { GreenhouseCardProps, GreenhouseList } from "../../components"
+import { useStores } from "../../models"
 
 export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamList), "homepage">> = observer(
   ({navigation}) => {
+    
+    // Load greenhouses from store
+    const { greenhouseStore } = useStores()
+
+    useEffect(() => {
+      async function fetchData() {
+        greenhouseStore.empty();
+        await greenhouseStore.getGreenhouses()
+      }
+      fetchData()
+    }, [])
+    
+    /*
+    <Text category='h2'>{ JSON.stringify(greenhouseStore.greenhouses.map((g) => g.name)) }</Text>
+    */
+    
     // Pull in one of our MST stores
     return (
       <Layout style={styles.container}>
@@ -22,7 +39,6 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
           ]}
           onGreenhouseClick={(greenhouse: GreenhouseCardProps) => {
             // TODO: REMOVE THIS
-            console.tron.log("Clicked a greenhouse! ", greenhouse.title, greenhouse.id)
             // navigate to greenhouse screen and passing greenhouse information
             navigation.navigate("greenhouse", {
               details: greenhouse
