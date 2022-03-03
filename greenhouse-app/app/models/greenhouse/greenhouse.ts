@@ -1,17 +1,17 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { PlantModel } from "../plant/plant"
 
 /**
- * Greenhouse model
+ * Model description here for TypeScript hints.
  */
-export const GreenhouseModel = types.model("Greenhouse", {
-  id: types.identifierNumber,
-  name: types.string,
-  description: types.maybe(types.string),
-  plants: types.array(types.maybe(PlantModel)),
-  updated_at: types.Date,
-  created_at: types.Date
-})
+export const GreenhouseModel = types
+  .model("Greenhouse")
+  .props({
+    id: types.string,
+    name: types.string,
+    description: types.maybeNull(types.string),
+    created_at: types.string,
+    updated_at: types.string
+  })
 
 type GreenhouseType = Instance<typeof GreenhouseModel>
 export interface Greenhouse extends GreenhouseType {}
