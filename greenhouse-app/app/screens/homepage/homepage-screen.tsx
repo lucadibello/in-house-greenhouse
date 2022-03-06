@@ -15,15 +15,11 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
 
     useEffect(() => {
       async function fetchData() {
-        greenhouseStore.empty();
+        // load greenhouses
         await greenhouseStore.getGreenhouses()
       }
-      fetchData()
+      fetchData() // trigger update
     }, [])
-    
-    /*
-    <Text category='h2'>{ JSON.stringify(greenhouseStore.greenhouses.map((g) => g.name)) }</Text>
-    */
     
     // Pull in one of our MST stores
     return (
