@@ -5,7 +5,8 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { TabParamList, NavigatorParamList } from "../../navigators"
 import { Layout, Text } from "@ui-kitten/components"
 import { GreenhouseList } from "../../components"
-import { Greenhouse, GreenhouseSnapshot, useStores } from "../../models"
+import { useStores } from "../../models"
+import { GreenhouseSnapshot } from "../../models/greenhouse/greenhouse"
 
 export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamList), "homepage">> = observer(
   ({navigation}) => {
@@ -29,13 +30,14 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
         <Text category='h2'>My greenhouses</Text>
         <GreenhouseList
           style={styles.greenhouseList}
-          greenhouses={greenhouseStore.greenhouses}
-          onGreenhouseClick={() => {
+          store={greenhouseStore}
+          onGreenhouseClick={(greenhouse: GreenhouseSnapshot) => {
             // navigate to greenhouse screen and passing greenhouse information
-            console.tron.log("Card clicked")
+            console.tron.log("Card clicked", greenhouse.id)
 
-            // Navigate to screen
-            navigation.navigate("greenhouse")
+            navigation.navigate("greenhouse", {
+              details: greenhouse
+            })
           }}
         />
       </Layout>
