@@ -11,18 +11,16 @@ export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhou
   const navigation = useNavigation()
   // Read route params
   const route = useRoute<RouteProp<NavigatorParamList, 'greenhouse'>>();
-  
-  // Update page title
   React.useEffect(() => {
     navigation.setOptions({
-      title: route.params.details.title
+      title: route.params.details.name
     })
   }, [])
 
   // Show greenhouse inforamtion
   return (
     <Layout style={styles.container}>
-      <Text category='h2'>{route.params.details.title}, ID: {route.params.details.id}</Text>
+      <Text category='h2'>{route.params.details.name}, ID: {route.params.details.id}</Text>
     </Layout>
   )
 })

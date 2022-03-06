@@ -4,25 +4,33 @@ import { observer } from "mobx-react-lite"
 import { GreenhouseCard } from ".."
 import { FlatList, TouchableWithoutFeedback } from "react-native-gesture-handler"
 import { Greenhouse } from "../../models/greenhouse/greenhouse"
+import { useStores } from "../../models"
 
 export interface GreenhouseListProps {
   greenhouses: Greenhouse[],
   style?: ViewStyle,
   itemsStyle?: ViewStyle,
-  onGreenhouseClick?: (greenhouse: Greenhouse) => void
+  onGreenhouseClick?: () => void
 }
 
 /**
  * A simple list of greenhouse cards
  */
 export const GreenhouseList = observer(function GreenhouseList(props: GreenhouseListProps) {
+  // Import state
+  const { navigationStore } = useStores()
+
   return (
     <FlatList
-      nestedScrollEnabled
       style={[props.style, styles.container]}
       data={props.greenhouses}
       renderItem={({ item }) => (
-          <TouchableWithoutFeedback onPress={() => props.onGreenhouseClick(item)}>
+          <TouchableWithoutFeedback onPress={() => {
+            // set prop
+            navigationStore.setGreenhouseScreenProps(item)
+            // call callback
+            props.onGreenhouseClick()
+          }}>
             <GreenhouseCard
               key={item.id}
               greenhouse={item}

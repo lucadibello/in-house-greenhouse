@@ -5,7 +5,7 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { TabParamList, NavigatorParamList } from "../../navigators"
 import { Layout, Text } from "@ui-kitten/components"
 import { GreenhouseList } from "../../components"
-import { Greenhouse, useStores } from "../../models"
+import { Greenhouse, GreenhouseSnapshot, useStores } from "../../models"
 
 export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamList), "homepage">> = observer(
   ({navigation}) => {
@@ -15,6 +15,8 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
 
     useEffect(() => {
       async function fetchData() {
+        // log into reactotron
+        console.tron.debug("[HOMEPAGE] Fetching greenhouses..")
         // load greenhouses
         await greenhouseStore.getGreenhouses()
       }
@@ -28,11 +30,12 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
         <GreenhouseList
           style={styles.greenhouseList}
           greenhouses={greenhouseStore.greenhouses}
-          onGreenhouseClick={(greenhouse: Greenhouse) => {
+          onGreenhouseClick={() => {
             // navigate to greenhouse screen and passing greenhouse information
-            navigation.navigate("greenhouse", {
-              details: greenhouse,
-            })
+            console.tron.log("Card clicked")
+
+            // Navigate to screen
+            navigation.navigate("greenhouse")
           }}
         />
       </Layout>
