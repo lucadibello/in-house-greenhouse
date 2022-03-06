@@ -6,6 +6,7 @@ export const Greenhouse = objectType({
     t.nonNull.string('id', { description: 'Greenhouse identification number'})
     t.nonNull.string('name', { description: 'User-defined greenhouse name'})
     t.string('description', {description: 'Greenhouse description (ex: "Office greenhouse")'})
+    t.nonNull.boolean('isOkay', {description: 'Greenhouse valid state flag'})
     t.nonNull.field('created_at', { type: "dateTime", description: 'Creation timestamp'})
     t.nonNull.field('updated_at', { type: "dateTime", description: 'Last update timestamp' })
     t.field('plants', {

@@ -12,6 +12,9 @@ type Greenhouse {
   """Greenhouse identification number"""
   id: String!
 
+  """Greenhouse valid state flag"""
+  isOkay: Boolean!
+
   """User-defined greenhouse name"""
   name: String!
 

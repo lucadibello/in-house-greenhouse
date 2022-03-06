@@ -52,6 +52,7 @@ export interface NexusGenObjects {
     created_at: NexusGenScalars['dateTime']; // dateTime!
     description?: string | null; // String
     id: string; // String!
+    isOkay: boolean; // Boolean!
     name: string; // String!
     updated_at: NexusGenScalars['dateTime']; // dateTime!
   }
@@ -87,6 +88,7 @@ export interface NexusGenFieldTypes {
     created_at: NexusGenScalars['dateTime']; // dateTime!
     description: string | null; // String
     id: string; // String!
+    isOkay: boolean; // Boolean!
     name: string; // String!
     plants: Array<NexusGenRootTypes['Plant'] | null> | null; // [Plant]
     updated_at: NexusGenScalars['dateTime']; // dateTime!
@@ -118,6 +120,7 @@ export interface NexusGenFieldTypeNames {
     created_at: 'dateTime'
     description: 'String'
     id: 'String'
+    isOkay: 'Boolean'
     name: 'String'
     plants: 'Plant'
     updated_at: 'dateTime'
