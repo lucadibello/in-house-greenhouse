@@ -16,7 +16,6 @@ export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhou
       title: route.params.details.name
     })
   }, [])
-
   // Show greenhouse inforamtion
   return (
     <Layout style={styles.container}>
