@@ -26,7 +26,7 @@ export const GreenhouseList = observer(function GreenhouseList(props: Greenhouse
             <GreenhouseCard
               key={item.id}
               greenhouse={item}
-              status={item.status}
+              isOkay={item.isOkay}
               style={[styles.item, props.itemsStyle]}
             />
           </TouchableWithoutFeedback>
