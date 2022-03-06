@@ -1,13 +1,20 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { GreenhouseModel, Greenhouse } from '../greenhouse/greenhouse'
 
 /**
- * Model description here for TypeScript hints.
+ * Navigation props using MobX State Tree
  */
 export const NavigationStoreModel = types
   .model("NavigationStore")
-  .props({})
-  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
-  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .props({
+    greenhouseScreenProps: types.safeReference(GreenhouseModel)
+  })
+  .actions(self => ({
+    setGreenhouseScreenProps (greenhouse: Greenhouse) {
+      // Save new greenhouses
+      self.greenhouseScreenProps = greenhouse
+    }
+  }))
 
 type NavigationStoreType = Instance<typeof NavigationStoreModel>
 export interface NavigationStore extends NavigationStoreType {}
