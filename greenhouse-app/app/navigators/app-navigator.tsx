@@ -12,7 +12,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomepageScreen, ScanScreen, GreenhouseScreen, SettingsScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { BottomNavigation, BottomNavigationTab, Icon, Layout, Button } from "@ui-kitten/components";
-import { GreenhouseInformation } from "../components";
+import { Greenhouse } from "../models/greenhouse/greenhouse";
 
 export type NavigatorParamList = {
   welcome: undefined
@@ -20,7 +20,7 @@ export type NavigatorParamList = {
   // 🔥 Your screens go here
   scan: undefined
   greenhouse: {
-    details: GreenhouseInformation
+    details: Greenhouse
   }
 }
 

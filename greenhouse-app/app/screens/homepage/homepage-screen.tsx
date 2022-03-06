@@ -29,10 +29,9 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
           style={styles.greenhouseList}
           greenhouses={greenhouseStore.greenhouses}
           onGreenhouseClick={(greenhouse: Greenhouse) => {
-            // TODO: REMOVE THIS
             // navigate to greenhouse screen and passing greenhouse information
             navigation.navigate("greenhouse", {
-              details: greenhouse
+              details: greenhouse,
             })
           }}
         />
