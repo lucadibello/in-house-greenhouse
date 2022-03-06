@@ -23,7 +23,7 @@ const Header = (props: HeaderProps) => (
 );
 
 /**
- * Describe your component here
+ * Greenhouse card that shows useful information
  */
 export const GreenhouseCard = observer(function GreenhouseCard(props: GreenhouseCardProps) {
   return (

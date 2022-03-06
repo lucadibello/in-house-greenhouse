@@ -13,7 +13,7 @@ export interface GreenhouseListProps {
 }
 
 /**
- * Describe your component here
+ * A simple list of greenhouse cards
  */
 export const GreenhouseList = observer(function GreenhouseList(props: GreenhouseListProps) {
   return (
@@ -22,7 +22,7 @@ export const GreenhouseList = observer(function GreenhouseList(props: Greenhouse
       style={[props.style, styles.container]}
       data={props.greenhouses}
       renderItem={({ item }) => (
-          <TouchableWithoutFeedback onPress={() => props.onGreenhouseClick(item.greenhouse)}>
+          <TouchableWithoutFeedback onPress={() => props.onGreenhouseClick(item)}>
             <GreenhouseCard
               key={item.id}
               greenhouse={item}
