@@ -22,6 +22,7 @@ model Greenhouse {
   name String
   description String?
   plants Plant[]
+  isOkay Boolean @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt @default(now())
 }
