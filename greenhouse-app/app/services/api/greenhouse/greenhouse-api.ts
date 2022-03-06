@@ -17,6 +17,7 @@ export class GreenhouseApi {
           greenhouses {
             name
             description
+            isOkay
             created_at
             updated_at
             id

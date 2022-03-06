@@ -9,6 +9,7 @@ export const GreenhouseModel = types
     id: types.string,
     name: types.string,
     description: types.maybeNull(types.string),
+    isOkay: types.boolean,
     created_at: types.string,
     updated_at: types.string
   })
