@@ -68,17 +68,7 @@ const AppBottomTab = () => {
     <Tab.Navigator 
       tabBar={props => <UIKittenBar {...props} />}
       initialRouteName="homepage"
-    > 
-      {
-        /*
-          <Tab.Screen
-            name="demo"
-            component={DemoScreen}
-            options={{ title: 'Friends' }}
-          />
-        */
-      }
-      
+    >
       <Tab.Screen 
         name="homepage"
         component={HomepageScreen}
