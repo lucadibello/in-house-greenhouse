@@ -1,7 +1,8 @@
 import { Instance, SnapshotOut, types, flow } from "mobx-state-tree"
+import { Greenhouse } from ".."
 import { GreenhouseApi } from "../../services/api/greenhouse/greenhouse-api"
 import { withEnvironment } from "../extensions/with-environment"
-import { GreenhouseModel, GreenhouseSnapshot } from "../greenhouse/greenhouse"
+import { GreenhouseModel } from "../greenhouse/greenhouse"
 
 /**
  * Greenhouses store
@@ -10,7 +11,7 @@ export const GreenhouseStoreModel = types
   .model("GreenhouseStore")
   .extend(withEnvironment)
   .props({
-    greenhouses: types.array(GreenhouseModel),
+    greenhouses: types.optional(types.array(GreenhouseModel), []),
   })
   .actions((self) => ({
     empty () {
@@ -18,7 +19,7 @@ export const GreenhouseStoreModel = types
     }
   }))
   .actions(self => ({
-    setGreenhouses (greenhouses: GreenhouseSnapshot[]) {
+    setGreenhouses (greenhouses: Greenhouse[]) {
       // Save new greenhouses
       self.greenhouses.replace(greenhouses)
     }

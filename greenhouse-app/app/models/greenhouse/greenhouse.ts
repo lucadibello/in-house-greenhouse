@@ -1,4 +1,7 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { PlantModel } from "../plant/plant"
+
+const PlantsArray = types.array(PlantModel)
 
 /**
  * Model description here for TypeScript hints.
@@ -10,6 +13,7 @@ export const GreenhouseModel = types
     name: types.string,
     description: types.maybeNull(types.string),
     isOkay: types.boolean,
+    plants: PlantsArray,
     created_at: types.string,
     updated_at: types.string
   })
