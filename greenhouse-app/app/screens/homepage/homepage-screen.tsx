@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import { StackScreenProps } from "@react-navigation/stack"
 import { TabParamList, NavigatorParamList } from "../../navigators"
-import { Layout, Text } from "@ui-kitten/components"
+import { Divider, Layout, Text } from "@ui-kitten/components"
 import { GreenhouseList } from "../../components"
 import { useStores } from "../../models"
 import { Greenhouse } from "../../models/greenhouse/greenhouse"
@@ -27,7 +27,8 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
     // Pull in one of our MST stores
     return (
       <Layout style={styles.container}>
-        <Text category='h2'>My greenhouses</Text>
+        <Text category='h1' style={styles.title} status='primary'>My greenhouses</Text>
+        <Divider />
         <GreenhouseList
           style={styles.greenhouseList}
           store={greenhouseStore}
@@ -42,7 +43,6 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
     )
   }
 )
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -51,7 +51,9 @@ const styles = StyleSheet.create({
   },
   greenhouseList: {
     flex: 1,
-    marginBottom: 10,
-    marginTop: 10,
-  }
+    marginBottom: 20
+  },
+  title: {
+    marginBottom: 2,
+  },
 })

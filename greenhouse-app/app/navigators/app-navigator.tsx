@@ -73,7 +73,7 @@ const AppBottomTab = () => {
         name="homepage"
         component={HomepageScreen}
         options={({navigation}) => ({
-          title: 'Home',
+          title: 'Greenhouses',
           headerRight: function scanButton() {
             return (
               <Layout style={styles.scanButton}>
