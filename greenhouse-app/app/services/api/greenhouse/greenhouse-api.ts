@@ -15,12 +15,19 @@ export class GreenhouseApi {
       const response: ApiResponse<any> = await this.api.apisauce.post(`/greenhouse`,{
         query: `query Greenhouses {
           greenhouses {
+            id
             name
             description
             isOkay
             created_at
             updated_at
-            id
+            plants {
+              id
+              name
+              description
+              created_at
+              updated_at
+            }
           }
         }`
       })
