@@ -17,7 +17,7 @@ interface HeaderProps {
 const Header = (props: HeaderProps) => (
   <View>
     <Text category='h6'>{props.title}</Text>
-    <Text category='s1'>{props.subtitle}</Text>
+    <Text category='label'>{props.subtitle}</Text>
   </View>
 );
 
