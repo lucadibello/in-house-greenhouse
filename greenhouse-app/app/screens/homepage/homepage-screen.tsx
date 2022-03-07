@@ -6,7 +6,7 @@ import { TabParamList, NavigatorParamList } from "../../navigators"
 import { Layout, Text } from "@ui-kitten/components"
 import { GreenhouseList } from "../../components"
 import { useStores } from "../../models"
-import { GreenhouseSnapshot } from "../../models/greenhouse/greenhouse"
+import { Greenhouse } from "../../models/greenhouse/greenhouse"
 
 export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamList), "homepage">> = observer(
   ({navigation}) => {
@@ -31,10 +31,8 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
         <GreenhouseList
           style={styles.greenhouseList}
           store={greenhouseStore}
-          onGreenhouseClick={(greenhouse: GreenhouseSnapshot) => {
+          onGreenhouseClick={(greenhouse: Greenhouse) => {
             // navigate to greenhouse screen and passing greenhouse information
-            console.tron.log("Card clicked", greenhouse.id)
-
             navigation.navigate("greenhouse", {
               details: greenhouse
             })
