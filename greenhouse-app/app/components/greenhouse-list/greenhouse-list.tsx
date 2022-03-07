@@ -3,15 +3,15 @@ import { StyleSheet, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
 import { GreenhouseCard } from ".."
 import { FlatList, TouchableWithoutFeedback } from "react-native-gesture-handler"
-import { GreenhouseStore, useStores } from "../../models"
-import { GreenhouseSnapshot } from '../../models/greenhouse/greenhouse'
+import { GreenhouseStore } from "../../models"
+import { Greenhouse } from '../../models/greenhouse/greenhouse'
 import { clone, detach } from "mobx-state-tree"
 
 export interface GreenhouseListProps {
   store: GreenhouseStore,
   style?: ViewStyle,
   itemsStyle?: ViewStyle,
-  onGreenhouseClick?: (greenhouse: GreenhouseSnapshot) => void
+  onGreenhouseClick?: (greenhouse: Greenhouse) => void
 }
 
 /**
