@@ -27,8 +27,6 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
     // Pull in one of our MST stores
     return (
       <Layout style={styles.container}>
-        <Text category='h1' style={styles.title} status='primary'>My greenhouses</Text>
-        <Divider />
         <GreenhouseList
           style={styles.greenhouseList}
           store={greenhouseStore}
