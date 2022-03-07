@@ -6,7 +6,6 @@ import { Greenhouse } from "../../models/greenhouse/greenhouse";
 
 export interface GreenhouseCardProps {
   greenhouse: Greenhouse;
-  isOkay?: boolean,
   style?: StyleProp<ViewStyle>,
 }
 
@@ -30,7 +29,7 @@ export const GreenhouseCard = observer(function GreenhouseCard(props: Greenhouse
     <React.Fragment>
       <Layout style={[props.style, styles.container]} level='3'>
         <Card
-          style={styles.card} status={props.isOkay === true ? 'success' : 'warning'}
+          style={styles.card} status={props.greenhouse.isOkay === true ? 'success' : 'warning'}
           header={<Header title={props.greenhouse.name} subtitle={props.greenhouse.description} />}
         >
           <Text>Hello bello</Text>
