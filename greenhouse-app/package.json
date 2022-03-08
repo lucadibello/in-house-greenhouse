@@ -56,6 +56,7 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "3.8.0",
     "react-native-svg": "^12.1.1",
+    "react-native-swipe-list-view": "^3.2.9",
     "react-native-tailwindcss": "^1.1.11",
     "reactotron-mst": "3.1.4",
     "reactotron-react-js": "^3.3.7",
