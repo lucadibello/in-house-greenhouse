@@ -1,7 +1,7 @@
 import * as React from "react"
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
-import { Card, Layout, Text } from "@ui-kitten/components"
+import { Button, Card, Layout, Text } from "@ui-kitten/components"
 import { Plant } from "../../models/plant/plant";
 
 export interface PlantCardProps {
@@ -15,8 +15,8 @@ interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => (
-  <View>
-    <Text category='h6'>{props.title}</Text>
+  <View style={styles.cardHeader}>
+    <Text category='h3'>{props.title}</Text>
     <Text category='label'>{props.subtitle}</Text>
   </View>
 );
@@ -25,6 +25,11 @@ const Header = (props: HeaderProps) => (
  * Greenhouse card that shows useful information
  */
 export const PlantCard = observer(function PlantCard(props: PlantCardProps) {
+  // calculate life of plant
+  const startDate = new Date(props.plant.created_at)
+  const currentDate = new Date()
+  const secondsDiff = Math.floor((currentDate.getTime() - startDate.getTime()) / 1000 / 60 / 60);
+
   return (
     <React.Fragment>
       <Layout style={[props.style, styles.container]} level='3'>
@@ -32,7 +37,25 @@ export const PlantCard = observer(function PlantCard(props: PlantCardProps) {
           style={styles.card}
           header={<Header title={props.plant.name} subtitle={props.plant.description} />}
         >
-          <Text>I'm a plant :)</Text>
+          <View style={styles.cardContainer}>
+            {/* Planted date */}
+            <Text>
+              Planted on: <Text style={styles.textBold}>{startDate.toLocaleDateString()}</Text>
+            </Text>
+
+            {/* Lifespan of the plant */}
+            <Text>
+              Lifespan: <Text style={styles.textBold}>{secondsDiff} hours</Text>
+            </Text>
+
+            {/* Soil umidity */}
+            <Text>
+              Soil humidity: <Text style={styles.textBold}>10%</Text>
+            </Text>
+
+            { /* Access plant data history */}
+            <Button>View plant history</Button>
+          </View>
         </Card>
       </Layout>
     </React.Fragment>
@@ -41,12 +64,23 @@ export const PlantCard = observer(function PlantCard(props: PlantCardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    flex: 1,
+    flex: 1
+  },
+  cardContainer: {
+    display: 'flex',
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    textAlignVertical: "center"
+  },
+  cardHeader: {
     margin: 2,
-    padding: 10
+    padding: 5
   },
   container: {
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
+  textBold: {
+    fontWeight: 'bold'
+  }
 });
