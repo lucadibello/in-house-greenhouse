@@ -20,7 +20,7 @@ export const ScanScreen: FC<StackScreenProps<NavigatorParamList, "scan">> = obse
 
         <Layout style={styles.container}>
           {/* SHOW PLANT FORM */}
-          <Text>Settings will be HERE!</Text>
+          <Text>scan page will be HERE!</Text>
         </Layout>
       </SafeAreaView>
     )
