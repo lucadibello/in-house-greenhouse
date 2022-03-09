@@ -26,7 +26,7 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
     
     // Pull in one of our MST stores
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, styles.notch]}>
         <TopNavigation
           alignment='center'
           title={"Greenhouses"}
@@ -52,6 +52,8 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
     )
   }
 )
+
+const notchColor = '#FFF'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -62,7 +64,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 20
   },
+  notch: {
+    backgroundColor: notchColor,
+  },
   title: {
     marginBottom: 2,
-  },
+  }
 })

@@ -62,7 +62,7 @@ export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhou
 
   // Show greenhouse inforamtion
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, styles.notch]}>
       <TopNavigation
         alignment='center'
         title={route.params.details.name}
@@ -82,6 +82,7 @@ export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhou
 const editColor = '#F4D35E'
 const deleteColor = '#DA4167'
 const white = "#FFF"
+const notchColor = '#FFF'
 const styles = StyleSheet.create({
   backRightBtn: {
     alignItems: 'center',
@@ -107,6 +108,9 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     width: 32
   },
+  notch: {
+    backgroundColor: notchColor,
+  },
   rowBack: {
     alignItems: 'center',
     flex: 1,
@@ -119,5 +123,5 @@ const styles = StyleSheet.create({
   },
   textWhite: {
     color: white
-  }
+  },
 })

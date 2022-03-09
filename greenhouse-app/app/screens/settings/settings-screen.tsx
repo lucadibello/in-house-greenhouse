@@ -3,23 +3,33 @@ import { observer } from "mobx-react-lite"
 import { StackScreenProps } from "@react-navigation/stack"
 import { TabParamList } from "../../navigators"
 // import { useStores } from "../../models"
-import { Layout, Text } from "@ui-kitten/components"
-import { StyleSheet } from 'react-native' 
+import { Divider, Layout, Text, TopNavigation } from "@ui-kitten/components"
+import { SafeAreaView, StyleSheet } from 'react-native' 
 
 export const SettingsScreen: FC<StackScreenProps<TabParamList, "settings">> = observer(function SettingsScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-
   return (
-    <Layout style={styles.container}>
-      <Text category='h2'>Settings</Text>
-    </Layout>
+    <SafeAreaView style={[styles.container, styles.notch]}>
+      <TopNavigation
+          alignment='center'
+          title={"Settings"}
+          subtitle='Scan network for greenhouses'
+      />
+      <Divider />
+      
+      <Layout style={styles.container}>
+        <Text>Settings will be here</Text>
+      </Layout>
+    </SafeAreaView>
   )
 })
 
+const notchColor = '#FFF'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  notch: {
+    backgroundColor: notchColor,
   }
 })
 

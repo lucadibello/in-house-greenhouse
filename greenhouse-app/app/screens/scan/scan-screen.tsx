@@ -9,7 +9,7 @@ export const ScanScreen: FC<StackScreenProps<NavigatorParamList, "scan">> = obse
   ({navigation}) => {
     // Show greenhouse inforamtion
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, styles.notch]}>
         <TopNavigation
           alignment='center'
           title={"Scan"}
@@ -26,8 +26,12 @@ export const ScanScreen: FC<StackScreenProps<NavigatorParamList, "scan">> = obse
     )
 })
 
+const notchColor = '#FFF'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  notch: {
+    backgroundColor: notchColor,
   }
 })
