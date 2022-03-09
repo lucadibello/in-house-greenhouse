@@ -1,27 +1,33 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { ViewStyle } from "react-native"
+import { SafeAreaView, StyleSheet } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
-import { Screen, Text } from "../../components"
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../../models"
-import { color } from "../../theme"
+import { TopNavigation, TopNavigationAction, Icon, Divider, Layout, Text } from "@ui-kitten/components"
 
-const ROOT: ViewStyle = {
-  backgroundColor: color.palette.black,
-  flex: 1,
-}
+export const ScanScreen: FC<StackScreenProps<NavigatorParamList, "scan">> = observer(
+  ({navigation}) => {
+    // Show greenhouse inforamtion
+    return (
+      <SafeAreaView style={styles.container}>
+        <TopNavigation
+          alignment='center'
+          title={"Scan"}
+          subtitle='Scan network for greenhouses'
+          accessoryLeft={<TopNavigationAction icon={<Icon name='arrow-back'/>} onPress={() => navigation.goBack()} />}
+        />
+        <Divider />
 
-export const ScanScreen: FC<StackScreenProps<NavigatorParamList, "scan">> = observer(function ScanScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
+        <Layout style={styles.container}>
+          {/* SHOW PLANT FORM */}
+          <Text>Settings will be HERE!</Text>
+        </Layout>
+      </SafeAreaView>
+    )
+})
 
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
-  return (
-    <Screen style={ROOT} preset="scroll">
-      <Text preset="header" text="scan" />
-    </Screen>
-  )
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  }
 })
