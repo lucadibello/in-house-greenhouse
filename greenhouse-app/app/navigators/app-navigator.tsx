@@ -33,15 +33,10 @@ export type TabParamList = {
 }
 
 // Create custom stylesheet
-const bgTransparent="transparent";
 const styles = StyleSheet.create({
   kittenBar: {
     height: 75
-  },
-  scanButton: {
-    backgroundColor: bgTransparent,
-    height: "auto"
-  },
+  }
 });
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -68,25 +63,13 @@ const AppBottomTab = () => {
     <Tab.Navigator 
       tabBar={props => <UIKittenBar {...props} />}
       initialRouteName="homepage"
+      screenOptions={{
+        headerShown: false,
+      }}
     >
       <Tab.Screen 
         name="homepage"
         component={HomepageScreen}
-        options={({navigation}) => ({
-          title: 'Greenhouses',
-          headerRight: function scanButton() {
-            return (
-              <Layout style={styles.scanButton}>
-                <Button
-                  appearance='ghost'
-                  status='info' 
-                  accessoryLeft={<Icon name='plus'/>}
-                  onPress={() => navigation.navigate("scan")}
-                />
-              </Layout>
-            );
-          },
-        })}
       />
 
       <Tab.Screen
@@ -118,7 +101,6 @@ const AppStack = () => {
         headerBackVisible: false,
       }}/>
       <Stack.Screen name="greenhouse" component={GreenhouseScreen} />
-      
     </Stack.Navigator>
   )
 }

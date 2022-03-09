@@ -1,9 +1,9 @@
 import React, { FC, useEffect } from "react"
-import { StyleSheet } from "react-native"
+import { SafeAreaView, StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import { StackScreenProps } from "@react-navigation/stack"
 import { TabParamList, NavigatorParamList } from "../../navigators"
-import { Layout } from "@ui-kitten/components"
+import { Divider, Icon, Layout, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
 import { GreenhouseList } from "../../components"
 import { useStores } from "../../models"
 import { Greenhouse } from "../../models/greenhouse/greenhouse"
@@ -26,18 +26,28 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
     
     // Pull in one of our MST stores
     return (
-      <Layout style={styles.container}>
-        <GreenhouseList
-          style={styles.greenhouseList}
-          store={greenhouseStore}
-          onGreenhouseClick={(greenhouse: Greenhouse) => {
-            // navigate to greenhouse screen and passing greenhouse information
-            navigation.navigate("greenhouse", {
-              details: greenhouse
-            })
-          }}
+      <SafeAreaView style={styles.container}>
+        <TopNavigation
+          alignment='center'
+          title={"Greenhouses"}
+          subtitle='Your personal greenhouses'
+          accessoryRight={<TopNavigationAction icon={<Icon name='plus'/>} onPress={() => navigation.navigate("scan")} />}
         />
-      </Layout>
+        <Divider />
+
+        <Layout style={styles.container}>
+          <GreenhouseList
+            style={styles.greenhouseList}
+            store={greenhouseStore}
+            onGreenhouseClick={(greenhouse: Greenhouse) => {
+              // navigate to greenhouse screen and passing greenhouse information
+              navigation.navigate("greenhouse", {
+                details: greenhouse
+              })
+            }}
+          />
+        </Layout>
+      </SafeAreaView>
     )
   }
 )
