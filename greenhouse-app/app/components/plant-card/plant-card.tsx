@@ -1,7 +1,7 @@
 import * as React from "react"
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
-import { Button, Card, Layout, Text } from "@ui-kitten/components"
+import { Button, Card, Divider, Layout, Text } from "@ui-kitten/components"
 import { Plant } from "../../models/plant/plant";
 
 export interface PlantCardProps {
@@ -24,7 +24,7 @@ const Header = (props: HeaderProps) => (
 /**
  * Greenhouse card that shows useful information
  */
-export const PlantCard = observer(function PlantCard(props: PlantCardProps) {
+export const PlantCard = observer(function (props: PlantCardProps) {
   // calculate life of plant
   const startDate = new Date(props.plant.created_at)
   const currentDate = new Date()
@@ -39,17 +39,17 @@ export const PlantCard = observer(function PlantCard(props: PlantCardProps) {
         >
           <View style={styles.cardContainer}>
             {/* Planted date */}
-            <Text>
-              Planted on: <Text style={styles.textBold}>{startDate.toLocaleDateString()}</Text>
+            <Text category="h6">
+              Planted on: <Text category="c2">{startDate.toLocaleDateString()}</Text>
             </Text>
 
             {/* Lifespan of the plant */}
-            <Text>
+            <Text category="h6">
               Lifespan: <Text style={styles.textBold}>{secondsDiff} hours</Text>
             </Text>
 
             {/* Soil umidity */}
-            <Text>
+            <Text category="h6">
               Soil humidity: <Text style={styles.textBold}>10%</Text>
             </Text>
 
