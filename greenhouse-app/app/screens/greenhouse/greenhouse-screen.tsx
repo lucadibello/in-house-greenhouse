@@ -1,14 +1,15 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { cast } from "mobx-state-tree"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, TouchableOpacity, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
-import { Layout, Text } from "@ui-kitten/components"
+import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 import { PlantCard } from "../../components"
 import { Greenhouse } from "../../models/greenhouse/greenhouse"
 import { SwipeListView } from 'react-native-swipe-list-view';
+import { SafeAreaView } from "react-native-safe-area-context"
 
 const PlantForm = (props: {greenhouse: Greenhouse}) => {
   // Set flag
@@ -19,16 +20,31 @@ const PlantForm = (props: {greenhouse: Greenhouse}) => {
     return (
       <SwipeListView
         useFlatList={true}
+        closeOnScroll={true}
+        disableRightSwipe={true}
+
+        leftOpenValue={75}
+        rightOpenValue={-150}
+        previewOpenValue={-40}
+        previewOpenDelay={3000}
+        
         data={props.greenhouse.plants}
         renderItem={({item}) => <PlantCard plant={cast(item)} />}
         renderHiddenItem={ (data, rowMap) => (
           <View style={styles.rowBack}>
-              <Text>Left</Text>
-              <Text>Right</Text>
+            {/* EDIT PLANT INFORMATION */}
+            <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]}>
+                <Icon style={styles.icon} fill='#000' name="edit-2-outline" />
+                <Text style={styles.textBold}>EDIT</Text>
+            </TouchableOpacity>
+
+            {/* REMOVE PLANT */}
+            <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]}>
+                <Icon style={styles.icon} fill='#FFF' name="trash-2-outline" />
+                <Text style={[styles.textBold, styles.textWhite]}>REMOVE</Text>
+            </TouchableOpacity>
           </View>
         )}
-        leftOpenValue={75}
-        rightOpenValue={-75}
       />
     )
   } else {
@@ -43,37 +59,65 @@ export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhou
   const navigation = useNavigation()
   // Read route params
   const route = useRoute<RouteProp<NavigatorParamList, 'greenhouse'>>();
-  React.useEffect(() => {
-    navigation.setOptions({
-      title: route.params.details.name
-    })
-  }, [])
-
-  
 
   // Show greenhouse inforamtion
   return (
-    <Layout style={styles.container}>
-      <Text category='h2'>{route.params.details.name}, ID: {route.params.details.id}</Text>
-      <Text>{route.params.details.plants.map(plant => plant.name)}</Text>
-      
-      {/* SHOW PLANT FORM */}
-      <PlantForm greenhouse={route.params.details} />
-    </Layout>
+    <SafeAreaView style={styles.container}>
+      <TopNavigation
+        alignment='center'
+        title={route.params.details.name}
+        subtitle='Greenhouse information'
+        accessoryLeft={<TopNavigationAction icon={<Icon name='arrow-back'/>} onPress={() => navigation.goBack()} />}
+      />
+      <Divider />
+
+      <Layout style={styles.container}>
+        {/* SHOW PLANT FORM */}
+        <PlantForm greenhouse={route.params.details} />
+      </Layout>
+    </SafeAreaView>
   )
 })
 
-const deleteColor = 'red'
+const editColor = '#F4D35E'
+const deleteColor = '#DA4167'
+const white = "#FFF"
 const styles = StyleSheet.create({
+  backRightBtn: {
+    alignItems: 'center',
+    bottom: 0,
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    width: 75,
+  },
+  backRightBtnLeft: {
+      backgroundColor: editColor,
+      right: 75,
+  },
+  backRightBtnRight: {
+      backgroundColor: deleteColor,
+      right: 0,
+  },
   container: {
     flex: 1
   },
+  icon: {
+    height: 32,
+    marginBottom: 5,
+    width: 32
+  },
   rowBack: {
     alignItems: 'center',
-    backgroundColor: deleteColor,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingLeft: 15,
   },
+  textBold: {
+    fontWeight: 'bold',
+  },
+  textWhite: {
+    color: white
+  }
 })

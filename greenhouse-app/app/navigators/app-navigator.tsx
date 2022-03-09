@@ -104,6 +104,9 @@ const AppStack = () => {
   return (
     <Stack.Navigator
       initialRouteName="bottomnav"
+      screenOptions={{
+        headerShown: false,
+      }}
     >
       {/** 🔥 Your screens go here */}
       <Stack.Screen name="bottomnav" component={AppBottomTab} options={{
