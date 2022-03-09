@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react"
-import { SafeAreaView, StyleSheet } from "react-native"
+import { Alert, SafeAreaView, StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import { StackScreenProps } from "@react-navigation/stack"
 import { TabParamList, NavigatorParamList } from "../../navigators"
@@ -31,6 +31,7 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
           alignment='center'
           title={"Greenhouses"}
           subtitle='Your personal greenhouses'
+          accessoryLeft={<TopNavigationAction icon={<Icon name='menu'/>} onPress={() => Alert.alert("Implement drawer for account")} />}
           accessoryRight={<TopNavigationAction icon={<Icon name='plus'/>} onPress={() => navigation.navigate("scan")} />}
         />
         <Divider />
