@@ -1,9 +1,9 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
-import { Avatar, Button, Divider, Icon, Input, Layout, Text, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
+import { Avatar, Button, Divider, Icon, Input, Layout, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
 import { RouteProp, useRoute } from "@react-navigation/native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
@@ -71,7 +71,7 @@ export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "greenhous
             autoCapitalize="words"
             caption={"Plant creation date"}
             value={createdAtDate}
-            editable={false}            
+            disabled={true}            
           />
 
           {/* PLANT LAST UPDATE DATE  */}
@@ -82,9 +82,10 @@ export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "greenhous
             autoCapitalize="words"
             caption={"Plant last update"}
             value={updatedAtDate}
-            editable={false}            
+            disabled={true}            
           />
 
+          {/* UPDATE PLANT DATA */}
           <Button style={styles.applyChanges}>Apply changes</Button>
         </Layout>
       </SafeAreaView>
