@@ -55,6 +55,7 @@ export const PlantCard = observer(function (props: PlantCardProps) {
 
             {/* Soil umidity */}
             <Text category="h6">
+              {/* FIXME: THIS IS AN HARD CODED VALUE, FIX IN FUTURE */}
               Soil humidity: <Text style={styles.textBold}>10%</Text>
             </Text>
 
