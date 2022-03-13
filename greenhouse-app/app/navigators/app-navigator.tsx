@@ -15,7 +15,6 @@ import { BottomNavigation, BottomNavigationTab, Icon } from "@ui-kitten/componen
 import { Greenhouse } from "../models/greenhouse/greenhouse";
 
 export type NavigatorParamList = {
-  welcome: undefined
   bottomnav: undefined
   // 🔥 Your screens go here
   scan: undefined
@@ -25,8 +24,6 @@ export type NavigatorParamList = {
 }
 
 export type TabParamList = {
-  demo: undefined
-  demoList: undefined
   homepage: undefined
   // 🔥 Your tabs go here
   settings: undefined
