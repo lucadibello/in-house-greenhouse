@@ -1,7 +1,7 @@
 import * as React from "react"
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
-import { Button, Card, Divider, Layout, Text } from "@ui-kitten/components"
+import { Button, Card, Layout, Text } from "@ui-kitten/components"
 import { Plant } from "../../models/plant/plant";
 
 export interface PlantCardProps {
