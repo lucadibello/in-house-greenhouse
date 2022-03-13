@@ -9,10 +9,11 @@ import { useColorScheme, StyleSheet } from "react-native"
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HomepageScreen, ScanScreen, GreenhouseScreen, SettingsScreen } from "../screens"
+import { HomepageScreen, ScanScreen, GreenhouseScreen, SettingsScreen, EditPlantScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { BottomNavigation, BottomNavigationTab, Icon } from "@ui-kitten/components";
 import { Greenhouse } from "../models/greenhouse/greenhouse";
+import { Plant } from "../models/plant/plant";
 
 export type NavigatorParamList = {
   bottomnav: undefined
@@ -20,6 +21,9 @@ export type NavigatorParamList = {
   scan: undefined
   greenhouse: {
     details: Greenhouse
+  },
+  editPlant: {
+    plant: Plant
   }
 }
 
@@ -92,6 +96,7 @@ const AppStack = () => {
       <Stack.Screen name="bottomnav" component={AppBottomTab} />
       <Stack.Screen name="scan" component={ScanScreen} />
       <Stack.Screen name="greenhouse" component={GreenhouseScreen} />
+      <Stack.Screen name="editPlant" component={EditPlantScreen} />
     </Stack.Navigator>
   )
 }

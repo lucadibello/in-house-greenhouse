@@ -1,17 +1,24 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { cast } from "mobx-state-tree"
-import { StyleSheet, TouchableOpacity, View } from "react-native"
+import { Alert, GestureResponderEvent, StyleSheet, TouchableOpacity, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
 import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"
+import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 import { PlantCard } from "../../components"
 import { Greenhouse } from "../../models/greenhouse/greenhouse"
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { SafeAreaView } from "react-native-safe-area-context"
+import { Plant } from "../../models/plant/plant"
 
-const PlantForm = (props: {greenhouse: Greenhouse}) => {
+interface PlantFormProps {
+  greenhouse: Greenhouse,
+  onEditPress: (event: GestureResponderEvent, source: Plant) => void,
+  onDeletePress: (event: GestureResponderEvent, source: Plant) => void
+}
+
+const PlantForm = (props: PlantFormProps) => {
   // Set flag
   const isEmpty = props.greenhouse.plants.length !== 0
 
@@ -33,13 +40,13 @@ const PlantForm = (props: {greenhouse: Greenhouse}) => {
         renderHiddenItem={ (data, rowMap) => (
           <View style={styles.rowBack}>
             {/* EDIT PLANT INFORMATION */}
-            <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]}>
+            <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]} onPress={(event) => props.onEditPress(event, cast(data.item))}>
                 <Icon style={styles.icon} fill='#000' name="edit-2-outline" />
                 <Text style={styles.textBold}>EDIT</Text>
             </TouchableOpacity>
 
             {/* REMOVE PLANT */}
-            <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]}>
+            <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={(event) => props.onDeletePress(event, cast(data.item))}>
                 <Icon style={styles.icon} fill='#FFF' name="trash-2-outline" />
                 <Text style={[styles.textBold, styles.textWhite]}>REMOVE</Text>
             </TouchableOpacity>
@@ -54,30 +61,41 @@ const PlantForm = (props: {greenhouse: Greenhouse}) => {
   }
 }
 
-export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhouse">> = observer(function GreenhouseScreen() {
-  // Load navigation via hook
-  const navigation = useNavigation()
-  // Read route params
-  const route = useRoute<RouteProp<NavigatorParamList, 'greenhouse'>>();
+export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhouse">> = observer(
+  ({navigation}) => {
+    // Read route params
+    const route = useRoute<RouteProp<NavigatorParamList, 'greenhouse'>>();
 
-  // Show greenhouse inforamtion
-  return (
-    <SafeAreaView style={[styles.container, styles.notch]}>
-      <TopNavigation
-        alignment='center'
-        title={route.params.details.name}
-        subtitle='Greenhouse information'
-        accessoryLeft={<TopNavigationAction icon={<Icon name='arrow-back'/>} onPress={() => navigation.goBack()} />}
-      />
-      <Divider />
+    // Show greenhouse inforamtion
+    return (
+      <SafeAreaView style={[styles.container, styles.notch]}>
+        <TopNavigation
+          alignment='center'
+          title={route.params.details.name}
+          subtitle='Greenhouse information'
+          accessoryLeft={<TopNavigationAction icon={<Icon name='arrow-back'/>} onPress={() => navigation.goBack()} />}
+        />
+        <Divider />
 
-      <Layout style={styles.container}>
-        {/* SHOW PLANT FORM */}
-        <PlantForm greenhouse={route.params.details} />
-      </Layout>
-    </SafeAreaView>
-  )
-})
+        <Layout style={styles.container}>
+          {/* SHOW PLANT FORM */}
+          <PlantForm
+            onEditPress={(event, source) => {
+              // navigate to greenhouse screen and passing greenhouse information
+              navigation.navigate("editPlant", {
+                plant: source
+              })
+            }}
+
+            onDeletePress={(event, source) => {
+              Alert.alert("WORK IN PROGRESS")
+            }}
+            greenhouse={route.params.details}
+          />
+        </Layout>
+      </SafeAreaView>
+  )}
+)
 
 const editColor = '#F4D35E'
 const deleteColor = '#DA4167'
