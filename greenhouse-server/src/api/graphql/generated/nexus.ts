@@ -57,11 +57,12 @@ export interface NexusGenObjects {
     updated_at: NexusGenScalars['dateTime']; // dateTime!
   }
   Plant: { // root type
-    created_at?: NexusGenScalars['dateTime'] | null; // dateTime
+    created_at: NexusGenScalars['dateTime']; // dateTime!
     description?: string | null; // String
+    greenhouseId?: string | null; // String
     id: number; // Int!
     name: string; // String!
-    updated_at?: NexusGenScalars['dateTime'] | null; // dateTime
+    updated_at: NexusGenScalars['dateTime']; // dateTime!
   }
   Query: {};
   User: { // root type
@@ -94,16 +95,19 @@ export interface NexusGenFieldTypes {
     updated_at: NexusGenScalars['dateTime']; // dateTime!
   }
   Plant: { // field return type
-    created_at: NexusGenScalars['dateTime'] | null; // dateTime
+    created_at: NexusGenScalars['dateTime']; // dateTime!
     description: string | null; // String
+    greenhouseId: string | null; // String
     id: number; // Int!
     name: string; // String!
-    updated_at: NexusGenScalars['dateTime'] | null; // dateTime
+    updated_at: NexusGenScalars['dateTime']; // dateTime!
   }
   Query: { // field return type
     addGreenhouse: NexusGenRootTypes['Greenhouse'] | null; // Greenhouse
+    addPlant: NexusGenRootTypes['Plant'] | null; // Plant
     addUser: NexusGenRootTypes['User']; // User!
     greenhouses: NexusGenRootTypes['Greenhouse'][] | null; // [Greenhouse!]
+    plants: NexusGenRootTypes['Plant'][] | null; // [Plant!]
     users: NexusGenRootTypes['User'][] | null; // [User!]
   }
   User: { // field return type
@@ -128,14 +132,17 @@ export interface NexusGenFieldTypeNames {
   Plant: { // field return type name
     created_at: 'dateTime'
     description: 'String'
+    greenhouseId: 'String'
     id: 'Int'
     name: 'String'
     updated_at: 'dateTime'
   }
   Query: { // field return type name
     addGreenhouse: 'Greenhouse'
+    addPlant: 'Plant'
     addUser: 'User'
     greenhouses: 'Greenhouse'
+    plants: 'Plant'
     users: 'User'
   }
   User: { // field return type name
@@ -153,6 +160,11 @@ export interface NexusGenArgTypes {
       description?: string | null; // String
       name: string; // String!
       plants?: NexusGenInputs['PlantInput'][] | null; // [PlantInput!]
+    }
+    addPlant: { // args
+      description?: string | null; // String
+      greenhouseId: string; // String!
+      name: string; // String!
     }
     addUser: { // args
       email: string; // String!
