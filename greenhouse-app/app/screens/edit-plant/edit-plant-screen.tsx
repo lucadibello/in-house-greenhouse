@@ -86,7 +86,16 @@ export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "greenhous
           />
 
           {/* UPDATE PLANT DATA */}
-          <Button style={styles.applyChanges}>Apply changes</Button>
+          <Button style={styles.applyChanges} onPress={() => {
+            console.tron.log("Clicked!!", route.params.plant)
+            route.params.plant.updatePlant(
+              route.params.plant,
+              {
+                name: "Sono un titolo",
+                description: "Sono una descrizione"
+              }
+            )
+          }}>Apply changes</Button>
         </Layout>
       </SafeAreaView>
     )
