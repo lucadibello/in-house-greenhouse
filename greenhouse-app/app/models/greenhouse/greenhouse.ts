@@ -9,7 +9,7 @@ const PlantsArray = types.array(PlantModel)
 export const GreenhouseModel = types
   .model("Greenhouse")
   .props({
-    id: types.string,
+    id: types.identifier,
     name: types.string,
     description: types.maybeNull(types.string),
     isOkay: types.boolean,

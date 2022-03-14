@@ -9,7 +9,7 @@ export const PlantModel = types
   .model("Plant")
   .extend(withEnvironment)
   .props({
-    id: types.integer,
+    id: types.identifierNumber,
     name: types.string,
     description: types.maybe(types.string),
     created_at: types.string,
@@ -17,9 +17,9 @@ export const PlantModel = types
     updated_at: types.string
   })
   .actions(self => ({
-    updatePlant: (greenhouseId: string, name: string, description?: string) => flow(function* getGreenhouses () {
+    updatePlant: (subject: Plant, update: {name: string, description?: string}) => flow(function* getGreenhouses () {
       const plantApi = new PlantApi(self.environment.api)
-      const result = yield plantApi.addPlant(greenhouseId, name, description);
+      const result = yield plantApi.updatePlant(subject, update);
 
       if (result.kind === "ok") {
         self.id = result.id
