@@ -50,4 +50,41 @@ export class PlantApi {
       return { kind: "bad-data" }
     }
   }
+
+  async updatePlant(subject: Plant, update: {name: string, description?: string}) {
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.post(`/updatePlant`, {
+        query: `query UpdatePlant($updatePlantId: Int!, $name: String!, $description: String) {
+          updatePlant(id: $updatePlantId, name: $name, description: $description) {
+            id
+            name
+            description
+            created_at
+            updated_at
+            greenhouseId
+          }
+        }`, 
+        data: {
+          updatePlantId: subject.id,
+          name: update.name,
+          description: update.description
+        }
+      })
+      
+      // the typical ways to die when calling an api
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) {
+          return problem
+        }
+      }
+      
+      const graphQLResponse = response.data
+      console.tron.log("API RETURNED DATA!!", graphQLResponse)
+    } catch (e) {
+      __DEV__ && console.tron.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
 }
