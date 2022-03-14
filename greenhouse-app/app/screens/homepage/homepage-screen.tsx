@@ -12,7 +12,7 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
   ({navigation}) => {
     
     // Load greenhouses from store
-    const { greenhouseStore } = useStores()
+    const { greenhouseStore, navigationStore } = useStores()
 
     useEffect(() => {
       async function fetchData() {
@@ -41,10 +41,10 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
             style={styles.greenhouseList}
             store={greenhouseStore}
             onGreenhouseClick={(greenhouse: Greenhouse) => {
-              // navigate to greenhouse screen and passing greenhouse information
-              navigation.navigate("greenhouse", {
-                details: greenhouse
-              })
+              // Save greenhouse information into navigation store
+              navigationStore.setGreenhouseScreenParams(greenhouse)
+              // navigate to greenhouse screen
+              navigation.navigate("greenhouse")
             }}
           />
         </Layout>
