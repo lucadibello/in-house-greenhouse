@@ -1,4 +1,4 @@
-import { extendType, inputObjectType, nonNull, nullable, objectType, stringArg } from "nexus";
+import { extendType, inputObjectType, intArg, nonNull, nullable, objectType, stringArg } from "nexus";
 
 export const Plant = objectType({
   name: 'Plant',
@@ -53,6 +53,34 @@ export const PlantQuery = extendType({
             name: args.name,
             description: args.description,
             greenhouseId: args.greenhouseId,
+          }
+        })
+      }
+    });
+
+    // Update plant
+    t.field('updatePlant', {
+      type: 'Plant',
+      description: 'Update a plant information',
+      args: {
+        id: nonNull(intArg({
+          description: 'Plant ID'
+        })),
+        name: nonNull(stringArg({
+          description: "Plant's name"
+        })),
+        description: nullable(stringArg({
+          description: "Plant's description"
+        }))
+      },
+      resolve(_, args, context) {
+        return context.prisma.plant.update({
+          where: {
+            id: args.id
+          },
+          data: {
+            name: args.name,
+            description: args.description,
           }
         })
       }

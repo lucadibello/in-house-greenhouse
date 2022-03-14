@@ -108,6 +108,7 @@ export interface NexusGenFieldTypes {
     addUser: NexusGenRootTypes['User']; // User!
     greenhouses: NexusGenRootTypes['Greenhouse'][] | null; // [Greenhouse!]
     plants: NexusGenRootTypes['Plant'][] | null; // [Plant!]
+    updatePlant: NexusGenRootTypes['Plant'] | null; // Plant
     users: NexusGenRootTypes['User'][] | null; // [User!]
   }
   User: { // field return type
@@ -143,6 +144,7 @@ export interface NexusGenFieldTypeNames {
     addUser: 'User'
     greenhouses: 'Greenhouse'
     plants: 'Plant'
+    updatePlant: 'Plant'
     users: 'User'
   }
   User: { // field return type name
@@ -171,6 +173,11 @@ export interface NexusGenArgTypes {
       name: string; // String!
       password: string; // String!
       surname: string; // String!
+    }
+    updatePlant: { // args
+      description?: string | null; // String
+      id: number; // Int!
+      name: string; // String!
     }
   }
 }

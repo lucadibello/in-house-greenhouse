@@ -81,6 +81,18 @@ type Query {
 
   """List of all plants contained in one greenhouse"""
   plants: [Plant!]
+
+  """Update a plant information"""
+  updatePlant(
+    """Plant's description"""
+    description: String
+
+    """Plant ID"""
+    id: Int!
+
+    """Plant's name"""
+    name: String!
+  ): Plant
   users: [User!]
 }
 
