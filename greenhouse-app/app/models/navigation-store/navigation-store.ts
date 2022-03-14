@@ -1,5 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { GreenhouseModel } from "../greenhouse/greenhouse"
+import { Greenhouse, GreenhouseModel } from "../greenhouse/greenhouse"
 
 /**
  * Model description here for TypeScript hints.
@@ -11,6 +11,11 @@ export const NavigationStoreModel = types
       greenhouse: types.maybe(types.safeReference(GreenhouseModel)),
     }),
   })
+  .actions((self) => ({
+    setGreenhouseScreenParams (greenhouse: Greenhouse) {
+      self.greenhouseScreenParams.greenhouse = greenhouse;
+    }
+  }))
 
 type NavigationStoreType = Instance<typeof NavigationStoreModel>
 export interface NavigationStore extends NavigationStoreType {}
