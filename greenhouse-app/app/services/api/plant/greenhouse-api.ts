@@ -40,9 +40,7 @@ export class PlantApi {
 
       // List greenhouses
       const plants: Plant[] = graphQLResponse.data
-      console.tron.log("[Plants API] Test..", plants)
       const outputData = {kind: "ok", plant: plants};
-      console.tron.log("[Plants API] Returning data..", outputData)
       // Return data
       return outputData;
     } catch (e) {
@@ -51,7 +49,7 @@ export class PlantApi {
     }
   }
 
-  async updatePlant(subject: Plant, update: {name: string, description?: string}) {
+  async updatePlant(plantId: number, update: {name: string, description?: string}) {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/updatePlant`, {
@@ -65,8 +63,8 @@ export class PlantApi {
             greenhouseId
           }
         }`, 
-        data: {
-          updatePlantId: subject.id,
+        variables: {
+          updatePlantId: plantId,
           name: update.name,
           description: update.description
         }
@@ -81,7 +79,7 @@ export class PlantApi {
       }
       
       const graphQLResponse = response.data
-      console.tron.log("API RETURNED DATA!!", graphQLResponse)
+      return {key: 'ok', plant: graphQLResponse.data.updatePlant}
     } catch (e) {
       __DEV__ && console.tron.log(e.message)
       return { kind: "bad-data" }
