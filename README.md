@@ -16,4 +16,49 @@ The collected data is used to show statistics about the growth of your plants an
 
 ## Tech stack
 
-![Tech stack](/extra/schemas/tech-stack.png)
+<table>
+  <tr>
+    <td><img src="/extra/schemas/system-icons/symbol-greenhouse.png" alt="Greenhouse icon" height="150" width="auto"></td>
+    <td>
+      <ul>
+        <li>Raspberry Pi 3 Model B+</li>
+        <li>Python - Sensors (moisture, temperature, ... )</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><img src="/extra/schemas/system-icons/symbol-app.png" alt="Greenhouse icon" height="200" width="auto"></td>
+    <td>
+      <ul>
+        <li>React Native + Expo</li>
+        <li>UI Kitten</li>
+        <li>MobX-State-Tree</li>
+        <li>TypeScript</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><img src="/extra/schemas/system-icons/symbol-api.png" alt="Greenhouse icon" height="150" width="auto"></td>
+    <td>
+      <ul>
+        <li>Apollo Server</li>
+        <li>GraphQL + GraphQL Nexus</li>
+        <li>Prisma ORM</li>
+        <li>TypeScript</li>
+        <li>Docker container</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><img src="/extra/schemas/system-icons/symbol-db.png" alt="Greenhouse icon" height="150" width="auto"></td>
+    <td>
+      <ul>
+        <li>Apollo Server</li>
+        <li>GraphQL + GraphQL Nexus</li>
+        <li>Prisma ORM</li>
+        <li>TypeScript</li>
+        <li>Docker container</li>
+      </ul>
+    </td>
+  </tr>
+</table>
