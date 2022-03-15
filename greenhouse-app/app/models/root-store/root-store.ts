@@ -8,7 +8,14 @@ import { NavigationStoreModel } from "../navigation-store/navigation-store"
 // prettier-ignore
 export const RootStoreModel = types.model("RootStore").props({
   greenhouseStore: types.optional(GreenhouseStoreModel, {} as any),
-  navigationStore: types.optional(NavigationStoreModel, {greenhouseScreenParams: {}})
+  navigationStore: types.optional(NavigationStoreModel, {
+    greenhouseScreenParams: {
+      greenhouse: undefined
+    },
+    editPlantScreenParams: {
+      plant: undefined
+    }
+  } as any)
 })
 
 /**
