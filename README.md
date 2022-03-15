@@ -17,7 +17,9 @@ This is a small diagram showing all the components that make up the **In-House G
 ![System Architecture](/extra/schemas/system-architecture.png)
 
 This is a small diagram showing all the components that make up the In-House Greenhouse system. The Greenhouse collects data about the state of the plants and the surrounding environment via sensors, and then sends this data to the server via HTTP calls to the API, which will save the data within the PostgreSQL database.
+
 The phone application is strictly dependent on the API.  The data shown in the various interfaces, such as the list of added greenhouses, statistics of the various plants, etc. are read dynamically via HTTP requests sent to the API. The user through the phone application as well as view the data in the DB can also modify them: it is possible to change the information of any greenhouse and any plant owned by the user.
+
 The core of the application, the APIs, are run inside a Docker container (also the database they are connected to). The use of a container offers several potentialities to the product such as great scalability, being able to dynamically increase the number of API containers if the main container is overloaded (via Load Balancer). Through Docker-Compose it is easy to start the entire application on any without any additional configuration.
 
 ## Tech stack
