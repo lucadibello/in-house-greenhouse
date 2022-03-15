@@ -63,10 +63,7 @@ This chapter describes the technologies and languages used to program/set up eve
     <td><img src="/extra/schemas/system-icons/symbol-db.png" alt="Greenhouse icon" height="150" width="auto"></td>
     <td>
       <ul>
-        <li>Apollo Server</li>
-        <li>GraphQL + GraphQL Nexus</li>
-        <li>Prisma ORM</li>
-        <li>TypeScript</li>
+        <li>PostgreSQL Databse</li>
         <li>Docker container</li>
       </ul>
     </td>
