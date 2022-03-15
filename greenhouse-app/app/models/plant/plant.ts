@@ -17,14 +17,14 @@ export const PlantModel = types
     updated_at: types.string
   })
   .actions(self => ({
-    updatePlant: (subject: Plant, update: {name: string, description?: string}) => flow(function* getGreenhouses () {
+    updatePlant: flow(function* updatePlant (update: {name: string, description?: string}) {
       const plantApi = new PlantApi(self.environment.api)
-      const result = yield plantApi.updatePlant(subject, update);
-
+      const result = yield plantApi.updatePlant(self.id ,update);
+      // Update model data
       if (result.kind === "ok") {
         self.id = result.id
-        self.name = "Test"
-        self.description = "Description"
+        self.name = result.name
+        self.description = result.description
         self.created_at = result.created_at
         self.updated_at = result.updated_at
       } else {
