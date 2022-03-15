@@ -11,6 +11,7 @@ import { Greenhouse } from "../../models/greenhouse/greenhouse"
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Plant } from "../../models/plant/plant"
+import { useStores } from "../../models"
 
 interface PlantFormProps {
   greenhouse: Greenhouse,
@@ -64,15 +65,17 @@ const PlantForm = observer(
 
 export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhouse">> = observer(
   ({navigation}) => {
-    // Read route params
-    const route = useRoute<RouteProp<NavigatorParamList, 'greenhouse'>>();
+    // Read params through navigation store
+    const { navigationStore } = useStores()
     
+    console.tron.warn(navigationStore.greenhouseScreenParams)
     // Show greenhouse inforamtion
     return (
+      navigationStore.greenhouseScreenParams.greenhouse !== undefined &&
       <SafeAreaView style={[styles.container, styles.notch]}>
         <TopNavigation
           alignment='center'
-          title={route.params.details.name}
+          title={navigationStore.greenhouseScreenParams.greenhouse.name || ""}
           subtitle='Greenhouse information'
           accessoryLeft={<TopNavigationAction icon={<Icon name='arrow-back'/>} onPress={() => navigation.goBack()} />}
         />
@@ -82,20 +85,21 @@ export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhou
           {/* SHOW PLANT FORM */}
           <PlantForm
             onEditPress={(event, source) => {
-              // navigate to greenhouse screen and passing greenhouse information
-              navigation.navigate("editPlant", {
-                plant: source
-              })
+              // Save greenhouse information into navigation store
+              navigationStore.setEditPlantScreenParams(source)
+              // navigate to greenhouse screen
+              navigation.navigate("editPlant")
             }}
 
             onDeletePress={(event, source) => {
               Alert.alert("WORK IN PROGRESS")
             }}
-            greenhouse={route.params.details}
+            greenhouse={navigationStore.greenhouseScreenParams.greenhouse}
           />
         </Layout>
       </SafeAreaView>
-  )}
+    )
+  }
 )
 
 const editColor = '#F4D35E'
