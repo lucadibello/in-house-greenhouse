@@ -42,6 +42,7 @@ export class PlantApi {
       const plants: Plant[] = graphQLResponse.data
       const outputData = {kind: "ok", plant: plants};
       // Return data
+      // FIXME: HANDLE THIS PROBLEM IN FUTURE
       return outputData;
     } catch (e) {
       __DEV__ && console.tron.log(e.message)
