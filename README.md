@@ -83,7 +83,7 @@ This chapter describes the technologies and languages used to program/set up eve
       <p align="center">
         <img src="/extra/schemas/system-icons/symbol-db.png" alt="Greenhouse icon" height="150" width="auto">
         <br>
-        In-Hosuse Greenhouse Database
+        In-House Greenhouse Database
       </p>
     </td>
     <td>
