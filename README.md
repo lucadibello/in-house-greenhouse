@@ -1,4 +1,4 @@
-# In-House Greenhouse - A new generation of smart greenhoses
+# In-House Greenhouse - A new generation of smart greenhouses
 
 <p align="center">
   <img style="text-align: center;" width="400" height="auto" src="https://user-images.githubusercontent.com/37295664/158469342-5d8f577f-08eb-4a44-8494-c7d23abfd0fc.svg">
@@ -28,16 +28,29 @@ This chapter describes the technologies and languages used to program/set up eve
 
 <table>
   <tr>
-    <td><img src="/extra/schemas/system-icons/symbol-greenhouse.png" alt="Greenhouse icon" height="150" width="auto"></td>
+    <td>
+      <p align="center">
+        <img src="/extra/schemas/system-icons/symbol-greenhouse.png" alt="Greenhouse icon" height="150" width="auto">
+        <br>
+        In-House Greenhouse
+      </p>
+    </td>
     <td>
       <ul>
         <li>Raspberry Pi 3 Model B+</li>
-        <li>Python - Sensors (moisture, temperature, ... )</li>
+        <li>Pythoan</li>
+        <li>Sensors (moisture, temperature, ... )</li>
       </ul>
     </td>
   </tr>
   <tr>
-    <td><img src="/extra/schemas/system-icons/symbol-app.png" alt="Greenhouse icon" height="200" width="auto"></td>
+    <td>
+      <p align="center">
+        <img src="/extra/schemas/system-icons/symbol-app.png" alt="Greenhouse icon" height="200" width="auto">
+        <br>
+        In-House Greenhouse App
+      </p>
+    </td>
     <td>
       <ul>
         <li>React Native + Expo</li>
@@ -48,7 +61,13 @@ This chapter describes the technologies and languages used to program/set up eve
     </td>
   </tr>
   <tr>
-    <td><img src="/extra/schemas/system-icons/symbol-api.png" alt="Greenhouse icon" height="150" width="auto"></td>
+    <td>
+      <p align="center">
+        <img src="/extra/schemas/system-icons/symbol-api.png" alt="Greenhouse icon" height="150" width="auto">
+        <br>
+        In-House Greenhouse APIs
+      </p>
+    </td>
     <td>
       <ul>
         <li>Apollo Server</li>
@@ -60,7 +79,13 @@ This chapter describes the technologies and languages used to program/set up eve
     </td>
   </tr>
   <tr>
-    <td><img src="/extra/schemas/system-icons/symbol-db.png" alt="Greenhouse icon" height="150" width="auto"></td>
+    <td>
+      <p align="center">
+        <img src="/extra/schemas/system-icons/symbol-db.png" alt="Greenhouse icon" height="150" width="auto">
+        <br>
+        In-Hosuse Greenhouse Database
+      </p>
+    </td>
     <td>
       <ul>
         <li>PostgreSQL Databse</li>
