@@ -14,7 +14,7 @@ export const Greenhouse = objectType({
       description: 'List of plants that are planted in this greenhouse',
       resolve(_, args, context) {
         return context.prisma.plant.findMany({
-          where: {greenhouseId: _.id}
+          where: {greenhouseId: _.id, isDeleted: false}
         })
       },
     })

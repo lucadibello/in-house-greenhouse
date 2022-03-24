@@ -61,6 +61,7 @@ export interface NexusGenObjects {
     description?: string | null; // String
     greenhouseId?: string | null; // String
     id: number; // Int!
+    isDeleted: boolean; // Boolean!
     name: string; // String!
     updated_at: NexusGenScalars['dateTime']; // dateTime!
   }
@@ -99,6 +100,7 @@ export interface NexusGenFieldTypes {
     description: string | null; // String
     greenhouseId: string | null; // String
     id: number; // Int!
+    isDeleted: boolean; // Boolean!
     name: string; // String!
     updated_at: NexusGenScalars['dateTime']; // dateTime!
   }
@@ -136,6 +138,7 @@ export interface NexusGenFieldTypeNames {
     description: 'String'
     greenhouseId: 'String'
     id: 'Int'
+    isDeleted: 'Boolean'
     name: 'String'
     updated_at: 'dateTime'
   }
