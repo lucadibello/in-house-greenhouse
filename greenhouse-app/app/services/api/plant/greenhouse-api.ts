@@ -86,4 +86,40 @@ export class PlantApi {
       return { kind: "bad-data" }
     }
   }
+
+  async removePlant(plantId: number) {
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.post(`/removePlant`, {
+        query: `query Query($removePlantId: Int!) {
+          removePlant(id: $removePlantId) {
+            id
+            name
+            description
+            created_at
+            updated_at
+            greenhouseId
+          }
+        }`, 
+        variables: {
+          removePlantId: plantId
+        }
+      })
+      
+      // the typical ways to die when calling an api
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) {
+          return problem
+        }
+      }
+      
+      // send back data 
+      const graphQLResponse = response.data
+      return {kind: 'ok', plant: graphQLResponse.data.removePlant}
+    } catch (e) {
+      __DEV__ && console.tron.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
 }

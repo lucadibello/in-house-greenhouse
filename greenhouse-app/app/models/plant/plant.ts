@@ -1,4 +1,5 @@
-import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { remove } from "mobx"
+import { destroy, flow, getParent, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { PlantApi } from "../../services/api/plant/greenhouse-api"
 import { withEnvironment } from "../extensions/with-environment"
 
@@ -29,6 +30,17 @@ export const PlantModel = types
         self.created_at = result.plant.created_at
         self.updated_at = result.plant.updated_at
       } else {
+        __DEV__ && console.tron.log(result.kind)
+      }
+    })
+  }))
+  .actions(self => ({
+    removePlant: flow(function* removePlant () {
+      const plantApi = new PlantApi(self.environment.api)
+      const result = yield plantApi.removePlant(self.id);
+
+      // notify in case of error
+      if (result.kind !== "ok") {
         __DEV__ && console.tron.log(result.kind)
       }
     })

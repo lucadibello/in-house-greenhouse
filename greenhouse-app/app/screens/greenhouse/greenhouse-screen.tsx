@@ -65,7 +65,7 @@ const PlantForm = observer(
 export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhouse">> = observer(
   ({navigation}) => {
     // Read params through navigation store
-    const { navigationStore } = useStores()
+    const { navigationStore, greenhouseStore } = useStores()
     
     console.tron.warn(navigationStore.greenhouseScreenParams)
     // Show greenhouse inforamtion
@@ -91,7 +91,30 @@ export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhou
             }}
 
             onDeletePress={(event, source) => {
-              Alert.alert("WORK IN PROGRESS")
+              // show confirm modal
+              Alert.alert(
+                "Alert Title",
+                "My Alert Msg",
+                [
+                  {
+                    text: "Confirm",
+                    onPress: () => {
+                      // Delete plant
+                      greenhouseStore.removePlant(source);
+                    },
+                    style: "default",
+                  },
+                {
+                    text: "Cancel",
+                    style: "cancel",
+                  },
+                ],
+                {
+                  cancelable: true,
+                }
+              );
+
+              return false;
             }}
             greenhouse={navigationStore.greenhouseScreenParams.greenhouse}
           />
