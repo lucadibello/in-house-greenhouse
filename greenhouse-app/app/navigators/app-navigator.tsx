@@ -12,19 +12,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomepageScreen, ScanScreen, GreenhouseScreen, SettingsScreen, EditPlantScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { BottomNavigation, BottomNavigationTab, Icon } from "@ui-kitten/components";
-import { Greenhouse } from "../models/greenhouse/greenhouse";
-import { Plant } from "../models/plant/plant";
+import { AddPlantScreen } from "../screens/add-plant/add-plant-screen";
 
 export type NavigatorParamList = {
   bottomnav: undefined
   // 🔥 Your screens go here
   scan: undefined
-  greenhouse: {
-    details: Greenhouse
-  },
-  editPlant: {
-    plant: Plant
-  }
+  greenhouse: undefined,
+  editPlant: undefined,
+  addPlant: undefined
 }
 
 export type TabParamList = {
@@ -97,6 +93,7 @@ const AppStack = () => {
       <Stack.Screen name="scan" component={ScanScreen} />
       <Stack.Screen name="greenhouse" component={GreenhouseScreen} />
       <Stack.Screen name="editPlant" component={EditPlantScreen} />
+      <Stack.Screen name="addPlant" component={AddPlantScreen} />
     </Stack.Navigator>
   )
 }
