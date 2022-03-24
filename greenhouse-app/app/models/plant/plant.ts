@@ -1,5 +1,4 @@
-import { remove } from "mobx"
-import { destroy, flow, getParent, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { PlantApi } from "../../services/api/plant/greenhouse-api"
 import { withEnvironment } from "../extensions/with-environment"
 
