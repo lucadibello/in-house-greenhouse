@@ -13,7 +13,7 @@ export const NavigationStoreModel = types
     }),
     editPlantScreenParams: types.model('EditPlantScreenParams', {
       plant: types.maybe(types.safeReference(PlantModel)),
-    }),
+    })
   })
   .actions((self) => ({
     setGreenhouseScreenParams (greenhouse: Greenhouse) {
