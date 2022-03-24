@@ -20,13 +20,14 @@ export const PlantModel = types
     updatePlant: flow(function* updatePlant (update: {name: string, description?: string}) {
       const plantApi = new PlantApi(self.environment.api)
       const result = yield plantApi.updatePlant(self.id ,update);
+
       // Update model data
       if (result.kind === "ok") {
-        self.id = result.id
-        self.name = result.name
-        self.description = result.description
-        self.created_at = result.created_at
-        self.updated_at = result.updated_at
+        self.id = result.plant.id
+        self.name = result.plant.name
+        self.description = result.plant.description
+        self.created_at = result.plant.created_at
+        self.updated_at = result.plant.updated_at
       } else {
         __DEV__ && console.tron.log(result.kind)
       }
