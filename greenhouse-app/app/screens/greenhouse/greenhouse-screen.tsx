@@ -5,7 +5,6 @@ import { Alert, GestureResponderEvent, StyleSheet, TouchableOpacity, View } from
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
 import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
-import { RouteProp, useRoute } from "@react-navigation/native"
 import { PlantCard } from "../../components"
 import { Greenhouse } from "../../models/greenhouse/greenhouse"
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -39,7 +38,7 @@ const PlantForm = observer(
           
           data={props.greenhouse.plants}
           renderItem={({item}) => <PlantCard plant={cast(item)} />}
-          renderHiddenItem={ (data, rowMap) => (
+          renderHiddenItem={ (data) => (
             <View style={styles.rowBack}>
               {/* EDIT PLANT INFORMATION */}
               <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]} onPress={(event) => props.onEditPress(event, cast(data.item))}>
