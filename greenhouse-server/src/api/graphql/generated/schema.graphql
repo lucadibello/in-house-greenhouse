@@ -38,6 +38,9 @@ type Plant {
   """Plant identification number"""
   id: Int!
 
+  """Flag that shows if the plant has been deleted or not"""
+  isDeleted: Boolean!
+
   """Plant name"""
   name: String!
 
