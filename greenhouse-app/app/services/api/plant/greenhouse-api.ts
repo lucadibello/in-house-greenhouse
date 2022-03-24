@@ -80,7 +80,7 @@ export class PlantApi {
       }
       
       const graphQLResponse = response.data
-      return {key: 'ok', plant: graphQLResponse.data.updatePlant}
+      return {kind: 'ok', plant: graphQLResponse.data.updatePlant}
     } catch (e) {
       __DEV__ && console.tron.log(e.message)
       return { kind: "bad-data" }
