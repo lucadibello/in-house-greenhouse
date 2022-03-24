@@ -9,6 +9,7 @@ export const Plant = objectType({
     t.nonNull.field('created_at', { type: "dateTime", description: 'Last update timestamp' })
     t.nonNull.field('updated_at', { type: "dateTime", description: 'Last update timestamp' })
     t.nullable.string('greenhouseId', {description: 'Greenhouse ID'})
+    t.nonNull.boolean('isDeleted', { description: 'Flag that shows if the plant has been deleted or not'})
   },
 })
 
@@ -99,11 +100,11 @@ export const PlantQuery = extendType({
         return context.prisma.plant.update({
           where: {
             id: args.id
-        },
-        data: {
-          greenhouseId: null
-        }
-      })
+          },
+          data: {
+            isDeleted: true
+          }
+        })
       } 
     });
   }
