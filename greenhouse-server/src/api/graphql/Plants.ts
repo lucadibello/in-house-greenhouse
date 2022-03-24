@@ -85,5 +85,26 @@ export const PlantQuery = extendType({
         })
       }
     });
+
+    // Update plant
+    t.field('removePlant', {
+      type: 'Plant',
+      description: 'Remove a Plant from its greenhouse',
+      args: {
+        id: nonNull(intArg({
+          description: 'Plant ID'
+        }))
+      },
+      resolve(_, args, context) {
+        return context.prisma.plant.update({
+          where: {
+            id: args.id
+        },
+        data: {
+          greenhouseId: null
+        }
+      })
+      } 
+    });
   }
 })

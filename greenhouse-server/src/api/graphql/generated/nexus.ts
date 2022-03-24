@@ -108,6 +108,7 @@ export interface NexusGenFieldTypes {
     addUser: NexusGenRootTypes['User']; // User!
     greenhouses: NexusGenRootTypes['Greenhouse'][] | null; // [Greenhouse!]
     plants: NexusGenRootTypes['Plant'][] | null; // [Plant!]
+    removePlant: NexusGenRootTypes['Plant'] | null; // Plant
     updatePlant: NexusGenRootTypes['Plant'] | null; // Plant
     users: NexusGenRootTypes['User'][] | null; // [User!]
   }
@@ -144,6 +145,7 @@ export interface NexusGenFieldTypeNames {
     addUser: 'User'
     greenhouses: 'Greenhouse'
     plants: 'Plant'
+    removePlant: 'Plant'
     updatePlant: 'Plant'
     users: 'User'
   }
@@ -173,6 +175,9 @@ export interface NexusGenArgTypes {
       name: string; // String!
       password: string; // String!
       surname: string; // String!
+    }
+    removePlant: { // args
+      id: number; // Int!
     }
     updatePlant: { // args
       description?: string | null; // String

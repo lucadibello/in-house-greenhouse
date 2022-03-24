@@ -82,6 +82,12 @@ type Query {
   """List of all plants contained in one greenhouse"""
   plants: [Plant!]
 
+  """Remove a Plant from its greenhouse"""
+  removePlant(
+    """Plant ID"""
+    id: Int!
+  ): Plant
+
   """Update a plant information"""
   updatePlant(
     """Plant's description"""
