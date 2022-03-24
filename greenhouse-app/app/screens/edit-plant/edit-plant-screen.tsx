@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import { useStores } from "../../models"
 import { observer } from "mobx-react-lite"
 
-export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "greenhouse">> = observer(
+export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant">> = observer(
   ({navigation}) => {
     // Load greenhouses from store
     const { navigationStore } = useStores()
