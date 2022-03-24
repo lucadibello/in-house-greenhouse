@@ -1,6 +1,5 @@
 import { ApiResponse } from "apisauce";
 import { AddPlantResult, Api, getGeneralApiProblem } from "../"
-import { Plant } from "../../../models/plant/plant";
 
 export class PlantApi {
   private api: Api
@@ -9,13 +8,10 @@ export class PlantApi {
     this.api = api
   }
 
-  async addPlant(greenhouseId: string, name: string, description?: string): Promise<AddPlantResult> {
+  async addPlant(greenhouseId: string, update: {name: string, description?: string}): Promise<AddPlantResult> {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/addPlant`, {
-        "greenhouseId": greenhouseId,
-        "name": name,
-        "description": description,
         query: `query AddPlant($greenhouseId: String!, $name: String!, $description: String) {
           addPlant(greenhouseId: $greenhouseId, name: $name, description: $description) {
             id
@@ -25,7 +21,12 @@ export class PlantApi {
             updated_at
             greenhouseId
           }
-        }`
+        }`,
+        variables: {
+          greenhouseId: greenhouseId,
+          name: update.name,
+          description: update.description
+        }
       })
       
       // the typical ways to die when calling an api
@@ -35,15 +36,11 @@ export class PlantApi {
           return problem
         }
       }
-      
+      // Read response data
       const graphQLResponse = response.data
-
+      
       // List greenhouses
-      const plants: Plant[] = graphQLResponse.data
-      const outputData = {kind: "ok", plant: plants};
-      // Return data
-      // FIXME: HANDLE THIS PROBLEM IN FUTURE
-      return outputData;
+      return {kind: "ok", plant: graphQLResponse.data.addPlant};
     } catch (e) {
       __DEV__ && console.tron.log(e.message)
       return { kind: "bad-data" }
