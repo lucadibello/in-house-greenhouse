@@ -1,6 +1,11 @@
-from modules import GreenhouseDiscovery
+from modules import GreenhouseDiscovery, ServeUPnPXML
 
 def __start_upnp_discovery():
+  # Serve XML UPnP 
+  xmlServer = ServeUPnPXML()
+  xmlServer.run()
+
+  # Start UPnP discovery service 
   upnpDiscovery = GreenhouseDiscovery()
   upnpDiscovery.run()
 
