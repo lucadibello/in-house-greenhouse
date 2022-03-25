@@ -1,7 +1,6 @@
 import socket
 import threading
 from ..config import Config
-from .upnp_webserver import ServeUPnPXML 
 
 class GreenhouseDiscovery(threading.Thread):
   BCAST_IP = '239.255.255.250'
@@ -55,7 +54,7 @@ class GreenhouseDiscovery(threading.Thread):
         "HOST: 239.255.255.250:1900",
         "NTS: ssdp:alive",
         "ST: urn:in-house-greenhouse:service:GreenhouseNetworkScanner:1",
-        "Location: " + socket.AF_INET + ":12323"
+        "Location: " + ":12323"
         "Server: in-house-greenhouse/1.0.0",
         "Cache-Control: max-age=1800"
       ]
@@ -68,14 +67,12 @@ class GreenhouseDiscovery(threading.Thread):
       outSock.sendto(responseData.encode('ASCII'), addr)
       
       # Debug
-      print('response data: %s', responseData)
+      print('[INFO] Sent UPnP packet')
       
       # Close socket
       outSock.close()
     except Exception as e:
       print('Error in upnp response message to client %s', e)
-
-   
 
 if __name__ == '__main__':
   # Create GreenhouseDiscovery object
