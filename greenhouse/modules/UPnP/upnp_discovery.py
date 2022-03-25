@@ -1,5 +1,6 @@
 import socket
 import threading
+from ..config import Config
 
 class GreenhouseDiscovery(threading.Thread):
   BCAST_IP = '239.255.255.250'
@@ -29,6 +30,7 @@ class GreenhouseDiscovery(threading.Thread):
       sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, socket.inet_aton(self.BCAST_IP) + socket.inet_aton(self.IP))
       sock.bind((self.IP, self.UPNP_PORT))
       sock.settimeout(1)
+
       print("upnp server is listening...")
       while True:
         try:
@@ -41,19 +43,24 @@ class GreenhouseDiscovery(threading.Thread):
           # DO SOMETHING HERE
           self.respond(addr)
     except Exception as e:
-        print('Error in npnp server listening: %s', e)
+      print('Error in npnp server listening: %s', e)
 
   def respond(self, addr):
     try:
       # local_ip = # FIND THE IP
-      UPNP_RESPOND = """HTTP/1.1 200 OK
-      CACHE-CONTROL: max-age=1800
+      UPNP_RESPOND = """
+      HTTP/1.1 200 OK
+      Cache-Control: max-age=1800
       ST: urn:{}
-      EXT:
-      LOCATION: {}
+      Ext:
+      Location: {}
+      Server: "in-house-greenhouse/1.0.0"
       """.format(
         # ADD YOUR DATA TO BE SHARED
+        "in-house-greenhouse:service:GreenhouseScanner:1",
+        self.IP
       ).replace("\n", "\r\n")
+
       outSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
       outSock.sendto(UPNP_RESPOND.encode('ASCII'), addr)
       print('response data: %s', UPNP_RESPOND)
