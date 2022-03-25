@@ -1,13 +1,16 @@
 from modules import GreenhouseDiscovery, ServeUPnPXML
+from modules import LocalIp
 
 def __start_upnp_discovery():
+  # Get LAN address
+  IP = LocalIp.get_local_ip()
+
   # Serve XML UPnP 
-  xmlServer = ServeUPnPXML()
-  address = xmlServer.run()
-  print("XML Server address:", address)
+  xmlServer = ServeUPnPXML(IP, 12323)
+  xmlServer.run()
 
   # Start UPnP discovery service 
-  upnpDiscovery = GreenhouseDiscovery()
+  upnpDiscovery = GreenhouseDiscovery(IP)
   upnpDiscovery.run()
 
 def main ():

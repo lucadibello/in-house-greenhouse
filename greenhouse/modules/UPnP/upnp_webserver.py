@@ -13,18 +13,19 @@ class GreenhouseDiscoveryWebServer (http.server.BaseHTTPRequestHandler):
       # Send XML file back
       self.wfile.write(file.read())
 
-class ServeUPnPXML ():
+class ServeUPnPXML: 
 
   def __init__ (self, host: str = "localhost", port: int = 80):
     # Create HTTP server
-    self.httpd = http.server.HTTPServer(('localhost', 12323), GreenhouseDiscoveryWebServer, False)
+    self.httpd = http.server.HTTPServer((host, port), GreenhouseDiscoveryWebServer, False)
     self.httpd.timeout = 0.5
 
   def run (self) -> str: 
     # Bind server to port
     self.httpd.server_bind()
+    # Save address
     address = "http://%s:%d" % (self.httpd.server_name, self.httpd.server_port)
-    # print(address)
+    # Activate web server
     self.httpd.server_activate()
 
     # Server serve infinite HTTP requests
