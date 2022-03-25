@@ -1,78 +1,21 @@
 <?xml version="1.0"?>
-<root xmlns="urn:schemas-upnp-org:device-1-0"
-  xmlns:df="http://schemas.microsoft.com/windows/2008/09/devicefoundation"
-  xmlns:microsoft="urn:schemas-microsoft-com:WMPDMR-1-0"
-  xmlns:pnpx="http://schemas.microsoft.com/windows/pnpx/2005/11">
+<root xmlns="urn:schemas-upnp-org:device-1-0">
     <specVersion>
         <major>1</major>
         <minor>0</minor>
     </specVersion>
     <device>
-        <deviceType>urn:schemas-upnp-org:device:MediaRenderer:1</deviceType>
-        <friendlyName>DESKTOP-CQ0TA1H</friendlyName>
-        <modelName>Windows Digital Media Renderer</modelName>
-        <modelDescription>Digital Media Renderer</modelDescription>
-        <manufacturer>Microsoft Corporation</manufacturer>
-        <manufacturerURL>https://www.microsoft.com</manufacturerURL>
-        <modelURL>https://windows.microsoft.com</modelURL>
-        <UDN>uuid:beb07a17-14cc-4531-9087-0489f37c81c4</UDN>
-        <df:X_containerId>{E62CA678-2618-4F1C-97D0-F539397EFCA7}</df:X_containerId>
+        <deviceType>urn:schemas-upnp-org:device:InHouseGreenhouse:1</deviceType>
+        <friendlyName>In-House Greenhouse</friendlyName>
+        <modelName>In-House Greenhouse</modelName>
+        <modelDescription>In-House Greenhouse</modelDescription>
+        <manufacturer>Luca Di Bello</manufacturer>
+        <manufacturerURL>https://github.com/lucadibello/in-house-greenhouse</manufacturerURL>
         <dlna:X_DLNACAP xmlns:dlna="urn:schemas-dlna-org:device-1-0"></dlna:X_DLNACAP>
-        <dlna:X_DLNADOC xmlns:dlna="urn:schemas-dlna-org:device-1-0">DMR-1.50</dlna:X_DLNADOC>
-        <microsoft:magicPacketWakeSupported>1</microsoft:magicPacketWakeSupported>
-        <pnpx:X_deviceCategory>MediaDevices</pnpx:X_deviceCategory>
-        <pnpx:X_hardwareId>VEN_0125&amp;DEV_0010&amp;REV_0001 VEN_0125&amp;DEV_0010</pnpx:X_hardwareId>
-        <iconList>
-            <icon>
-                <mimetype>image/jpeg</mimetype>
-                <width>120</width>
-                <height>120</height>
-                <depth>24</depth>
-                <url>/upnphost/udhisapi.dll?content=uuid:d952450f-baed-49a9-8f10-1058752ef236</url>
-            </icon>
-            <icon>
-                <mimetype>image/jpeg</mimetype>
-                <width>48</width>
-                <height>48</height>
-                <depth>24</depth>
-                <url>/upnphost/udhisapi.dll?content=uuid:758d49c4-b64b-4086-8f5e-708ec1e3061b</url>
-            </icon>
-            <icon>
-                <mimetype>image/png</mimetype>
-                <width>120</width>
-                <height>120</height>
-                <depth>24</depth>
-                <url>/upnphost/udhisapi.dll?content=uuid:80591acb-e814-485b-a4b3-4f47c7a53848</url>
-            </icon>
-            <icon>
-                <mimetype>image/png</mimetype>
-                <width>48</width>
-                <height>48</height>
-                <depth>24</depth>
-                <url>/upnphost/udhisapi.dll?content=uuid:47206b67-7e24-4526-9aae-5226ec7c2d91</url>
-            </icon>
-        </iconList>
         <serviceList>
             <service>
-                <serviceType>urn:schemas-upnp-org:service:RenderingControl:1</serviceType>
-                <serviceId>urn:upnp-org:serviceId:RenderingControl</serviceId>
-                <controlURL>/upnphost/udhisapi.dll?control=uuid:beb07a17-14cc-4531-9087-0489f37c81c4+urn:upnp-org:serviceId:RenderingControl</controlURL>
-                <eventSubURL>/upnphost/udhisapi.dll?event=uuid:beb07a17-14cc-4531-9087-0489f37c81c4+urn:upnp-org:serviceId:RenderingControl</eventSubURL>
-                <SCPDURL>/upnphost/udhisapi.dll?content=uuid:7fac2e78-7327-45d0-831e-a8371aa17c9b</SCPDURL>
-            </service>
-            <service>
-                <serviceType>urn:schemas-upnp-org:service:AVTransport:1</serviceType>
-                <serviceId>urn:upnp-org:serviceId:AVTransport</serviceId>
-                <controlURL>/upnphost/udhisapi.dll?control=uuid:beb07a17-14cc-4531-9087-0489f37c81c4+urn:upnp-org:serviceId:AVTransport</controlURL>
-                <eventSubURL>/upnphost/udhisapi.dll?event=uuid:beb07a17-14cc-4531-9087-0489f37c81c4+urn:upnp-org:serviceId:AVTransport</eventSubURL>
-                <SCPDURL>/upnphost/udhisapi.dll?content=uuid:eece8c2b-1f3d-4cfd-8ca0-a19e95fd4357</SCPDURL>
-            </service>
-            <service>
-                <serviceType>urn:schemas-upnp-org:service:ConnectionManager:1</serviceType>
-                <serviceId>urn:upnp-org:serviceId:ConnectionManager</serviceId>
-                <controlURL>/upnphost/udhisapi.dll?control=uuid:beb07a17-14cc-4531-9087-0489f37c81c4+urn:upnp-org:serviceId:ConnectionManager</controlURL>
-                <eventSubURL>/upnphost/udhisapi.dll?event=uuid:beb07a17-14cc-4531-9087-0489f37c81c4+urn:upnp-org:serviceId:ConnectionManager</eventSubURL>
-                <SCPDURL>/upnphost/udhisapi.dll?content=uuid:d72cc689-4518-4548-9c7a-eec7faea0bb2</SCPDURL>
+                <serviceType>urn:schemas-upnp-org:service:GreenhouseNetworkScanner:1</serviceType>
+                <serviceId>urn:upnp-org:serviceId:GreenhouseNetworkScanner</serviceId>
             </service>
         </serviceList>
     </device>
