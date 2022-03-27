@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react"
-import { Alert, SafeAreaView, StyleSheet } from "react-native"
+import { SafeAreaView, StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import { StackScreenProps } from "@react-navigation/stack"
 import { TabParamList, NavigatorParamList, DrawerParamList } from "../../navigators"
