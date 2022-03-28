@@ -16,5 +16,8 @@ export type TabParamList = {
 export type DrawerParamList = {
   homepage: undefined,
   profile: undefined,
+}
+
+export type AuthStackParamList = {
   login: undefined
 }
