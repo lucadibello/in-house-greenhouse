@@ -12,7 +12,8 @@ export const AppStackNavigation = () => {
     <Stack.Navigator
       initialRouteName="bottomnav"
       screenOptions={{
-        headerShown: false
+        headerShown: false,
+        animationTypeForReplace: 'push',
       }}
     >
       <Stack.Screen name="bottomnav" component={AppTabNavigator} />
