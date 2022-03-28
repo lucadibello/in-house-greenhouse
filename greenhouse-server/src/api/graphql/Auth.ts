@@ -60,7 +60,6 @@ export const AuthQuery = objectType({
         if (isPasswordCorrect) {
           // Encode session with 30 minutes expiration
           const session = jwtService.encodeSession(user)
-          console.log(session)
 
           // Password is correct, return Auth object with signed token
           return {
