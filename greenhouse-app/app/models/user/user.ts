@@ -1,13 +1,28 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { withEnvironment } from "../extensions/with-environment"
 
 /**
- * Model description here for TypeScript hints.
+ * User model. This model is used to store the user state 
  */
 export const UserModel = types
   .model("User")
-  .props({})
-  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
-  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .extend(withEnvironment)
+  .props({
+    id: types.identifier,
+    name: types.string,
+    email: types.string,
+    password: types.string,
+    surname: types.string
+  })
+  .actions((self) => ({
+    // Set swap object
+    setUser: (user: User) => {
+      self.name = user.name
+      self.email = user.email
+      self.password = user.password
+      self.surname = user.surname
+    }
+  })) 
 
 type UserType = Instance<typeof UserModel>
 export interface User extends UserType {}
