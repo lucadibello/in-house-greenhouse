@@ -1,9 +1,9 @@
+// Configure dotenv before any other imports
+require('dotenv').config()
+
 import { ApolloServer } from 'apollo-server'
 import { schema } from './api/schema'
 import { context } from './api/context'
-
-// Configure dotenv
-require('dotenv').config()
 
 // Create Apollo Server
 const server = new ApolloServer({
