@@ -6,15 +6,10 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 export const AuthenticationStoreModel = types
   .model("AuthenticationStore")
   .props({
-    token: types.string,
+    token: types.optional(types.string, ""),
     user: types.frozen(),
-    isAuthenticated: types.boolean,
+    isAuthenticated: types.optional(types.boolean, false),
   })
-  .views((self) => ({
-    get isAuthenticated() {
-      return self.isAuthenticated
-    }
-  })) 
   .actions((self) => ({
     // Update the JWT token
     updateToken(token: string) {
