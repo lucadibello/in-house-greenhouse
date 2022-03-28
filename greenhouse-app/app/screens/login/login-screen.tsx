@@ -6,12 +6,19 @@ import { Input, Layout, Text, Button, Icon } from "@ui-kitten/components"
 import { AuthStackParamList } from "../../navigators/components/navigators"
 import { palette } from "../../theme/palette"
 import { TouchableOpacity } from "react-native-gesture-handler"
+import { useStores } from "../../models"
 
 export const LoginScreen: FC<StackScreenProps<AuthStackParamList , "login">> = observer(
   ({navigation}) => {
+    // use authenticationStore
+    const { authenticationStore } = useStores()
 
     // show password state
     const [showPassword, setShowPassword] = React.useState(false)
+
+    // email and password input state value
+    const [email, setEmail] = React.useState("")
+    const [password, setPassword] = React.useState("")
 
     return (
       <KeyboardAvoidingView style={styles.container}>
@@ -37,7 +44,8 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList , "login">> = o
           <Input 
             placeholder='E-Mail'
             accessoryRight={<Icon name='cube' fill='#8F9BB3'/>}
-
+            value={email}
+            onChangeText={setEmail}
             style={styles.input}
           />
 
@@ -45,13 +53,15 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList , "login">> = o
           <Input
             placeholder='Password'
             passwordRules="required: upper; required: lower; required: digit; max-consecutive: 2; minlength: 8; maxlength: 16"
+            value={password}
+            onChangeText={setPassword}
             secureTextEntry={!showPassword}
             accessoryRight={
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
                 <Icon name={showPassword ? 'eye-outline' : 'eye-off-outline'} fill='#8F9BB3' />
               </TouchableOpacity>
             }
-            style={styles.input}
+            style={[styles.input, styles.passwordInput]}
           />
 
           {/* Forgot password button */}
@@ -62,7 +72,15 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList , "login">> = o
           {/* Footer */}
           <Layout style={styles.footerContainer}>
             {/* Login button */}
-            <Button style={styles.input} appearance='filled' status='primary' >
+            <Button style={styles.input} appearance='filled' status='primary' onPress={() => {
+              // check if user has defined email and password otherwise show error
+              if (email.length > 0 && password.length > 0) {
+                // Send login request to server (screen will be changed automatically)
+                authenticationStore.login()
+              } else {
+                alert("Please, enter your email and password!")
+              }
+            }}>
               Login
             </Button>
 
@@ -113,5 +131,8 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     padding: 10
+  },
+  passwordInput: {
+    fontFamily: "opensans-regular",
   }
 })

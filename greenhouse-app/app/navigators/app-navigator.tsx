@@ -9,8 +9,6 @@ import { useColorScheme } from "react-native"
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { AppDrawerNavigator } from "./components/drawer-navigation"
-import { useStores } from "../models/root-store/root-store-context"
-import { LoginAppStackNavigation } from "./components/auth-stack-navigation"
 
 interface NavigationProps extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
 
@@ -18,16 +16,13 @@ export const AppNavigator = (props: NavigationProps) => {
   const colorScheme = useColorScheme()
   useBackButtonHandler(canExit)
 
-  // load authentication store
-  const { authenticationStore } = useStores()
-  
   return (
     <NavigationContainer
       ref={navigationRef}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
       {...props}
     >
-      { authenticationStore.isAuthenticated ? <AppDrawerNavigator /> : <LoginAppStackNavigation /> }
+      <AppDrawerNavigator />
     </NavigationContainer>
   )
 }

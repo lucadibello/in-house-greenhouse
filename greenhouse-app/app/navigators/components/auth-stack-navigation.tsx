@@ -12,6 +12,7 @@ export const LoginAppStackNavigation = () => {
       initialRouteName="login"
       screenOptions={{  
         headerShown: false,
+        animationTypeForReplace: 'push',
       }}
     >
       <Stack.Screen name="login" component={LoginScreen}/>

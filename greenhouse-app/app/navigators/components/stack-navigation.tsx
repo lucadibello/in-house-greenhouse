@@ -12,7 +12,7 @@ export const AppStackNavigation = () => {
     <Stack.Navigator
       initialRouteName="bottomnav"
       screenOptions={{
-        headerShown: false,
+        headerShown: false
       }}
     >
       <Stack.Screen name="bottomnav" component={AppTabNavigator} />

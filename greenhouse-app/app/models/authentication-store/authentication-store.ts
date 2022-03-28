@@ -28,7 +28,7 @@ export const AuthenticationStoreModel = types
     // Logout user
     logout() {
       self.user = null
-      self.token = null
+      self.token = ""
       self.isAuthenticated = false
     },
   }))
