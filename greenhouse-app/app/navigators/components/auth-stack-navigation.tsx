@@ -11,10 +11,10 @@ export const LoginAppStackNavigation = () => {
     <Stack.Navigator
       initialRouteName="login"
       screenOptions={{  
-        headerShown: true,
+        headerShown: false,
       }}
-      >
-      <Stack.Screen name="login" component={LoginScreen} />
+    >
+      <Stack.Screen name="login" component={LoginScreen}/>
     </Stack.Navigator>
   )
 }

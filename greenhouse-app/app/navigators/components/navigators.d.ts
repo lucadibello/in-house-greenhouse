@@ -19,5 +19,6 @@ export type DrawerParamList = {
 }
 
 export type AuthStackParamList = {
-  login: undefined
+  login: undefined,
+  signup: undefined
 }
