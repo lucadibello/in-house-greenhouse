@@ -85,6 +85,7 @@ export const AuthQuery = objectType({
         }
       }
     });
+    
     // Field for token refresh
     t.nonNull.field('refreshToken', {
       type: 'Auth',

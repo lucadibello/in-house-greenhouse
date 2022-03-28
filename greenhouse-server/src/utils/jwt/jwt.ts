@@ -68,13 +68,13 @@ export class JWT {
   }
 
   /**
-   * verifyToken - Verify JWT access token
-   * @param token - JWT access token
+   * verifyToken - Verify JWT refresh token
+   * @param refreshToken - JWT refresh token
    * @returns Return user data if access token is valid, null otherwise
    */
-  public verifyToken (token: string): User | null {
+  public verifyToken (refreshToken: string): User | null {
     try {
-      return verify(token, this.accessSecret) as User
+      return verify(refreshToken, this.refreshSecret) as User
     } catch (err) {
       return null
     }
