@@ -14,7 +14,6 @@ const server = new ApolloServer({
 // Start listening
 server.listen().then(async ({ url }) => {
   console.log(`\
-    🚀 Server ready at: ${url}
-    ⭐️ See sample queries: http://pris.ly/e/ts/graphql#using-the-graphql-api
+    🌳 Greenhouse Server ready at: ${url}
   `)
 })
