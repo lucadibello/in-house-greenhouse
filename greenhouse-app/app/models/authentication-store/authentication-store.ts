@@ -3,8 +3,8 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 /**
  * Authentication model. This model is used to store the authentication state
  */
-export const AuthenticationModel = types
-  .model("Authentication")
+export const AuthenticationStoreModel = types
+  .model("AuthenticationStore")
   .props({
     token: types.string,
     user: types.frozen(),
@@ -39,8 +39,8 @@ export const AuthenticationModel = types
   }))
        
 
-type AuthenticationType = Instance<typeof AuthenticationModel>
+type AuthenticationType = Instance<typeof AuthenticationStoreModel>
 export interface Authentication extends AuthenticationType {}
-type AuthenticationSnapshotType = SnapshotOut<typeof AuthenticationModel>
+type AuthenticationSnapshotType = SnapshotOut<typeof AuthenticationStoreModel>
 export interface AuthenticationSnapshot extends AuthenticationSnapshotType {}
-export const createAuthenticationDefaultModel = () => types.optional(AuthenticationModel, {})
+export const createAuthenticationDefaultModel = () => types.optional(AuthenticationStoreModel, {})

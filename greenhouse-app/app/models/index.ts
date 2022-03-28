@@ -8,4 +8,5 @@ export * from "./greenhouse/greenhouse"
 export * from "./greenhouse-store/greenhouse-store"
 export * from "./navigation-store/navigation-store"
 export * from "./user/user"
-export * from "./authentication/authentication"
+export * from "./authentication-store/authentication-store"
+
