@@ -7,7 +7,7 @@ const rootUsers: Prisma.UserCreateInput[] = [
     name: 'Luca',
     surname: 'Di Bello',
     email: 'info@lucadibello.ch',
-    password: 'root'
+    password: '$2a$12$Y5OwOOzbDjwVCcIklFefY.2Iad8F77HEyhg4vC3feqHuMIJrryHe2'
   },
 ]
 
