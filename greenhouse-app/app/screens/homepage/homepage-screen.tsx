@@ -2,12 +2,12 @@ import React, { FC, useEffect } from "react"
 import { SafeAreaView, StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import { StackScreenProps } from "@react-navigation/stack"
-import { TabParamList, NavigatorParamList, DrawerParamList } from "../../navigators"
 import { Divider, Icon, Layout, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
 import { GreenhouseList } from "../../components"
 import { useStores } from "../../models"
 import { Greenhouse } from "../../models/greenhouse/greenhouse"
 import { DrawerScreenProps } from "@react-navigation/drawer"
+import { TabParamList, NavigatorParamList, DrawerParamList } from "../../navigators/components/navigators"
 
 export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamList), "homepage"> & DrawerScreenProps<DrawerParamList>> = observer(
   ({navigation}) => {

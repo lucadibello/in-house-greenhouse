@@ -2,8 +2,8 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { SafeAreaView, StyleSheet } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
 import { TopNavigation, TopNavigationAction, Icon, Divider, Layout, Text } from "@ui-kitten/components"
+import { NavigatorParamList } from "../../navigators/components/navigators"
 
 export const ScanScreen: FC<StackScreenProps<NavigatorParamList, "scan">> = observer(
   ({navigation}) => {
