@@ -12,7 +12,9 @@ export const UserModel = types
     name: types.string,
     email: types.string,
     password: types.string,
-    surname: types.string
+    surname: types.string,
+    createdAt: types.string,
+    updatedAt: types.string
   })
   .actions((self) => ({
     // Set swap object
