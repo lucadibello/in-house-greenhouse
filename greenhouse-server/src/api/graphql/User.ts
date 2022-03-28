@@ -38,6 +38,6 @@ export const UserQuery = extendType({
           }
         })
       }
-    })
+    });
   },
 })
