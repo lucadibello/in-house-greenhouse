@@ -1,38 +1,68 @@
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { Instance, SnapshotOut, types, flow } from "mobx-state-tree"
+import { AuthenticationApi } from "../../services/api/authentication/authentication-api";
+import { IKeyChainData } from "../../services/keychain/keychain";
+import { withEnvironment } from "../extensions/with-environment";
 
 /**
  * Authentication model. This model is used to store the authentication state
  */
 export const AuthenticationStoreModel = types
   .model("AuthenticationStore")
+  .extend(withEnvironment)
   .props({
-    token: types.optional(types.string, ""),
-    user: types.frozen(),
+    accessToken: types.optional(types.string, ""),
+    refreshToken: types.optional(types.string, ""),
+    user: types.optional(types.string, "{IMPLEMENT ME PLEASE}"),
     isAuthenticated: types.optional(types.boolean, false),
   })
   .actions((self) => ({
-    // Update the JWT token
-    updateToken(token: string) {
-      self.token = token
-    }
-  }))
-  .actions((self) => ({
-    // Try to login
-    login() {
-      self.user = {
-        // USER WILL BE HERE
-      }
-      self.isAuthenticated = true
-      self.token = "MY_JWT_TOKEN_WILL_BE_HERE"
-    },
-    // Logout user
     logout() {
-      self.user = null
-      self.token = ""
+      self.accessToken = ""
+      self.refreshToken = ""
       self.isAuthenticated = false
     },
   }))
-       
+  .actions(self => ({
+    login: flow(function* login (email: string, password: string, onErrorCallback: (error: {errorCode: string, errorMessage: string}) => void) {
+      // Send login request using AuthenticationApi
+      const authenticationApi = new AuthenticationApi(self.environment.api)
+      const result = yield authenticationApi.login(email, password)
+      
+      // Check response
+      if (result.kind === "ok") {
+        // Success. Update the token and user
+        // TODO: self.user = null
+        self.accessToken = result.token
+        self.refreshToken = result.refreshToken
+        self.isAuthenticated = true
+
+        // Save data to keychain using KeychainService
+        self.environment.keychain.save(email, password).then((status) => {
+          console.log(status)
+          // check keychain result status and notify via tron
+          if (status.success) {
+            console.tron.debug("Keychain save success")
+          } else {
+            console.tron.error("Cannot credentials via keychain: ", JSON.stringify(status))
+          }
+        })
+      } else {
+        // Log error to tron console if in debug mode
+        __DEV__ && console.tron.log(result.kind)
+
+        // call onErrorCallback function to notify user that the login failed
+        onErrorCallback({errorCode: result.errorCode, errorMessage: result.errorMessage})
+      }
+    }) 
+  }))
+  .actions(self => ({
+    loadCredentials: flow(function* loadCredentials (callback: (response: IKeyChainData) => void) {
+      // Try to load data from keychain
+      const keychainData = yield self.environment.keychain.load()
+      // callback with data
+      callback(keychainData)
+    })
+  }))
 
 type AuthenticationType = Instance<typeof AuthenticationStoreModel>
 export interface Authentication extends AuthenticationType {}
