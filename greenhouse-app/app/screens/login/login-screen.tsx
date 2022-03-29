@@ -1,12 +1,13 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { KeyboardAvoidingView, StyleSheet, View } from "react-native"
+import { Alert, KeyboardAvoidingView, StyleSheet, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { Input, Layout, Text, Button, Icon } from "@ui-kitten/components"
 import { AuthStackParamList } from "../../navigators/components/navigators"
 import { palette } from "../../theme/palette"
 import { TouchableOpacity } from "react-native-gesture-handler"
-import { useStores } from "../../models"
+import { useStores, withEnvironment } from "../../models"
+import { Keychain } from "../../services/keychain/keychain"
 
 export const LoginScreen: FC<StackScreenProps<AuthStackParamList , "login">> = observer(
   ({navigation}) => {
@@ -19,6 +20,26 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList , "login">> = o
     // email and password input state value
     const [email, setEmail] = React.useState("")
     const [password, setPassword] = React.useState("")
+
+    // Load data from keychain and set it inside inputs
+    React.useEffect(() => {
+      // load keychain data from environment
+      console.log("Keychain will be loaded here")
+      authenticationStore.loadCredentials((response) => {
+        // Check if success
+        if (response.success) {
+          // Set data inside react state
+          setEmail(response.email)
+          setPassword(response.password)
+
+          // Log information
+          console.tron.debug("Keychain data loaded successfully")
+        } else {
+          // Log error to tron
+          console.tron.error("Keychain data loading failed", []);
+        }
+      })
+    }, [])
 
     return (
       <KeyboardAvoidingView style={styles.container}>
@@ -76,9 +97,17 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList , "login">> = o
               // check if user has defined email and password otherwise show error
               if (email.length > 0 && password.length > 0) {
                 // Send login request to server (screen will be changed automatically)
-                authenticationStore.login()
+                authenticationStore.login(email, password, (response) => {
+                  // Check response error code for notification
+                  if (response.errorCode === "LOGIN_ERROR") {
+                    Alert.alert("Ooops..", "Wrong email or password", [{ text: "OK" }])
+                  } else {
+                    // Show generic alert that shows GraphQL error message
+                    Alert.alert("Authentication error", response.errorMessage, [{ text: "OK" }])
+                  }
+                })
               } else {
-                alert("Please, enter your email and password!")
+                Alert.alert("Please, enter your email and password!")
               }
             }}>
               Login
@@ -124,7 +153,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: palette.primaryBlue,
     justifyContent: 'center',
-    minHeight: 400,
+    minHeight: 230,
   },
   input: {
     margin: 10
