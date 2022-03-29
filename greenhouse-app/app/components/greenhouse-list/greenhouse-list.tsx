@@ -3,9 +3,8 @@ import { StyleSheet, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
 import { GreenhouseCard } from ".."
 import { FlatList, TouchableWithoutFeedback } from "react-native-gesture-handler"
-import { GreenhouseStore } from "../../models"
+import { GreenhouseStore } from "../../models/greenhouse-store/greenhouse-store"
 import { Greenhouse } from '../../models/greenhouse/greenhouse'
-import { clone, detach } from "mobx-state-tree"
 
 export interface GreenhouseListProps {
   store: GreenhouseStore,
@@ -22,8 +21,8 @@ export const GreenhouseList = observer(function GreenhouseList(props: Greenhouse
     <FlatList
       style={[props.style, styles.container]}
       data={props.store.greenhouses}
-      renderItem={({ item }) => (
-          <TouchableWithoutFeedback onPress={() => props.onGreenhouseClick(detach(clone(item))) }>
+      renderItem={({ item }: {item: Greenhouse}) => (
+          <TouchableWithoutFeedback onPress={() => props.onGreenhouseClick(item) }>
             <GreenhouseCard
               key={item.id}
               greenhouse={item}

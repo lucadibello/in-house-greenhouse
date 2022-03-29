@@ -1,4 +1,4 @@
-import { extendType, inputObjectType, nonNull, nullable, objectType, stringArg } from "nexus";
+import { extendType, inputObjectType, intArg, nonNull, nullable, objectType, stringArg } from "nexus";
 
 export const Plant = objectType({
   name: 'Plant',
@@ -9,6 +9,7 @@ export const Plant = objectType({
     t.nonNull.field('created_at', { type: "dateTime", description: 'Last update timestamp' })
     t.nonNull.field('updated_at', { type: "dateTime", description: 'Last update timestamp' })
     t.nullable.string('greenhouseId', {description: 'Greenhouse ID'})
+    t.nonNull.boolean('isDeleted', { description: 'Flag that shows if the plant has been deleted or not'})
   },
 })
 
@@ -56,6 +57,55 @@ export const PlantQuery = extendType({
           }
         })
       }
+    });
+
+    // Update plant
+    t.field('updatePlant', {
+      type: 'Plant',
+      description: 'Update a plant information',
+      args: {
+        id: nonNull(intArg({
+          description: 'Plant ID'
+        })),
+        name: nonNull(stringArg({
+          description: "Plant's name"
+        })),
+        description: nullable(stringArg({
+          description: "Plant's description"
+        }))
+      },
+      resolve(_, args, context) {
+        return context.prisma.plant.update({
+          where: {
+            id: args.id
+          },
+          data: {
+            name: args.name,
+            description: args.description,
+          }
+        })
+      }
+    });
+
+    // Update plant
+    t.field('removePlant', {
+      type: 'Plant',
+      description: 'Remove a Plant from its greenhouse',
+      args: {
+        id: nonNull(intArg({
+          description: 'Plant ID'
+        }))
+      },
+      resolve(_, args, context) {
+        return context.prisma.plant.update({
+          where: {
+            id: args.id
+          },
+          data: {
+            isDeleted: true
+          }
+        })
+      } 
     });
   }
 })

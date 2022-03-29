@@ -35,4 +35,5 @@ model Plant {
   greenhouseId String? // relation scalar field  (used in the `@relation` attribute above)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt @default(now())
+  isDeleted Boolean @default(false)
 }

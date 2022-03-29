@@ -1,9 +1,9 @@
+// Configure dotenv before any other imports
+require('dotenv').config()
+
 import { ApolloServer } from 'apollo-server'
 import { schema } from './api/schema'
 import { context } from './api/context'
-
-// Configure dotenv
-require('dotenv').config()
 
 // Create Apollo Server
 const server = new ApolloServer({
@@ -14,7 +14,6 @@ const server = new ApolloServer({
 // Start listening
 server.listen().then(async ({ url }) => {
   console.log(`\
-    🚀 Server ready at: ${url}
-    ⭐️ See sample queries: http://pris.ly/e/ts/graphql#using-the-graphql-api
+    🌳 Greenhouse Server ready at: ${url}
   `)
 })

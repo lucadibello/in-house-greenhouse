@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+    <specVersion>
+        <major>1</major>
+        <minor>0</minor>
+    </specVersion>
+    <device>
+        <deviceType>urn:schemas-upnp-org:device:InHouseGreenhouse:1</deviceType>
+        <friendlyName>In-House Greenhouse</friendlyName>
+        <modelName>In-House Greenhouse</modelName>
+        <modelDescription>In-House Greenhouse</modelDescription>
+        <manufacturer>Luca Di Bello</manufacturer>
+        <manufacturerURL>https://github.com/lucadibello/in-house-greenhouse</manufacturerURL>
+        <dlna:X_DLNACAP xmlns:dlna="urn:schemas-dlna-org:device-1-0"></dlna:X_DLNACAP>
+        <serviceList>
+            <service>
+                <serviceType>urn:schemas-upnp-org:service:GreenhouseNetworkScanner:1</serviceType>
+                <serviceId>urn:upnp-org:serviceId:GreenhouseNetworkScanner</serviceId>
+            </service>
+        </serviceList>
+    </device>
+</root>

@@ -1,0 +1,20 @@
+<svg viewBox="0 0 272.1180114746094 269.9289855957031" xmlns="http://www.w3.org/2000/svg">
+  <path fill="none" pointer-events="none" d="M0 0h272.118v269.929H0z"></path>
+  <g transform="translate(-384.881 -62.971)">
+    <linearGradient id="cc2eb5ee-54bb-4d1b-a1bf-f91dd18b1239" gradientUnits="userSpaceOnUse" x1="920.923" y1="325.285" x2="920.923" y2="118.295" gradientTransform="matrix(-1 0 0 1 1373.093 0)">
+      <stop offset="0" stop-color="#024251"></stop>
+      <stop offset="1" stop-color="#00a76f"></stop>
+    </linearGradient>
+    <path class="st45" d="M460.7 118.3s-13.9 13.2 12.3 75.6c30.8 73.2-50.1 97.9-20.9 116.6 21.9 14.1 58.4 8.7 58.4 8.7v5.5s-75 9.2-104.4-47.3c-29.5-56.5-3.7-119.8 54.6-159.1zM432 297.2c-27.3-41.3-19.1-108.7 9.1-150.8-29.2 32.7-48.9 103.7-9.1 150.8z" fill="url(#cc2eb5ee-54bb-4d1b-a1bf-f91dd18b1239)"></path>
+    <linearGradient id="e574e1f7-e75b-4971-962a-6f59d47f77f4" gradientUnits="userSpaceOnUse" x1="856.802" y1="193.713" x2="856.802" y2="66.773" gradientTransform="matrix(-1 0 0 1 1373.093 0)">
+      <stop offset="0" stop-color="#00a76f"></stop>
+      <stop offset="1" stop-color="#024251"></stop>
+    </linearGradient>
+    <path class="st46" d="M618.1 193.7s-4.5-18.6-71.6-27.1c-78.8-9.9-59.7-92.3-90.6-76.4-23.2 12-36.7 46.2-36.7 46.2l-4.8-2.8s29.5-69.5 93.2-66.8c63.7 2.8 105.6 56.8 110.5 126.9zM477.6 79.4c49.4-3 103.7 37.8 126.1 83.3-13.8-41.6-65.5-94.2-126.1-83.3z" fill="url(#e574e1f7-e75b-4971-962a-6f59d47f77f4)"></path>
+    <linearGradient id="7847114d-1b6d-4f85-af11-eaecb893345a" gradientUnits="userSpaceOnUse" x1="810.058" y1="309.876" x2="810.058" y2="145.981" gradientTransform="matrix(-1 0 0 1 1373.093 0)">
+      <stop offset="0" stop-color="#00a76f"></stop>
+      <stop offset="1" stop-color="#00a76f"></stop>
+    </linearGradient>
+    <path class="st47" d="M474.1 292.3s18.4 5.5 59.3-48.5c48-63.3 109.8-5.5 111.4-40.2 1.2-26-21.6-54.9-21.6-54.9l4.8-2.8s45.5 60.3 11.3 114.1c-34.3 53.9-102 63.2-165.2 32.3zm169.3-64.5c-22.1 44.3-84.5 70.9-135.2 67.5 42.9 8.9 114.3-9.5 135.2-67.5z" fill="url(#7847114d-1b6d-4f85-af11-eaecb893345a)"></path>
+  </g>
+</svg>

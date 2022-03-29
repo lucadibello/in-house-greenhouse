@@ -1,8 +1,9 @@
-import { Instance, SnapshotOut, types, flow } from "mobx-state-tree"
+import { Instance, SnapshotOut, types, flow, destroy } from "mobx-state-tree"
 import { Greenhouse } from ".."
 import { GreenhouseApi } from "../../services/api/greenhouse/greenhouse-api"
 import { withEnvironment } from "../extensions/with-environment"
 import { GreenhouseModel } from "../greenhouse/greenhouse"
+import { Plant } from "../plant/plant"
 
 /**
  * Greenhouses store
@@ -35,6 +36,14 @@ export const GreenhouseStoreModel = types
         __DEV__ && console.tron.log(result.kind)
       }
     }) 
+  }))
+  .actions(() => ({
+    removePlant (item: Plant) {
+      // remove plant from DB
+      item.removePlant()
+      // remove plant from state tree
+      destroy(item)
+    }
   }))
 
 type GreenhouseStoreType = Instance<typeof GreenhouseStoreModel>

@@ -1,4 +1,5 @@
 import { Api } from "../services/api"
+import { Keychain } from "../services/keychain/keychain"
 
 let ReactotronDev
 if (__DEV__) {
@@ -17,7 +18,10 @@ export class Environment {
       // dev-only services
       this.reactotron = new ReactotronDev()
     }
+    // Construct the api
     this.api = new Api()
+    // Construct the keychain service
+    this.keychain = new Keychain("in-greenhouse-greenhouse")
   }
 
   async setup() {
@@ -37,4 +41,9 @@ export class Environment {
    * Our api.
    */
   api: Api
+
+  /**
+   * Our keychain.
+   */
+  keychain: Keychain
 }

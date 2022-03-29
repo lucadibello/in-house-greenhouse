@@ -3,14 +3,14 @@ import { observer } from "mobx-react-lite"
 import { cast } from "mobx-state-tree"
 import { Alert, GestureResponderEvent, StyleSheet, TouchableOpacity, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
 import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
-import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native"
 import { PlantCard } from "../../components"
 import { Greenhouse } from "../../models/greenhouse/greenhouse"
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Plant } from "../../models/plant/plant"
+import { useStores } from "../../models"
+import { NavigatorParamList } from "../../navigators/components/navigators"
 
 interface PlantFormProps {
   greenhouse: Greenhouse,
@@ -18,62 +18,71 @@ interface PlantFormProps {
   onDeletePress: (event: GestureResponderEvent, source: Plant) => void
 }
 
-const PlantForm = (props: PlantFormProps) => {
-  // Set flag
-  const isEmpty = props.greenhouse.plants.length !== 0
-
-  // Conditional rendering
-  if (isEmpty) {
-    return (
-      <SwipeListView
-        useFlatList={true}
-        closeOnScroll={true}
-        disableRightSwipe={true}
-
-        leftOpenValue={75}
-        rightOpenValue={-150}
-        previewOpenValue={-40}
-        previewOpenDelay={3000}
-        
-        data={props.greenhouse.plants}
-        renderItem={({item}) => <PlantCard plant={cast(item)} />}
-        renderHiddenItem={ (data, rowMap) => (
-          <View style={styles.rowBack}>
-            {/* EDIT PLANT INFORMATION */}
-            <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]} onPress={(event) => props.onEditPress(event, cast(data.item))}>
-                <Icon style={styles.icon} fill='#000' name="edit-2-outline" />
-                <Text style={styles.textBold}>EDIT</Text>
-            </TouchableOpacity>
-
-            {/* REMOVE PLANT */}
-            <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={(event) => props.onDeletePress(event, cast(data.item))}>
-                <Icon style={styles.icon} fill='#FFF' name="trash-2-outline" />
-                <Text style={[styles.textBold, styles.textWhite]}>REMOVE</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
-    )
-  } else {
-    return (
-      <Text>Yolo</Text>
-    )
-  }
-}
+const PlantForm = observer(
+  (props: PlantFormProps) => {
+    // Set flag
+    const isEmpty = props.greenhouse.plants.length !== 0
+  
+    // Conditional rendering
+    if (isEmpty) {
+      return (
+        <SwipeListView
+          useFlatList={true}
+          closeOnScroll={true}
+          disableRightSwipe={true}
+  
+          leftOpenValue={75}
+          rightOpenValue={-150}
+          previewOpenValue={-40}
+          previewOpenDelay={3000}
+          
+          data={props.greenhouse.plants}
+          renderItem={({item}) => <PlantCard plant={cast(item)} />}
+          renderHiddenItem={ (data) => (
+            <View style={styles.rowBack}>
+              {/* EDIT PLANT INFORMATION */}
+              <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]} onPress={(event) => props.onEditPress(event, cast(data.item))}>
+                  <Icon style={styles.icon} fill='#000' name="edit-2-outline" />
+                  <Text style={styles.textBold}>EDIT</Text>
+              </TouchableOpacity>
+  
+              {/* REMOVE PLANT */}
+              <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={(event) => props.onDeletePress(event, cast(data.item))}>
+                  <Icon style={styles.icon} fill='#FFF' name="trash-2-outline" />
+                  <Text style={[styles.textBold, styles.textWhite]}>REMOVE</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        />
+      )
+    } else {
+      // Show module to add a plant to the Greenhouse 
+      return (
+        <View>
+          <Text>Add your first plant! Click the button below</Text>
+        </View>
+      )
+    }
+})
 
 export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhouse">> = observer(
   ({navigation}) => {
-    // Read route params
-    const route = useRoute<RouteProp<NavigatorParamList, 'greenhouse'>>();
-
+    // Read params through navigation store
+    const { navigationStore, greenhouseStore } = useStores()
+    
     // Show greenhouse inforamtion
     return (
+      navigationStore.greenhouseScreenParams.greenhouse !== undefined &&
       <SafeAreaView style={[styles.container, styles.notch]}>
         <TopNavigation
           alignment='center'
-          title={route.params.details.name}
+          title={navigationStore.greenhouseScreenParams.greenhouse.name || ""}
           subtitle='Greenhouse information'
           accessoryLeft={<TopNavigationAction icon={<Icon name='arrow-back'/>} onPress={() => navigation.goBack()} />}
+          accessoryRight={<TopNavigationAction icon={<Icon name='plus'/>} onPress={() => {
+            // Navigate to screen
+            navigation.navigate("addPlant")
+          }} />}
         />
         <Divider />
 
@@ -81,20 +90,44 @@ export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhou
           {/* SHOW PLANT FORM */}
           <PlantForm
             onEditPress={(event, source) => {
-              // navigate to greenhouse screen and passing greenhouse information
-              navigation.navigate("editPlant", {
-                plant: source
-              })
+              // Save greenhouse information into navigation store
+              navigationStore.setEditPlantScreenParams(source)
+              // navigate to greenhouse screen
+              navigation.navigate("editPlant")
             }}
 
             onDeletePress={(event, source) => {
-              Alert.alert("WORK IN PROGRESS")
+              // show confirm modal
+              Alert.alert(
+                "Removing plant",
+                "Do you really want to remove this plant from your In-House Greenhouse? It will be moved inside the trash bin",
+                [
+                  {
+                    text: "Confirm",
+                    onPress: () => {
+                      // Delete plant
+                      greenhouseStore.removePlant(source);
+                    },
+                    style: "default",
+                  },
+                {
+                    text: "Cancel",
+                    style: "cancel",
+                  },
+                ],
+                {
+                  cancelable: true,
+                }
+              );
+
+              return false;
             }}
-            greenhouse={route.params.details}
+            greenhouse={navigationStore.greenhouseScreenParams.greenhouse}
           />
         </Layout>
       </SafeAreaView>
-  )}
+    )
+  }
 )
 
 const editColor = '#F4D35E'

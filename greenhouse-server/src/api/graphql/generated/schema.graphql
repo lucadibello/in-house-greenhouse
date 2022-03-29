@@ -2,6 +2,16 @@
 ### Do not make changes to this file directly
 
 
+type Auth {
+  errorCode: String
+  errorMessage: String
+  expire: String
+  isError: Boolean
+  issued: String
+  refreshToken: String
+  token: String
+}
+
 type Greenhouse {
   """Creation timestamp"""
   created_at: dateTime!
@@ -37,6 +47,9 @@ type Plant {
 
   """Plant identification number"""
   id: Int!
+
+  """Flag that shows if the plant has been deleted or not"""
+  isDeleted: Boolean!
 
   """Plant name"""
   name: String!
@@ -78,9 +91,29 @@ type Query {
 
   """List of all known greenhouses"""
   greenhouses: [Greenhouse!]
+  loginUser(email: String!, password: String!): Auth!
 
   """List of all plants contained in one greenhouse"""
   plants: [Plant!]
+  refreshToken(refreshToken: String!): Auth!
+
+  """Remove a Plant from its greenhouse"""
+  removePlant(
+    """Plant ID"""
+    id: Int!
+  ): Plant
+
+  """Update a plant information"""
+  updatePlant(
+    """Plant's description"""
+    description: String
+
+    """Plant ID"""
+    id: Int!
+
+    """Plant's name"""
+    name: String!
+  ): Plant
   users: [User!]
 }
 

@@ -1,10 +1,9 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { StackScreenProps } from "@react-navigation/stack"
-import { TabParamList } from "../../navigators"
-// import { useStores } from "../../models"
 import { Divider, Layout, Text, TopNavigation } from "@ui-kitten/components"
 import { SafeAreaView, StyleSheet } from 'react-native' 
+import { TabParamList } from "../../navigators/components/navigators"
 
 export const SettingsScreen: FC<StackScreenProps<TabParamList, "settings">> = observer(function SettingsScreen() {
   return (

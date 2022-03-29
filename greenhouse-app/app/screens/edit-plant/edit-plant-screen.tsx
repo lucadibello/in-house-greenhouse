@@ -1,37 +1,40 @@
 import React, { FC } from "react"
-import { observer } from "mobx-react-lite"
 import { StyleSheet } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
-import { Avatar, Button, Divider, Icon, Input, Layout, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
-import { RouteProp, useRoute } from "@react-navigation/native"
+import { Avatar, Button, Divider, Icon, Input, Layout, Text, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
 import { SafeAreaView } from "react-native-safe-area-context"
+import { useStores } from "../../models"
+import { observer } from "mobx-react-lite"
+import { NavigatorParamList } from "../../navigators/components/navigators"
 
-export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "greenhouse">> = observer(
+export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant">> = observer(
   ({navigation}) => {
-    // Read route params
-    const route = useRoute<RouteProp<NavigatorParamList, 'editPlant'>>();
+    // Load greenhouses from store
+    const { navigationStore } = useStores()
 
-    // Input state generator
-    const useInputState = (initialValue = '') => {
-      const [value, setValue] = React.useState(initialValue);
-      return { value, onChangeText: setValue };
-    };
+    if (navigationStore.editPlantScreenParams.plant !== undefined) {
+      console.log(navigationStore.editPlantScreenParams.plant)
+      
+      // Input state generator
+      const useInputState = (initialValue = '') => {
+        const [value, setValue] = React.useState(initialValue);
+        return { value, onChangeText: setValue };
+      };
 
-    // Create input states
-    const nameInputState = useInputState(route.params.plant.name);
-    const descriptionInputState = useInputState(route.params.plant.description);
-    
-    // Compute dates
-    const createdAtDate = new Date(route.params.plant.created_at).toLocaleString()
-    const updatedAtDate = new Date(route.params.plant.updated_at).toLocaleString()
+      // Create input states
+      const nameInputState = useInputState(navigationStore.editPlantScreenParams.plant.name);
+      const descriptionInputState = useInputState(navigationStore.editPlantScreenParams.plant.description);
+      
+      // Compute dates
+      const createdAtDate = new Date(navigationStore.editPlantScreenParams.plant.created_at).toLocaleString()
+      const updatedAtDate = new Date(navigationStore.editPlantScreenParams.plant.updated_at).toLocaleString()
 
-    // Show greenhouse inforamtion
-    return (
+      // Show greenhouse inforamtion
+      return (
       <SafeAreaView style={[styles.container, styles.notch]}>
         <TopNavigation
           alignment='center'
-          title={route.params.plant.name}
+          title={navigationStore.editPlantScreenParams.plant.name}
           subtitle='Edit plant information'
           accessoryLeft={<TopNavigationAction icon={<Icon name='arrow-back'/>} onPress={() => navigation.goBack()} />}
         />
@@ -86,10 +89,22 @@ export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "greenhous
           />
 
           {/* UPDATE PLANT DATA */}
-          <Button style={styles.applyChanges}>Apply changes</Button>
+          <Button style={styles.applyChanges} onPress={() => {
+            navigationStore.editPlantScreenParams.plant.updatePlant(
+              {
+                name: nameInputState.value,
+                description: descriptionInputState.value
+              }
+            )
+          }}>Apply changes</Button>
         </Layout>
       </SafeAreaView>
-    )
+      )
+    } else {
+      return (
+        <Text>NOOO UNDEFINED!!!</Text>
+      )
+    }
   }
 )
 
