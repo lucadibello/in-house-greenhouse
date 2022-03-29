@@ -6,8 +6,7 @@ import { Input, Layout, Text, Button, Icon } from "@ui-kitten/components"
 import { AuthStackParamList } from "../../navigators/components/navigators"
 import { palette } from "../../theme/palette"
 import { TouchableOpacity } from "react-native-gesture-handler"
-import { useStores, withEnvironment } from "../../models"
-import { Keychain } from "../../services/keychain/keychain"
+import { useStores } from "../../models"
 
 export const LoginScreen: FC<StackScreenProps<AuthStackParamList , "login">> = observer(
   ({navigation}) => {
