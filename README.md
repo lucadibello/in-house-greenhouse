@@ -20,7 +20,7 @@ The collected data is used to show statistics about the growth of your plants an
 
 This is a small diagram showing all the components that make up the **In-House Greenhouse** system:
 
-![System Architecture](/extra/schemas/system-architecture.png)
+![System Architecture](/extra/schemas/system-architecture/system-architecture.png)
 
 This is a small diagram showing all the components that make up the In-House Greenhouse system. The Greenhouse collects data about the state of the plants and the surrounding environment via sensors, and then sends this data to the server via HTTP calls to the API, which will save the data within the PostgreSQL database.
 
