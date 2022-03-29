@@ -14,18 +14,13 @@ export class AuthenticationApi {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/login`,{
-        query: `query Login($email: String!, $password: String!) {
-          login(email: $email, password: $password) {
+        query: `query LoginUser($email: String!, $password: String!) {
+          loginUser(email: $email, password: $password) {
             token
-            user {
-              id
-              name
-              email
-              password
-              surname
-              createdAt
-              updatedAt
-            }
+            isError
+            errorMessage
+            refreshToken
+            errorCode
           }
         }`,
         variables: {
@@ -42,15 +37,33 @@ export class AuthenticationApi {
         }
       }
 
-      const graphQLResponse = response.data
-
-      // List greenhouses
-      const token = graphQLResponse.data.login.token
-      const user = graphQLResponse.data.login.user
-      const outputData = {kind: "ok", token: token, user: user};
-      console.tron.log("[API] Returning data..", outputData)
-      // Return data
-      return outputData;
+      // Read API response
+      const userApiResponse = response.data.data.loginUser
+      
+      // Check if authentication error
+      if (userApiResponse.isError) {
+        // Return login error with error message
+        return {
+          kind: "not-ok",
+          token: "",
+          refreshToken: "",
+          user: null,
+          isError: true,
+          errorCode: userApiResponse.errorCode,
+          errorMessage: userApiResponse.errorMessage
+        }
+      } else {
+        // Return data
+        return {
+          kind: "ok",
+          token: userApiResponse.token,
+          refreshToken: userApiResponse.refreshToken,
+          user: null,
+          isError: true,
+          errorCode: userApiResponse.errorCode,
+          errorMessage: userApiResponse.errorMessage
+        }
+      }
     } catch (e) {
       __DEV__ && console.tron.log(e.message)
       return { kind: "bad-data" }
