@@ -11,4 +11,13 @@ export type GetGreenhouseResult = { kind: "ok"; greenhouse: Greenhouse } | Gener
 export type AddPlantResult = {kind: "ok" | string, plant: Plant} | GeneralApiProblem;
 
 // Define authentication API response types
-export type LoginResult = { kind: "ok" | string; token: string; user: User } | GeneralApiProblem;
+export type LoginResult = { 
+  kind: "ok" | string; 
+  token: string; 
+  refreshToken: string;
+  user: User;
+
+  isError: boolean;
+  errorCode: string;
+  errorMessage: string;
+} | GeneralApiProblem;
