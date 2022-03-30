@@ -62,7 +62,7 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList , "login">> = o
           {/* E-mail input */}
           <Input 
             placeholder='E-Mail'
-            accessoryRight={<Icon name='cube' fill='#8F9BB3'/>}
+            accessoryRight={<Icon name='person' fill='#8F9BB3'/>}
             value={email}
             onChangeText={setEmail}
             style={styles.input}
