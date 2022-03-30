@@ -48,7 +48,6 @@ export class Keychain {
         }
       } catch (e) {
         // Return error, keychain returned an error
-        console.log(e)
         return {
           success: false,
           type: "KEYCHAIN_ERROR",
@@ -81,7 +80,6 @@ export class Keychain {
         }
       } catch (e) {
         // Return error, keychain returned an error
-        console.log(e)
         return {
           success: false,
           type: "KEYCHAIN_ERROR",

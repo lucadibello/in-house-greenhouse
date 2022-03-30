@@ -38,7 +38,6 @@ export const AuthenticationStoreModel = types
 
         // Save data to keychain using KeychainService
         self.environment.keychain.save(email, password).then((status) => {
-          console.log(status)
           // check keychain result status and notify via tron
           if (status.success) {
             console.tron.debug("Keychain save success")

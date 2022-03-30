@@ -23,7 +23,6 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList , "login">> = o
     // Load data from keychain and set it inside inputs
     React.useEffect(() => {
       // load keychain data from environment
-      console.log("Keychain will be loaded here")
       authenticationStore.loadCredentials((response) => {
         // Check if success
         if (response.success) {

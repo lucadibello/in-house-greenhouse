@@ -13,8 +13,6 @@ export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant
     const { navigationStore } = useStores()
 
     if (navigationStore.editPlantScreenParams.plant !== undefined) {
-      console.log(navigationStore.editPlantScreenParams.plant)
-      
       // Input state generator
       const useInputState = (initialValue = '') => {
         const [value, setValue] = React.useState(initialValue);
