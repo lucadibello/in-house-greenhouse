@@ -74,6 +74,9 @@ const countHowManyValidated = (passwordValidationResult: PasswordValidationResul
             value={email}
             status={emailError ? "danger" : (email.length !== 0 ? "success": "basic")}
             onChangeText={(emailText) => {
+              // to lower case
+              emailText = emailText.toLowerCase()
+
               // Set text inside react state
               setEmail(emailText)
               
@@ -120,6 +123,7 @@ const countHowManyValidated = (passwordValidationResult: PasswordValidationResul
             value={confirmPassword}
             disabled={!passwordValidationResult.isValid}
             status={confirmPasswordError ? (confirmPassword.length !== 0 ? "danger" : "control") : (confirmPassword.length !== 0 ? "success": "basic")}
+            secureTextEntry={true}
             onChangeText={(confirmPasswordText) => {
               // Set text inside react state
               setConfirmPassword(confirmPasswordText)
