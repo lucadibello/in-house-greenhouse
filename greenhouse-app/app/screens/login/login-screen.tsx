@@ -7,6 +7,7 @@ import { AuthStackParamList } from "../../navigators/components/navigators"
 import { palette } from "../../theme/palette"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { useStores } from "../../models"
+import { PasswordValidationResult, validateEmailAddress, validatePassword } from "../../utils/validation"
 
 export const LoginScreen: FC<StackScreenProps<AuthStackParamList , "login">> = observer(
   ({navigation}) => {
@@ -17,8 +18,20 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList , "login">> = o
     const [showPassword, setShowPassword] = React.useState(false)
 
     // email and password input state value
-    const [email, setEmail] = React.useState("")
-    const [password, setPassword] = React.useState("")
+    const [email, setEmail] = React.useState<string>("")
+    const [password, setPassword] = React.useState<string>("")
+
+    // Email and password error validation flags
+    const [emailError, setEmailError] = React.useState<boolean>(false)
+    const [passwordValidationResult, setPasswordValidationResult] = React.useState<PasswordValidationResult>({
+      isValid: false,
+      hasAtlestEightCharacters: false,
+      hasAtlestOneUpperCase: false,
+      hasAtlestOneDigit: false,
+      hasAtlestOneLowerCase: false,
+      hasAtlestOneSpecialCharacter: false,
+      hasLessThanSixteenCharacters: false
+    })
 
     // Load data from keychain and set it inside inputs
     React.useEffect(() => {
@@ -64,7 +77,14 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList , "login">> = o
             placeholder='E-Mail'
             accessoryRight={<Icon name='person' fill='#8F9BB3'/>}
             value={email}
-            onChangeText={setEmail}
+            status={emailError ? "danger" : "basic"}
+            onChangeText={(emailText) => {
+              // Set text inside react state
+              setEmail(emailText)
+              
+              // validate email address and set error flag
+              setEmailError(!validateEmailAddress(emailText))
+            }}
             style={styles.input}
           />
 
@@ -73,7 +93,14 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList , "login">> = o
             placeholder='Password'
             passwordRules="required: upper; required: lower; required: digit; max-consecutive: 2; minlength: 8; maxlength: 16"
             value={password}
-            onChangeText={setPassword}
+            status={passwordValidationResult.isValid ? "danger" : "basic"}
+            onChangeText={(passwordText) => {
+              // Set text inside react state
+              setPassword(passwordText)
+              
+              // validate password and set error flag
+              setPasswordValidationResult(validatePassword(passwordText))
+            }}
             secureTextEntry={!showPassword}
             accessoryRight={
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
