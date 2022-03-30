@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite"
 import { cast } from "mobx-state-tree"
 import { Alert, GestureResponderEvent, StyleSheet, TouchableOpacity, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
 import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
 import { PlantCard } from "../../components"
 import { Greenhouse } from "../../models/greenhouse/greenhouse"
@@ -11,6 +10,7 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Plant } from "../../models/plant/plant"
 import { useStores } from "../../models"
+import { NavigatorParamList } from "../../navigators/components/navigators"
 
 interface PlantFormProps {
   greenhouse: Greenhouse,

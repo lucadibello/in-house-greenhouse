@@ -2,6 +2,16 @@
 ### Do not make changes to this file directly
 
 
+type Auth {
+  errorCode: String
+  errorMessage: String
+  expire: String
+  isError: Boolean
+  issued: String
+  refreshToken: String
+  token: String
+}
+
 type Greenhouse {
   """Creation timestamp"""
   created_at: dateTime!
@@ -81,9 +91,11 @@ type Query {
 
   """List of all known greenhouses"""
   greenhouses: [Greenhouse!]
+  loginUser(email: String!, password: String!): Auth!
 
   """List of all plants contained in one greenhouse"""
   plants: [Plant!]
+  refreshToken(refreshToken: String!): Auth!
 
   """Remove a Plant from its greenhouse"""
   removePlant(

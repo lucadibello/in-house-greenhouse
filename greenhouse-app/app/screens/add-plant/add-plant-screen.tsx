@@ -1,11 +1,11 @@
 import React, { FC } from "react"
 import { Alert, StyleSheet } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
 import { Avatar, Button, Divider, Icon, Input, Layout, Text, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { useStores } from "../../models"
 import { observer } from "mobx-react-lite"
+import { NavigatorParamList } from "../../navigators/components/navigators"
 
 export const AddPlantScreen: FC<StackScreenProps<NavigatorParamList, "addPlant">> = observer(
   ({navigation}) => {

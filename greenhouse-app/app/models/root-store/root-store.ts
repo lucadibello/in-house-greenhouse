@@ -1,4 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { AuthenticationStoreModel } from "../authentication-store/authentication-store"
 import { GreenhouseStoreModel } from "../greenhouse-store/greenhouse-store"
 import { NavigationStoreModel } from "../navigation-store/navigation-store"
 
@@ -15,7 +16,8 @@ export const RootStoreModel = types.model("RootStore").props({
     editPlantScreenParams: {
       plant: undefined
     }
-  } as any)
+  } as any),
+  authenticationStore: types.optional(AuthenticationStoreModel, {} as any)
 })
 
 /**

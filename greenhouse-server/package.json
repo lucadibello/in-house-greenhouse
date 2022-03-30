@@ -17,10 +17,14 @@
   },
   "dependencies": {
     "@prisma/client": "3.10.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/jsonwebtoken": "^8.5.8",
     "apollo-server": "3.6.3",
+    "bcrypt": "^5.0.1",
     "dotenv": "^16.0.0",
     "graphql": "15.8.0",
     "graphql-scalars": "1.14.1",
+    "jsonwebtoken": "^8.5.1",
     "nexus": "1.2.0"
   },
   "devDependencies": {

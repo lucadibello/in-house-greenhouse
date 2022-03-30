@@ -9,6 +9,7 @@
  * The app navigation resides in ./app/navigators, so head over there
  * if you're interested in adding screens and navigators.
  */
+import 'react-native-gesture-handler';
 import "./i18n"
 import "./utils/ignore-warnings"
 import React, { useState, useEffect } from "react"
