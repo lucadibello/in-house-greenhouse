@@ -12,13 +12,13 @@ const jwtService = new JWT(
 export const Auth = objectType({
   name: 'Auth',
   definition(t) {
-    t.string('token')
-    t.string('refreshToken')
-    t.string('expire')
-    t.string('issued')
-    t.boolean('isError')
-    t.string('errorCode')
-    t.string('errorMessage')
+    t.string('token', { description: "JWT token used to access API" })
+    t.string('refreshToken', { description: "JWT token used to refresh access token. Expires in 7 days." })
+    t.string('expire', { description: "Access token expire time"})
+    t.string('issued', { description: "Access token issued time"})
+    t.boolean('isError', { description: "Authentication rrror flag"})
+    t.string('errorCode', { description: "Authentication error code"})
+    t.string('errorMessage', { description: "Authentication error message"})
   }
 })
 

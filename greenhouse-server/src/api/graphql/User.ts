@@ -3,11 +3,11 @@ import { extendType, nonNull, objectType, stringArg } from 'nexus'
 export const User = objectType({
   name: 'User',
   definition(t) {
-    t.nonNull.int('id')
-    t.nonNull.string('email')
-    t.nonNull.string('name')
-    t.nonNull.string('surname')
-    t.nonNull.string('password')
+    t.nonNull.int('id', { description: 'User identification number'})
+    t.nonNull.string('email', { description: 'User email'})
+    t.nonNull.string('name', { description: 'User name'})
+    t.nonNull.string('surname', { description: 'User surname'})
+    t.nonNull.string('password', { description: 'User password (hashed)'})
   },
 })
 
@@ -20,7 +20,7 @@ export const UserQuery = extendType({
         return context.prisma.user.findMany();
       },
     });
-    t.nonNull.field('addUser', {
+    t.nonNull.field('registerUser', {
       type: 'User',
       args: {
         email: nonNull(stringArg()),
