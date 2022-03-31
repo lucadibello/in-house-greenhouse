@@ -125,11 +125,11 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     addGreenhouse: NexusGenRootTypes['Greenhouse'] | null; // Greenhouse
     addPlant: NexusGenRootTypes['Plant'] | null; // Plant
-    addUser: NexusGenRootTypes['User']; // User!
     greenhouses: NexusGenRootTypes['Greenhouse'][] | null; // [Greenhouse!]
     loginUser: NexusGenRootTypes['Auth']; // Auth!
     plants: NexusGenRootTypes['Plant'][] | null; // [Plant!]
     refreshToken: NexusGenRootTypes['Auth']; // Auth!
+    registerUser: NexusGenRootTypes['User']; // User!
     removePlant: NexusGenRootTypes['Plant'] | null; // Plant
     updatePlant: NexusGenRootTypes['Plant'] | null; // Plant
     users: NexusGenRootTypes['User'][] | null; // [User!]
@@ -174,11 +174,11 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     addGreenhouse: 'Greenhouse'
     addPlant: 'Plant'
-    addUser: 'User'
     greenhouses: 'Greenhouse'
     loginUser: 'Auth'
     plants: 'Plant'
     refreshToken: 'Auth'
+    registerUser: 'User'
     removePlant: 'Plant'
     updatePlant: 'Plant'
     users: 'User'
@@ -204,18 +204,18 @@ export interface NexusGenArgTypes {
       greenhouseId: string; // String!
       name: string; // String!
     }
-    addUser: { // args
-      email: string; // String!
-      name: string; // String!
-      password: string; // String!
-      surname: string; // String!
-    }
     loginUser: { // args
       email: string; // String!
       password: string; // String!
     }
     refreshToken: { // args
       refreshToken: string; // String!
+    }
+    registerUser: { // args
+      email: string; // String!
+      name: string; // String!
+      password: string; // String!
+      surname: string; // String!
     }
     removePlant: { // args
       id: number; // Int!

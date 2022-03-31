@@ -3,12 +3,25 @@
 
 
 type Auth {
+  """Authentication error code"""
   errorCode: String
+
+  """Authentication error message"""
   errorMessage: String
+
+  """Access token expire time"""
   expire: String
+
+  """Authentication rrror flag"""
   isError: Boolean
+
+  """Access token issued time"""
   issued: String
+
+  """JWT token used to refresh access token. Expires in 7 days."""
   refreshToken: String
+
+  """JWT token used to access API"""
   token: String
 }
 
@@ -87,7 +100,6 @@ type Query {
     """Plant's name"""
     name: String!
   ): Plant
-  addUser(email: String!, name: String!, password: String!, surname: String!): User!
 
   """List of all known greenhouses"""
   greenhouses: [Greenhouse!]
@@ -96,6 +108,7 @@ type Query {
   """List of all plants contained in one greenhouse"""
   plants: [Plant!]
   refreshToken(refreshToken: String!): Auth!
+  registerUser(email: String!, name: String!, password: String!, surname: String!): User!
 
   """Remove a Plant from its greenhouse"""
   removePlant(
@@ -118,10 +131,19 @@ type Query {
 }
 
 type User {
+  """User email"""
   email: String!
+
+  """User identification number"""
   id: Int!
+
+  """User name"""
   name: String!
+
+  """User password (hashed)"""
   password: String!
+
+  """User surname"""
   surname: String!
 }
 
