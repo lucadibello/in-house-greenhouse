@@ -1,4 +1,5 @@
 import { extendType, nonNull, objectType, stringArg } from 'nexus'
+import { isLoggedIn } from '../../utils/request/authentication'
 
 export const User = objectType({
   name: 'User',
@@ -17,27 +18,13 @@ export const UserQuery = extendType({
     t.list.nonNull.field('users', {
       type: 'User',
       resolve(_, args, context) {
+        // Check if user is authenticated
+        if (!isLoggedIn(context.req)) {
+          throw new Error('You must be logged in to perform this action')
+        }
+        
         return context.prisma.user.findMany();
       },
     });
-    t.nonNull.field('registerUser', {
-      type: 'User',
-      args: {
-        email: nonNull(stringArg()),
-        name: nonNull(stringArg()),
-        surname: nonNull(stringArg()),
-        password: nonNull(stringArg()),
-      },
-      resolve: async (_, args, context) => {
-        return context.prisma.user.create({
-          data: {
-            email: args.email,
-            name: args.name,
-            surname: args.surname,
-            password: args.password
-          }
-        })
-      }
-    });
-  },
+  } 
 })
