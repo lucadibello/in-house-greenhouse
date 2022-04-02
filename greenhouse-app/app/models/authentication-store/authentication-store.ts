@@ -55,6 +55,27 @@ export const AuthenticationStoreModel = types
     }) 
   }))
   .actions(self => ({
+    register: flow(function* register (name: string, surname: string, email: string, password: string, onErrorCallback: (error: {errorCode: string, errorMessage: string}) => void) {
+      // Send register request using AuthenticationApi
+      const authenticationApi = new AuthenticationApi(self.environment.api)
+      const result = yield authenticationApi.register(name, surname, email, password)
+
+      // Check response
+      if (result.kind === "ok") {
+        // Success. Update the token and user
+        self.accessToken = result.token
+        self.refreshToken = result.refreshToken
+        self.isAuthenticated = true
+      } else {
+        // Log error to tron console if in debug mode
+        __DEV__ && console.tron.log(result.kind)
+
+        // call onErrorCallback function to notify user that the login failed
+        onErrorCallback({errorCode: result.errorCode, errorMessage: result.errorMessage})
+      }
+    })
+  }))
+  .actions(self => ({
     loadCredentials: flow(function* loadCredentials (callback: (response: IKeyChainData) => void) {
       // Try to load data from keychain
       const keychainData = yield self.environment.keychain.load()
