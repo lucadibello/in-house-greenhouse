@@ -3,10 +3,12 @@ import { observer } from "mobx-react-lite"
 import { StackScreenProps } from "@react-navigation/stack"
 import { AuthStackParamList } from "../../navigators/components/navigators"
 import { useStores } from "../../models"
-import { Alert, KeyboardAvoidingView, TouchableOpacity, View, StyleSheet } from "react-native"
-import { Icon, Input, Layout, Text, Button, List, ListItem } from "@ui-kitten/components"
+import { Alert, TouchableOpacity, View, StyleSheet } from "react-native"
+import { Icon, Input, Layout, Text, Button } from "@ui-kitten/components"
 import { palette } from "../../theme/palette"
-import { PasswordValidationResult, validateEmailAddress, validatePassword } from "../../utils/validation"
+import { PasswordValidationResult, validateEmailAddress, validateName, validatePassword, validateSurname } from "../../utils/validation"
+import { ScrollView } from "react-native-gesture-handler"
+import { PasswordValidation } from "../../components"
 
 const emptyPasswordValidationResult: PasswordValidationResult = {
   isValid: false,
@@ -38,17 +40,21 @@ const countHowManyValidated = (passwordValidationResult: PasswordValidationResul
     const [showPassword, setShowPassword] = React.useState(false)
 
     // email and password input state value
+    const [name, setName] = React.useState("")
+    const [surname, setSurname] = React.useState("")
     const [email, setEmail] = React.useState("")
     const [password, setPassword] = React.useState("")
     const [confirmPassword, setConfirmPassword] = React.useState("")
 
     // email and password error validation flags
+    const [nameError, setNameError] = React.useState(false)
+    const [surnameError, setSurnameError] = React.useState(false)
     const [emailError, setEmailError] = React.useState(false)
     const [passwordValidationResult, setPasswordValidationResult] = React.useState<PasswordValidationResult>(emptyPasswordValidationResult)
     const [confirmPasswordError, setConfirmPasswordError] = React.useState<boolean>(false)
 
     return (
-      <KeyboardAvoidingView style={styles.container}>
+      <ScrollView style={styles.container}>
         {/* Header */}
         <View style={styles.headerContainer}>
           <Text
@@ -67,6 +73,54 @@ const countHowManyValidated = (passwordValidationResult: PasswordValidationResul
 
         {/* Form */}
         <Layout style={styles.formContainer}>
+
+          {/* Name input */}
+          <Input 
+            placeholder='Name'
+            accessoryRight={<Icon name='person' fill='#8F9BB3'/>}
+            value={name}
+            status={nameError ? "danger" : (name.length !== 0 ? "success": "basic")}
+            onChangeText={(nameText) => {
+              // to lower case
+              nameText = nameText.toLowerCase().trim()
+
+              // capitalize first letter
+              nameText = nameText.charAt(0).toUpperCase() + nameText.slice(1)
+
+              // Set text inside react state
+              setName(nameText)
+              
+              // validate email address and set error flag
+              setNameError(!validateName(nameText))
+            }}
+            style={styles.input}
+          />
+
+          {/* Surname input */}
+          <Input 
+            placeholder='Surname'
+            accessoryRight={<Icon name='person' fill='#8F9BB3'/>}
+            value={surname}
+            status={surnameError ? "danger" : (surname.length !== 0 ? "success": "basic")}
+            onChangeText={(surnameText) => {
+              // Split each word of the name
+              const nameWords = surnameText.split(" ")
+              // Capitalize each word's first letter
+              const capitalizedNameWords = nameWords.map(word => {
+                return word.charAt(0).toUpperCase() + word.slice(1)
+              })
+              // Join the words with a space
+              const capitalizedSurname = capitalizedNameWords.join(" ")
+
+              // Set text inside react state
+              setSurname(capitalizedSurname) 
+              
+              // validate email address and set error flag
+              setSurnameError(!validateSurname(capitalizedSurname))
+            }}
+            style={styles.input}
+          />
+
           {/* E-mail input */}
           <Input 
             placeholder='E-Mail'
@@ -75,7 +129,7 @@ const countHowManyValidated = (passwordValidationResult: PasswordValidationResul
             status={emailError ? "danger" : (email.length !== 0 ? "success": "basic")}
             onChangeText={(emailText) => {
               // to lower case
-              emailText = emailText.toLowerCase()
+              emailText = emailText.toLowerCase().trim()
 
               // Set text inside react state
               setEmail(emailText)
@@ -101,8 +155,11 @@ const countHowManyValidated = (passwordValidationResult: PasswordValidationResul
             }}
             status={passwordValidationResult.isValid ? (password.length !== 0 ? "success" : "basic") : (password.length !== 0 ? "danger" : "basic")}
             onChangeText={(passwordText) => {
+              // Remove spaces from password
+              passwordText = passwordText.trim()
+
               // Set text inside react state
-              setPassword(passwordText)
+              setPassword(passwordText.trim())
               
               // validate password and set error flag
               setPasswordValidationResult(validatePassword(passwordText))
@@ -125,6 +182,9 @@ const countHowManyValidated = (passwordValidationResult: PasswordValidationResul
             status={confirmPasswordError ? (confirmPassword.length !== 0 ? "danger" : "control") : (confirmPassword.length !== 0 ? "success": "basic")}
             secureTextEntry={true}
             onChangeText={(confirmPasswordText) => {
+              // remove whitespace
+              confirmPasswordText = confirmPasswordText.trim()
+
               // Set text inside react state
               setConfirmPassword(confirmPasswordText)
               
@@ -141,53 +201,21 @@ const countHowManyValidated = (passwordValidationResult: PasswordValidationResul
             accessoryRight={<Icon name="lock" fill='#8F9BB3'/>}
             style={[styles.input, styles.passwordInput]}
           />
-          <Layout>
-            {/* Show to the user which properties of the password are not valid */}
-            <List
-              style={styles.passwordValidationList}
-              persistentScrollbar={true}
-              data={[
-                {key: 'at least 8 characters', isValid: passwordValidationResult.hasAtlestEightCharacters},
-                {key: 'at least one upper case', isValid: passwordValidationResult.hasAtlestOneUpperCase},
-                {key: 'at least one digit', isValid: passwordValidationResult.hasAtlestOneDigit},
-                {key: 'at least one lower case', isValid: passwordValidationResult.hasAtlestOneLowerCase},
-                {key: 'at least one special character', isValid: passwordValidationResult.hasAtlestOneSpecialCharacter},
-                {key: 'less than 16 characters', isValid: passwordValidationResult.hasLessThanSixteenCharacters}
-              ].sort((a, b) => {
-                // sort the list by the isValid flag
-                if (a.isValid && !b.isValid) {
-                  return 1
-                } else if (!a.isValid && b.isValid) {
-                  return -1
-                }
-                return 0
-              })}
-              renderItem={({item}) => (
-                <ListItem
-                  title={item.key}
-                  accessoryLeft={item.isValid ? <Icon name="done-all-outline" fill='#228B22' /> : <Icon name="close-outline" fill="#FF5733"/>}
-                />
-              )}
-            />
-          </Layout>
+
+          <PasswordValidation result={passwordValidationResult} />
 
           {/* Footer */}
           <Layout style={styles.footerContainer}>
             {/* Login button */}
             <Button style={[styles.input, styles.loginButton]} appearance='filled' status='primary' onPress={() => {
               // check if the email and password are valid
-              if (validateEmailAddress(email) && validatePassword(password).isValid) {
+              if (validateName(name) && validateSurname(surname) && validateEmailAddress(email) && validatePassword(password).isValid) {
                 // Check if password and confirm password are the same
                 if (password === confirmPassword) {
                   // Send login request to server (screen will be changed automatically)
-                  authenticationStore.login(email, password, (response) => {
-                    // Check response error code for notification
-                    if (response.errorCode === "LOGIN_ERROR") {
-                      Alert.alert("Ooops..", "Wrong email or password", [{ text: "OK" }])
-                    } else {
-                      // Show generic alert that shows GraphQL error message
-                      Alert.alert("Authentication error", response.errorMessage, [{ text: "OK" }])
-                    }
+                  authenticationStore.register(name, surname, email, password, (response) => {
+                    // Show generic alert that shows GraphQL error message
+                    Alert.alert("Authentication error", response.errorMessage, [{ text: "OK" }])
                   })
                 } else {
                   // notify user that the passwords are not the same
@@ -208,7 +236,7 @@ const countHowManyValidated = (passwordValidationResult: PasswordValidationResul
             </Button>
           </Layout>
         </Layout>
-      </KeyboardAvoidingView>
+      </ScrollView>
     )
 })
 
@@ -244,9 +272,6 @@ const styles = StyleSheet.create({
   },
   passwordInput: {
     fontFamily: "opensans-regular",
-  },
-  passwordValidationList: {
-    maxHeight: "70%",
   },
   passwordValidationStatus: {
     color: palette.lightGrey,
