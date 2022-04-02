@@ -12,6 +12,12 @@ type Session = {
   issued: Date
 }
 
+
+export enum TokenType {
+  TOKEN_ACCESS, TOKEN_REFRESH,
+  ACCESS
+}
+
 export class JWT {
   private accessTokenExpiresIn: number
   private refreshTokenExpiresIn: number
@@ -69,13 +75,24 @@ export class JWT {
 
   /**
    * verifyToken - Verify JWT refresh token
-   * @param refreshToken - JWT refresh token
+   * @param token - JWT refresh token
    * @returns Return user data if access token is valid, null otherwise
    */
-  public verifyToken (refreshToken: string): User | null {
+  public verifyToken (token: string, tokenType: TokenType): User | null {
+    if (token == null || token.length == 0) {
+      return null
+    }
+    
     try {
-      return verify(refreshToken, this.refreshSecret) as User
+      if (tokenType == TokenType.TOKEN_REFRESH) {
+        return verify(token, this.refreshSecret) as User
+      } else if (tokenType == TokenType.TOKEN_ACCESS) {
+        return verify(token, this.accessSecret) as User
+      } else {
+        return null
+      }
     } catch (err) {
+      console.log(err)
       return null
     }
   }
