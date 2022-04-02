@@ -20,6 +20,27 @@ export const validateEmailAddress = (email: string): boolean => {
 }
 
 /**
+ * validatePassword - Validates a person name
+ * @param name Name to validate
+ * @returns Ture if valid, false if not
+ */
+export const validateName = (name: string): boolean => {
+  const re = /^[a-zA-Z]+$/;
+  return re.test(String(name).toLowerCase());
+}
+
+export const validateSurname = (surname: string): boolean => {
+  // A surname is composed by multiple names separated by a whitespace
+  const names = surname.split(" ");
+  for (const name of names) {
+    if (!validateName(name)) {
+      return false;
+    }
+  }
+  return true
+}
+
+/**
  * validatePassword - Validates a password string
  * - at least one upper case letter
  * - one lower case letter
@@ -52,7 +73,7 @@ export const validatePassword = (password: string): PasswordValidationResult => 
   // regex to check for at least eight characters long
   const eightCharacterRegex = /.{8,}/;
   // regex to check for maximum sixteen characters long and at least 1 character
-  const sixteenCharacterRegex = /.{1,16}/;
+  const sixteenCharacterRegex = /^.{1,16}$/;
 
   // Test each regex and set the validation result
   validationResult.hasAtlestOneUpperCase = upperCaseRegex.test(password);
