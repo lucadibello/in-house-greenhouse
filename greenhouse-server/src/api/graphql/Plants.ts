@@ -1,4 +1,5 @@
 import { extendType, inputObjectType, intArg, nonNull, nullable, objectType, stringArg } from "nexus";
+import { isLoggedIn } from "../../utils/request/authentication";
 
 export const Plant = objectType({
   name: 'Plant',
@@ -29,6 +30,11 @@ export const PlantQuery = extendType({
       type: 'Plant',
       description: 'List of all plants contained in one greenhouse',
       resolve(_, args, context) {
+        // Check if user is authenticated
+        if (!isLoggedIn(context.req)) {
+          throw new Error('You must be logged in to perform this action')
+        }
+
         return context.prisma.plant.findMany();
       },
     });
@@ -49,6 +55,11 @@ export const PlantQuery = extendType({
         }))
       },
       resolve(_, args, context) {
+        // Check if user is authenticated
+        if (!isLoggedIn(context.req)) {
+          throw new Error('You must be logged in to perform this action')
+        }
+        
         return context.prisma.plant.create({
           data: {
             name: args.name,
@@ -75,6 +86,11 @@ export const PlantQuery = extendType({
         }))
       },
       resolve(_, args, context) {
+        // Check if user is authenticated
+        if (!isLoggedIn(context.req)) {
+          throw new Error('You must be logged in to perform this action')
+        }
+        
         return context.prisma.plant.update({
           where: {
             id: args.id
@@ -97,6 +113,11 @@ export const PlantQuery = extendType({
         }))
       },
       resolve(_, args, context) {
+        // Check if user is authenticated
+        if (!isLoggedIn(context.req)) {
+          throw new Error('You must be logged in to perform this action')
+        }
+        
         return context.prisma.plant.update({
           where: {
             id: args.id
