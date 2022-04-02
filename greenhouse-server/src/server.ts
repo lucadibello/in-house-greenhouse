@@ -5,10 +5,13 @@ import { ApolloServer } from 'apollo-server'
 import { schema } from './api/schema'
 import { context } from './api/context'
 
+
 // Create Apollo Server
 const server = new ApolloServer({
   schema: schema,
-  context: context,
+  context: req => {
+    return context(req)
+  }
 })
 
 // Start listening
