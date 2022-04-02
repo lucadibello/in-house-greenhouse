@@ -129,7 +129,7 @@ export interface NexusGenFieldTypes {
     loginUser: NexusGenRootTypes['Auth']; // Auth!
     plants: NexusGenRootTypes['Plant'][] | null; // [Plant!]
     refreshToken: NexusGenRootTypes['Auth']; // Auth!
-    registerUser: NexusGenRootTypes['User']; // User!
+    registerUser: NexusGenRootTypes['Auth']; // Auth!
     removePlant: NexusGenRootTypes['Plant'] | null; // Plant
     updatePlant: NexusGenRootTypes['Plant'] | null; // Plant
     users: NexusGenRootTypes['User'][] | null; // [User!]
@@ -178,7 +178,7 @@ export interface NexusGenFieldTypeNames {
     loginUser: 'Auth'
     plants: 'Plant'
     refreshToken: 'Auth'
-    registerUser: 'User'
+    registerUser: 'Auth'
     removePlant: 'Plant'
     updatePlant: 'Plant'
     users: 'User'
