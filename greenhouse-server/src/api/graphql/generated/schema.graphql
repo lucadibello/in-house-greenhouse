@@ -108,7 +108,7 @@ type Query {
   """List of all plants contained in one greenhouse"""
   plants: [Plant!]
   refreshToken(refreshToken: String!): Auth!
-  registerUser(email: String!, name: String!, password: String!, surname: String!): User!
+  registerUser(email: String!, name: String!, password: String!, surname: String!): Auth!
 
   """Remove a Plant from its greenhouse"""
   removePlant(
