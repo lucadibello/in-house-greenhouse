@@ -1,8 +1,7 @@
 import * as React from "react"
-import { StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import { PasswordValidationResult } from "../../utils/validation"
-import { Layout, List, ListItem, Icon } from "@ui-kitten/components"
+import { Layout, ListItem, Icon } from "@ui-kitten/components"
 
 /**
  * Describe your component here
@@ -39,10 +38,4 @@ export const PasswordValidation = observer(function PasswordValidation(props: {r
       })}
     </Layout>
   )
-})
-
-const styles = StyleSheet.create({
-  passwordValidationList: {
-    maxHeight: "100%",
-  }
 })
