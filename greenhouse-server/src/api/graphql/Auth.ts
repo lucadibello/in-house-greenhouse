@@ -1,6 +1,6 @@
 import { nonNull, objectType, stringArg } from "nexus"
 import { compare } from 'bcrypt'
-import { JWT } from '../../utils/jwt/jwt'
+import { JWT, TokenType } from '../../utils/jwt/jwt'
 import { getAccessTokenSecret, getRefreshTokenSecret } from '../../utils/env/env'
 
 // initialize JWT class using .env variables
@@ -94,7 +94,7 @@ export const AuthQuery = objectType({
       },
       resolve: async (_, args, context) => {
         // check if JWT refresh token is not expired
-        const userData = jwtService.verifyToken(args.refreshToken)
+        const userData = jwtService.verifyToken(args.refreshToken, TokenType.TOKEN_REFRESH)
 
         // Check if refreshToken was valid
         if (userData == null) {
@@ -121,6 +121,53 @@ export const AuthQuery = objectType({
             errorMessage: '',
             expire: session.expire.toISOString(), 
             issued: session.issued.toISOString()
+          }
+        }
+      }
+    });
+
+    // Field for registering users
+    t.nonNull.field('registerUser', {
+      type: 'Auth',
+      args: {
+        email: nonNull(stringArg()),
+        name: nonNull(stringArg()),
+        surname: nonNull(stringArg()),
+        password: nonNull(stringArg()),
+      },
+      resolve: async (_, args, context) => {
+        try {
+          const user = await context.prisma.user.create({
+            data: {
+              email: args.email,
+              name: args.name,
+              surname: args.surname,
+              password: args.password
+            }
+          })
+
+          // Encode session with 30 minutes expiration
+          const session = jwtService.encodeSession(user)
+
+          // Password is correct, return Auth object with signed token
+          return {
+            token: session.accessToken,
+            refreshToken: jwtService.generateRefreshToken(),
+            isError: false,
+            errorCode: null,
+            errorMessage: '',
+            expire: session.expire.toISOString(), 
+            issued: session.issued.toISOString()
+          }
+        } catch (e: any) {
+          return {
+            token: null,
+            accessToken: null,
+            isError: true,
+            errorCode: 'REGISTER_DB_ERROR',
+            errorMessage: e.message,
+            expire: null,
+            issued: null
           }
         }
       }
