@@ -1,4 +1,4 @@
-import { ApisauceInstance, create, ApiResponse } from "apisauce"
+import { ApisauceInstance, create } from "apisauce"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./config/api-config"
 
 /**
