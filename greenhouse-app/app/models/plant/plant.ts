@@ -19,9 +19,9 @@ export const PlantModel = types
   .actions(self => ({
     updatePlant: flow(function* updatePlant (update: {name: string, description?: string}) {
       const plantApi = new PlantApi(self.environment.api)
-      const result = yield plantApi.updatePlant(self.id ,update);
-
-      // Update model data
+      const result = yield plantApi.updatePlant(self.id, update);
+      
+      // Create callback handler
       if (result.kind === "ok") {
         self.id = result.plant.id
         self.name = result.plant.name
