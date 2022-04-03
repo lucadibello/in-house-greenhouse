@@ -131,4 +131,63 @@ export class AuthenticationApi {
       return { kind: "bad-data" }
     }
   }
+  
+  async refreshToken (refreshToken: string): Promise<AuthenticationResult> {
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.post(`/register`,{
+        query: `query RefreshToken($refreshToken: String!) {
+          refreshToken(refreshToken: $refreshToken) {
+            token
+            isError
+            errorCode
+            errorMessage
+            refreshToken
+          }
+        }`,
+        variables: {
+          refreshToken: refreshToken
+        }
+      })
+
+      // the typical ways to die when calling an api
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) {
+          return problem
+        }
+      }
+
+      // Read API response
+      const userApiResponse = response.data.data.refreshToken
+
+      // Check if authentication error
+      if (userApiResponse.isError) {
+        // Return login error with error message
+        return {
+          kind: "not-ok",
+          token: "",
+          refreshToken: "",
+          user: null,
+          isError: true,
+          errorCode: userApiResponse.errorCode,
+          errorMessage: userApiResponse.errorMessage
+        }
+      } else {
+        // Return data
+        return {
+          kind: "ok",
+          token: userApiResponse.token,
+          refreshToken: userApiResponse.refreshToken,
+          user: null,
+          isError: false,
+          errorCode: userApiResponse.errorCode,
+          errorMessage: userApiResponse.errorMessage
+        }
+      }
+    } catch (e) {
+      __DEV__ && console.tron.log(e.message)
+      return null 
+    }
+  }
 }
