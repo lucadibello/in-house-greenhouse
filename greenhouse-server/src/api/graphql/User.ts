@@ -1,3 +1,4 @@
+import { AuthenticationError } from 'apollo-server'
 import { extendType, nonNull, objectType, stringArg } from 'nexus'
 import { isLoggedIn } from '../../utils/request/authentication'
 
@@ -20,7 +21,7 @@ export const UserQuery = extendType({
       resolve(_, args, context) {
         // Check if user is authenticated
         if (!isLoggedIn(context.req)) {
-          throw new Error('You must be logged in to perform this action')
+          throw new AuthenticationError('You must be logged in to perform this action')
         }
         
         return context.prisma.user.findMany();

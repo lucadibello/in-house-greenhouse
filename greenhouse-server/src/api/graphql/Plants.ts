@@ -1,3 +1,4 @@
+import { AuthenticationError } from "apollo-server";
 import { extendType, inputObjectType, intArg, nonNull, nullable, objectType, stringArg } from "nexus";
 import { isLoggedIn } from "../../utils/request/authentication";
 
@@ -32,7 +33,7 @@ export const PlantQuery = extendType({
       resolve(_, args, context) {
         // Check if user is authenticated
         if (!isLoggedIn(context.req)) {
-          throw new Error('You must be logged in to perform this action')
+          throw new AuthenticationError('You must be logged in to perform this action')
         }
 
         return context.prisma.plant.findMany();
@@ -57,7 +58,7 @@ export const PlantQuery = extendType({
       resolve(_, args, context) {
         // Check if user is authenticated
         if (!isLoggedIn(context.req)) {
-          throw new Error('You must be logged in to perform this action')
+          throw new AuthenticationError('You must be logged in to perform this action')
         }
         
         return context.prisma.plant.create({
@@ -88,7 +89,7 @@ export const PlantQuery = extendType({
       resolve(_, args, context) {
         // Check if user is authenticated
         if (!isLoggedIn(context.req)) {
-          throw new Error('You must be logged in to perform this action')
+          throw new AuthenticationError('You must be logged in to perform this action')
         }
         
         return context.prisma.plant.update({
@@ -115,7 +116,7 @@ export const PlantQuery = extendType({
       resolve(_, args, context) {
         // Check if user is authenticated
         if (!isLoggedIn(context.req)) {
-          throw new Error('You must be logged in to perform this action')
+          throw new AuthenticationError('You must be logged in to perform this action')
         }
         
         return context.prisma.plant.update({
