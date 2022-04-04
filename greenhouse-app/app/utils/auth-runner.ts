@@ -2,11 +2,14 @@ import { Authentication } from "../models/authentication-store/authentication-st
 import { ApiBase } from "../services/api/core/base/ApiBase"
 import { AuthenticationError } from "../services/api/core/exceptions/AuthenticationError"
 
-export const runAuthenticatedApi = async <T>(authenticationStore: Authentication, context: ApiBase, method: (...any) => Promise<T>): Promise<T> => {
+export const runAuthenticatedApi = async <T>(
+  authenticationStore: Authentication,
+  context: ApiBase,
+  method: (...any) => Promise<T>
+): Promise<T> => {
   let result: T | null = null
 
   // Run API method and return result
-  // Try to execute API method
   try {
     result = await method.bind(context)()
   } catch (e) {
