@@ -2,7 +2,7 @@ import { ApiResponse } from "apisauce"
 import { Api } from "../core/api"
 import { ApiBase } from "../core/base/ApiBase"
 import { getGeneralApiProblem } from "../core/problem/api-problem"
-import { AuthenticationResult } from "../core/types/api.result.types"
+import { AuthenticationResult, RefreshResult } from "../core/types/api.result.types"
 
 export class AuthenticationApi extends ApiBase {
   api: Api
@@ -23,6 +23,12 @@ export class AuthenticationApi extends ApiBase {
             errorMessage
             refreshToken
             errorCode
+            user {
+              id
+              email
+              name
+              surname
+            }
           }
         }`,
         variables: {
@@ -52,7 +58,7 @@ export class AuthenticationApi extends ApiBase {
           user: null,
           isError: true,
           errorCode: userApiResponse.errorCode,
-          errorMessage: userApiResponse.errorMessage
+          errorMessage: userApiResponse.errorMessage,
         }
       } else {
         // Return data
@@ -60,10 +66,15 @@ export class AuthenticationApi extends ApiBase {
           kind: "ok",
           token: userApiResponse.token,
           refreshToken: userApiResponse.refreshToken,
-          user: null,
           isError: true,
           errorCode: userApiResponse.errorCode,
-          errorMessage: userApiResponse.errorMessage
+          errorMessage: userApiResponse.errorMessage,
+          user: {
+            id: userApiResponse.user.id,
+            email: userApiResponse.user.email,
+            name: userApiResponse.user.name,
+            surname: userApiResponse.user.surname,
+          }
         }
       }
     } catch (e) {
@@ -83,6 +94,12 @@ export class AuthenticationApi extends ApiBase {
             errorCode
             errorMessage
             refreshToken
+            user {
+              id
+              email
+              name
+              surname
+            }
           }
         }`,
         variables: {
@@ -122,10 +139,15 @@ export class AuthenticationApi extends ApiBase {
           kind: "ok",
           token: userApiResponse.token,
           refreshToken: userApiResponse.refreshToken,
-          user: null,
           isError: true,
           errorCode: userApiResponse.errorCode,
-          errorMessage: userApiResponse.errorMessage
+          errorMessage: userApiResponse.errorMessage,
+          user: {
+            id: userApiResponse.user.id,
+            email: userApiResponse.user.email,
+            name: userApiResponse.user.name,
+            surname: userApiResponse.user.surname,
+          }
         }
       }
     } catch (e) {
@@ -134,7 +156,7 @@ export class AuthenticationApi extends ApiBase {
     }
   }
   
-  async refreshToken (refreshToken: string): Promise<AuthenticationResult> {
+  async refreshToken (refreshToken: string): Promise<RefreshResult> {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/refreshToken`,{
@@ -170,7 +192,6 @@ export class AuthenticationApi extends ApiBase {
           kind: "not-ok",
           token: "",
           refreshToken: "",
-          user: null,
           isError: true,
           errorCode: userApiResponse.errorCode,
           errorMessage: userApiResponse.errorMessage
@@ -181,10 +202,9 @@ export class AuthenticationApi extends ApiBase {
           kind: "ok",
           token: userApiResponse.token,
           refreshToken: userApiResponse.refreshToken,
-          user: null,
           isError: false,
           errorCode: userApiResponse.errorCode,
-          errorMessage: userApiResponse.errorMessage
+          errorMessage: userApiResponse.errorMessage,
         }
       }
     } catch (e) {

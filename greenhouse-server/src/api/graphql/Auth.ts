@@ -100,7 +100,7 @@ export const AuthQuery = objectType({
       resolve: async (_, args, context) => {
         // check if JWT refresh token is not expired
         const userData = jwtService.verifyToken(args.refreshToken, TokenType.TOKEN_REFRESH)
-
+        
         // Check if refreshToken was valid
         if (userData == null) {
           // Return error
@@ -127,7 +127,7 @@ export const AuthQuery = objectType({
             errorMessage: '',
             expire: session.expire.toISOString(), 
             issued: session.issued.toISOString(),
-            user: userData
+            user: null
           }
         }
       }

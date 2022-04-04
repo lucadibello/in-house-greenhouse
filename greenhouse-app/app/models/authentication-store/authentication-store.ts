@@ -1,8 +1,9 @@
-import { Instance, SnapshotOut, types, flow } from "mobx-state-tree"
+import { Instance, SnapshotOut, types, flow, cast } from "mobx-state-tree"
 import { Api } from "../../services/api";
 import { AuthenticationApi } from "../../services/api/authentication/authentication-api";
 import { IKeyChainData } from "../../services/keychain/keychain";
 import { withEnvironment } from "../extensions/with-environment";
+import { UserModel } from "../user/user";
 
 
 /**
@@ -21,11 +22,12 @@ export const AuthenticationStoreModel = types
   .props({
     accessToken: types.optional(types.string, ""),
     refreshToken: types.optional(types.string, ""),
-    user: types.optional(types.string, "{IMPLEMENT ME PLEASE}"),
+    user: types.maybeNull(UserModel),
     isAuthenticated: types.optional(types.boolean, false),
   })
   .actions((self) => ({
     logout() {
+      self.user = null
       self.accessToken = ""
       self.refreshToken = ""
       self.isAuthenticated = false
@@ -40,7 +42,7 @@ export const AuthenticationStoreModel = types
       // Check response
       if (result.kind === "ok") {
         // Success. Update the token and user
-        // TODO: self.user = null
+        self.user = result.user
         self.accessToken = result.token
         self.refreshToken = result.refreshToken
         self.isAuthenticated = true
@@ -75,6 +77,7 @@ export const AuthenticationStoreModel = types
       // Check response
       if (result.kind === "ok") {
         // Success. Update the token and user
+        self.user = result.user
         self.accessToken = result.token
         self.refreshToken = result.refreshToken
         self.isAuthenticated = true
