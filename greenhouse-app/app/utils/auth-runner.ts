@@ -16,7 +16,7 @@ export const runAuthenticatedApi = async <T>(authenticationStore: Authentication
         console.tron.warn(error)
       })
 
-      // Update add autorization header to context ApiBase 
+      // Update add autorization header to local context ApiBase instance
       context.api.apisauce.setHeader("Authorization", authenticationStore.accessToken)
 
       // Retry to fetch greenhouses

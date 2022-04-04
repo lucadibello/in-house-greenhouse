@@ -107,8 +107,8 @@ export const AuthenticationStoreModel = types
         // Success. Update the token and user
         self.accessToken = result.token
         self.refreshToken = result.refreshToken
-        console.log("NEW TOKEN RESPONSE: ", result)
-        // Set authorization header to API
+        
+        // Set authorization header to environment API service
         addAuthorizationHeaderToApi(self.environment.api, self.accessToken)
 
         // If onSuccessCallback is defined, call it
