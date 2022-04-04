@@ -18,6 +18,11 @@ export const GreenhouseStoreModel = types
   .props({
     greenhouses: types.optional(types.array(GreenhouseModel), []),
   })
+  .actions(() => ({
+    destroyPlant (plant: Plant) {
+      destroy(plant)
+    }
+  }))
   .actions((self) => ({
     empty () {
       self.greenhouses.replace([])
@@ -46,12 +51,13 @@ export const GreenhouseStoreModel = types
       }
     }) 
   }))
-  .actions(() => ({
+  .actions((self) => ({
     removePlant (item: Plant) {
       // remove plant from DB
-      item.removePlant()
-      // remove plant from state tree
-      destroy(item)
+      item.removePlant(() => {
+        // remove plant from state tree
+        self.destroyPlant(item)
+      })
     }
   }))
 

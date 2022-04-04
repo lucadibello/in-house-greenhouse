@@ -51,8 +51,13 @@ export class PlantApi extends ApiBase {
       // List greenhouses
       return {kind: "ok", plant: graphQLResponse.data.addPlant};
     } catch (e) {
-      __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data" }
+      // Let the exception bubble up if is an AuthenticationError
+      if (e instanceof AuthenticationError) {
+        throw e
+      } else {
+        __DEV__ && console.tron.log(e.message)
+        return { kind: "bad-data" }
+      }
     }
   }
 
@@ -94,12 +99,17 @@ export class PlantApi extends ApiBase {
       const graphQLResponse = response.data
       return {kind: 'ok', plant: graphQLResponse.data.updatePlant}
     } catch (e) {
-      __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data" }
+      // Let the exception bubble up if is an AuthenticationError
+      if (e instanceof AuthenticationError) {
+        throw e
+      } else {
+        __DEV__ && console.tron.log(e.message)
+        return { kind: "bad-data" }
+      }
     }
   }
 
-  async removePlant(plantId: number): Promise<RemovePlantResult> {
+  async removePlant(plantId: number, onSuccessCallback?: () => void): Promise<RemovePlantResult> {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/removePlant`, {
@@ -132,12 +142,22 @@ export class PlantApi extends ApiBase {
         }
       }
       
+      // call the callback function if it exists
+      if (onSuccessCallback) {
+        onSuccessCallback()
+      }
+
       // send back data 
       const graphQLResponse = response.data
       return {kind: 'ok', plant: graphQLResponse.data.removePlant}
     } catch (e) {
-      __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data" }
+      // Let the exception bubble up if is an AuthenticationError
+      if (e instanceof AuthenticationError) {
+        throw e
+      } else {
+        __DEV__ && console.tron.log(e.message)
+        return { kind: "bad-data" }
+      }
     }
   }
 }

@@ -43,12 +43,12 @@ export const PlantModel = types
     })
   }))
   .actions(self => ({
-    removePlant: flow(function* removePlant () {
+    removePlant: flow(function* removePlant (onSuccess?: () => void) {
       const plantApi = new PlantApi(self.environment.api)
       const result = yield runAuthenticatedApi<RemovePlantResult>(
         self.rootStore.authenticationStore,
         plantApi,
-        () => {return plantApi.removePlant(self.id)},
+        () => {return plantApi.removePlant(self.id, onSuccess)},
       )
 
       // notify in case of error
