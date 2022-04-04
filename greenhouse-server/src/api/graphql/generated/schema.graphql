@@ -12,7 +12,7 @@ type Auth {
   """Access token expire time"""
   expire: String
 
-  """Authentication rrror flag"""
+  """Authentication error flag"""
   isError: Boolean
 
   """Access token issued time"""
@@ -23,6 +23,7 @@ type Auth {
 
   """JWT token used to access API"""
   token: String
+  user: User
 }
 
 type Greenhouse {
@@ -139,9 +140,6 @@ type User {
 
   """User name"""
   name: String!
-
-  """User password (hashed)"""
-  password: String!
 
   """User surname"""
   surname: String!

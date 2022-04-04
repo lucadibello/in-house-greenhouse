@@ -1,11 +1,14 @@
 import { ApiResponse } from "apisauce";
 import { Api, getGeneralApiProblem, GetGreenhousesResult } from "../"
 import { Greenhouse } from "../../../models/greenhouse/greenhouse";
+import { ApiBase } from "../core/base/ApiBase";
+import { AuthenticationError } from "../core/types/exceptions/AuthenticationError";
 
-export class GreenhouseApi {
-  private api: Api
+export class GreenhouseApi extends ApiBase {
+  api: Api
 
   constructor(api: Api) {
+    super()
     this.api = api
   }
 
@@ -33,6 +36,12 @@ export class GreenhouseApi {
         }`
       })
       
+      // Check if GraphQL response is an AuthenticationError
+      if (this.isAuthenticationErrorResponse(response)) {
+        // Throw authentication exception
+        throw new AuthenticationError("Authentication error")
+      }
+      
       // the typical ways to die when calling an api
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
@@ -50,8 +59,13 @@ export class GreenhouseApi {
       // Return data
       return outputData;
     } catch (e) {
-      __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data" }
+      // Let the exception bubble up if is an AuthenticationError
+      if (e instanceof AuthenticationError) {
+        throw e
+      } else {
+        __DEV__ && console.tron.log(e.message)
+        return { kind: "bad-data" }
+      }
     }
   }
 }

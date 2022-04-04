@@ -56,6 +56,7 @@ export interface NexusGenObjects {
     issued?: string | null; // String
     refreshToken?: string | null; // String
     token?: string | null; // String
+    user?: NexusGenRootTypes['User'] | null; // User
   }
   Greenhouse: { // root type
     created_at: NexusGenScalars['dateTime']; // dateTime!
@@ -79,7 +80,6 @@ export interface NexusGenObjects {
     email: string; // String!
     id: number; // Int!
     name: string; // String!
-    password: string; // String!
     surname: string; // String!
   }
 }
@@ -103,6 +103,7 @@ export interface NexusGenFieldTypes {
     issued: string | null; // String
     refreshToken: string | null; // String
     token: string | null; // String
+    user: NexusGenRootTypes['User'] | null; // User
   }
   Greenhouse: { // field return type
     created_at: NexusGenScalars['dateTime']; // dateTime!
@@ -138,7 +139,6 @@ export interface NexusGenFieldTypes {
     email: string; // String!
     id: number; // Int!
     name: string; // String!
-    password: string; // String!
     surname: string; // String!
   }
 }
@@ -152,6 +152,7 @@ export interface NexusGenFieldTypeNames {
     issued: 'String'
     refreshToken: 'String'
     token: 'String'
+    user: 'User'
   }
   Greenhouse: { // field return type name
     created_at: 'dateTime'
@@ -187,7 +188,6 @@ export interface NexusGenFieldTypeNames {
     email: 'String'
     id: 'Int'
     name: 'String'
-    password: 'String'
     surname: 'String'
   }
 }

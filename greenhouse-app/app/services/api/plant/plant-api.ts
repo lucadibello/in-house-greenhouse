@@ -1,10 +1,13 @@
 import { ApiResponse } from "apisauce";
-import { AddPlantResult, Api, getGeneralApiProblem } from "../"
+import { AddPlantResult, Api, getGeneralApiProblem, RemovePlantResult, UpdatePlantResult } from ".."
+import { ApiBase } from "../core/base/ApiBase";
+import { AuthenticationError } from "../core/types/exceptions/AuthenticationError";
 
-export class PlantApi {
-  private api: Api
+export class PlantApi extends ApiBase {
+  api: Api
 
   constructor(api: Api) {
+    super() 
     this.api = api
   }
 
@@ -29,6 +32,12 @@ export class PlantApi {
         }
       })
       
+      // Check if GraphQL response is an AuthenticationError
+      if (this.isAuthenticationErrorResponse(response)) {
+        // Throw authentication exception
+        throw new AuthenticationError("Authentication error")
+      }
+
       // the typical ways to die when calling an api
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
@@ -42,12 +51,17 @@ export class PlantApi {
       // List greenhouses
       return {kind: "ok", plant: graphQLResponse.data.addPlant};
     } catch (e) {
-      __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data" }
+      // Let the exception bubble up if is an AuthenticationError
+      if (e instanceof AuthenticationError) {
+        throw e
+      } else {
+        __DEV__ && console.tron.log(e.message)
+        return { kind: "bad-data" }
+      }
     }
   }
 
-  async updatePlant(plantId: number, update: {name: string, description?: string}) {
+  async updatePlant(plantId: number, update: {name: string, description?: string}): Promise<UpdatePlantResult> {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/updatePlant`, {
@@ -68,6 +82,12 @@ export class PlantApi {
         }
       })
       
+      // Check if GraphQL response is an AuthenticationError
+      if (this.isAuthenticationErrorResponse(response)) {
+        // Throw authentication exception
+        throw new AuthenticationError("Authentication error")
+      }
+
       // the typical ways to die when calling an api
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
@@ -79,12 +99,17 @@ export class PlantApi {
       const graphQLResponse = response.data
       return {kind: 'ok', plant: graphQLResponse.data.updatePlant}
     } catch (e) {
-      __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data" }
+      // Let the exception bubble up if is an AuthenticationError
+      if (e instanceof AuthenticationError) {
+        throw e
+      } else {
+        __DEV__ && console.tron.log(e.message)
+        return { kind: "bad-data" }
+      }
     }
   }
 
-  async removePlant(plantId: number) {
+  async removePlant(plantId: number, onSuccessCallback?: () => void): Promise<RemovePlantResult> {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/removePlant`, {
@@ -102,7 +127,13 @@ export class PlantApi {
           removePlantId: plantId
         }
       })
-      
+
+      // Check if GraphQL response is an AuthenticationError
+      if (this.isAuthenticationErrorResponse(response)) {
+        // Throw authentication exception
+        throw new AuthenticationError("Authentication error")
+      }
+       
       // the typical ways to die when calling an api
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
@@ -111,12 +142,22 @@ export class PlantApi {
         }
       }
       
+      // call the callback function if it exists
+      if (onSuccessCallback) {
+        onSuccessCallback()
+      }
+
       // send back data 
       const graphQLResponse = response.data
       return {kind: 'ok', plant: graphQLResponse.data.removePlant}
     } catch (e) {
-      __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data" }
+      // Let the exception bubble up if is an AuthenticationError
+      if (e instanceof AuthenticationError) {
+        throw e
+      } else {
+        __DEV__ && console.tron.log(e.message)
+        return { kind: "bad-data" }
+      }
     }
   }
 }

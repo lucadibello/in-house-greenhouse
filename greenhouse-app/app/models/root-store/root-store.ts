@@ -1,12 +1,11 @@
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { AuthenticationStoreModel } from "../authentication-store/authentication-store"
-import { GreenhouseStoreModel } from "../greenhouse-store/greenhouse-store"
-import { NavigationStoreModel } from "../navigation-store/navigation-store"
+import { SnapshotOut, types } from "mobx-state-tree"
+import { Authentication, AuthenticationStoreModel } from "../authentication-store/authentication-store"
+import { GreenhouseStore, GreenhouseStoreModel } from "../greenhouse-store/greenhouse-store"
+import { NavigationStore, NavigationStoreModel } from "../navigation-store/navigation-store"
 
 /**
  * A RootStore model.
  */
-// prettier-ignore
 export const RootStoreModel = types.model("RootStore").props({
   greenhouseStore: types.optional(GreenhouseStoreModel, {} as any),
   navigationStore: types.optional(NavigationStoreModel, {
@@ -23,7 +22,11 @@ export const RootStoreModel = types.model("RootStore").props({
 /**
  * The RootStore instance.
  */
-export interface RootStore extends Instance<typeof RootStoreModel> {}
+export interface RootStore {
+  greenhouseStore: GreenhouseStore
+  navigationStore: NavigationStore
+  authenticationStore: Authentication
+}
 
 /**
  * The data of a RootStore.
