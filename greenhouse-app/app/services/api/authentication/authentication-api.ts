@@ -135,7 +135,7 @@ export class AuthenticationApi {
   async refreshToken (refreshToken: string): Promise<AuthenticationResult> {
     try {
       // make the api call
-      const response: ApiResponse<any> = await this.api.apisauce.post(`/register`,{
+      const response: ApiResponse<any> = await this.api.apisauce.post(`/refreshToken`,{
         query: `query RefreshToken($refreshToken: String!) {
           refreshToken(refreshToken: $refreshToken) {
             token
