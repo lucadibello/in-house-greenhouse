@@ -1,7 +1,10 @@
 import { Instance, SnapshotOut, types, flow, destroy } from "mobx-state-tree"
 import { Greenhouse } from ".."
+import { GetGreenhousesResult } from "../../services/api/core/types/api.result.types"
 import { GreenhouseApi } from "../../services/api/greenhouse/greenhouse-api"
+import { runAuthenticatedApi } from "../../utils/auth-runner"
 import { withEnvironment } from "../extensions/with-environment"
+import { withRootStore } from "../extensions/with-root-store"
 import { GreenhouseModel } from "../greenhouse/greenhouse"
 import { Plant } from "../plant/plant"
 
@@ -10,6 +13,7 @@ import { Plant } from "../plant/plant"
  */
 export const GreenhouseStoreModel = types
   .model("GreenhouseStore")
+  .extend(withRootStore)
   .extend(withEnvironment)
   .props({
     greenhouses: types.optional(types.array(GreenhouseModel), []),
@@ -28,8 +32,13 @@ export const GreenhouseStoreModel = types
   .actions(self => ({
     getGreenhouses: flow(function* getGreenhouses () {
       const greenhouseApi = new GreenhouseApi(self.environment.api)
-      const result = yield greenhouseApi.getGreenhouses()
+      const result = yield runAuthenticatedApi<GetGreenhousesResult>(
+        self.rootStore.authenticationStore,
+        greenhouseApi,
+        greenhouseApi.getGreenhouses
+      )
 
+      // Set data
       if (result.kind === "ok") {
         self.setGreenhouses(result.greenhouses)
       } else {
