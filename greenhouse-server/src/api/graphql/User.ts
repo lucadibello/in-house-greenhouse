@@ -9,7 +9,6 @@ export const User = objectType({
     t.nonNull.string('email', { description: 'User email'})
     t.nonNull.string('name', { description: 'User name'})
     t.nonNull.string('surname', { description: 'User surname'})
-    t.nonNull.string('password', { description: 'User password (hashed)'})
   },
 })
 
@@ -23,7 +22,7 @@ export const UserQuery = extendType({
         if (!isLoggedIn(context.req)) {
           throw new AuthenticationError('You must be logged in to perform this action')
         }
-        
+        // Return all users 
         return context.prisma.user.findMany();
       },
     });
