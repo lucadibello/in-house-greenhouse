@@ -1,11 +1,13 @@
 import { ApiResponse } from "apisauce";
 import { Api, getGeneralApiProblem, GetGreenhousesResult } from "../"
 import { Greenhouse } from "../../../models/greenhouse/greenhouse";
+import { ApiBase } from "../core/base/ApiBase";
 
-export class GreenhouseApi {
-  private api: Api
+export class GreenhouseApi extends ApiBase {
+  api: Api
 
   constructor(api: Api) {
+    super()
     this.api = api
   }
 
