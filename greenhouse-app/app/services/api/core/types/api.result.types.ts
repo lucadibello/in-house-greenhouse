@@ -9,6 +9,8 @@ export type GetGreenhouseResult = { kind: "ok"; greenhouse: Greenhouse } | Gener
 
 // Define plant API response type
 export type AddPlantResult = {kind: "ok" | string, plant: Plant} | GeneralApiProblem;
+export type UpdatePlantResult = {kind: "ok" | string, plant: Plant} | GeneralApiProblem;
+export type RemovePlantResult = {kind: "ok" | string, plant: Plant} | GeneralApiProblem;
 
 // Define authentication API response types
 export type AuthenticationResult = { 

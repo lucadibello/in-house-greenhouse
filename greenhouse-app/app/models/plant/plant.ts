@@ -1,5 +1,8 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { withRootStore } from ".."
+import { RemovePlantResult, UpdatePlantResult } from "../../services/api"
 import { PlantApi } from "../../services/api/plant/plant-api"
+import { runAuthenticatedApi } from "../../utils/auth-runner"
 import { withEnvironment } from "../extensions/with-environment"
 
 /**
@@ -7,6 +10,7 @@ import { withEnvironment } from "../extensions/with-environment"
  */
 export const PlantModel = types
   .model("Plant")
+  .extend(withRootStore)
   .extend(withEnvironment)
   .props({
     id: types.identifierNumber,
@@ -19,8 +23,13 @@ export const PlantModel = types
   .actions(self => ({
     updatePlant: flow(function* updatePlant (update: {name: string, description?: string}) {
       const plantApi = new PlantApi(self.environment.api)
-      const result = yield plantApi.updatePlant(self.id, update);
       
+      const result = yield runAuthenticatedApi<UpdatePlantResult>(
+        self.rootStore.authenticationStore,
+        plantApi,
+        () => {return plantApi.updatePlant(self.id, update)},
+      )
+
       // Create callback handler
       if (result.kind === "ok") {
         self.id = result.plant.id
@@ -36,7 +45,11 @@ export const PlantModel = types
   .actions(self => ({
     removePlant: flow(function* removePlant () {
       const plantApi = new PlantApi(self.environment.api)
-      const result = yield plantApi.removePlant(self.id);
+      const result = yield runAuthenticatedApi<RemovePlantResult>(
+        self.rootStore.authenticationStore,
+        plantApi,
+        () => {return plantApi.removePlant(self.id)},
+      )
 
       // notify in case of error
       if (result.kind !== "ok") {

@@ -1,7 +1,7 @@
 import { ApiResponse } from "apisauce";
-import { AddPlantResult, Api, getGeneralApiProblem } from ".."
+import { AddPlantResult, Api, getGeneralApiProblem, RemovePlantResult, UpdatePlantResult } from ".."
 import { ApiBase } from "../core/base/ApiBase";
-import { AuthenticationError } from "../core/exceptions/AuthenticationError";
+import { AuthenticationError } from "../core/types/exceptions/AuthenticationError";
 
 export class PlantApi extends ApiBase {
   api: Api
@@ -56,7 +56,7 @@ export class PlantApi extends ApiBase {
     }
   }
 
-  async updatePlant(plantId: number, update: {name: string, description?: string}) {
+  async updatePlant(plantId: number, update: {name: string, description?: string}): Promise<UpdatePlantResult> {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/updatePlant`, {
@@ -99,7 +99,7 @@ export class PlantApi extends ApiBase {
     }
   }
 
-  async removePlant(plantId: number) {
+  async removePlant(plantId: number): Promise<RemovePlantResult> {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/removePlant`, {
