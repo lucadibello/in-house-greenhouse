@@ -2,7 +2,7 @@ import { ApiResponse } from "apisauce";
 import { Api, getGeneralApiProblem, GetGreenhousesResult } from "../"
 import { Greenhouse } from "../../../models/greenhouse/greenhouse";
 import { ApiBase } from "../core/base/ApiBase";
-import { AuthenticationError } from "../core/exceptions/AuthenticationError";
+import { AuthenticationError } from "../core/types/exceptions/AuthenticationError";
 
 export class GreenhouseApi extends ApiBase {
   api: Api

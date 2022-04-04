@@ -1,6 +1,6 @@
 import { Authentication } from "../models/authentication-store/authentication-store"
 import { ApiBase } from "../services/api/core/base/ApiBase"
-import { AuthenticationError } from "../services/api/core/exceptions/AuthenticationError"
+import { AuthenticationError } from "../services/api/core/types/exceptions/AuthenticationError"
 
 export const runAuthenticatedApi = async <T>(
   authenticationStore: Authentication,
