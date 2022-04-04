@@ -1,10 +1,12 @@
 import { ApiResponse } from "apisauce";
-import { AddPlantResult, Api, getGeneralApiProblem } from "../"
+import { AddPlantResult, Api, getGeneralApiProblem } from ".."
+import { ApiBase } from "../core/base/ApiBase";
 
-export class PlantApi {
-  private api: Api
+export class PlantApi extends ApiBase {
+  api: Api
 
   constructor(api: Api) {
+    super() 
     this.api = api
   }
 

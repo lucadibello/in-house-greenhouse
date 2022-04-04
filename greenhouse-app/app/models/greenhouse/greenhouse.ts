@@ -1,5 +1,5 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
-import { PlantApi } from "../../services/api/plant/greenhouse-api"
+import { PlantApi } from "../../services/api/plant/plant-api"
 import { withEnvironment } from "../extensions/with-environment"
 import { PlantModel } from "../plant/plant"
 
