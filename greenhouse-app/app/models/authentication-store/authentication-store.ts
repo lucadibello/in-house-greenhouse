@@ -55,7 +55,7 @@ export const AuthenticationStoreModel = types
     }) 
   }))
   .actions(self => ({
-    register: flow(function* register (name: string, surname: string, email: string, password: string, onErrorCallback: (error: {errorCode: string, errorMessage: string}) => void) {
+    register: flow(function* register (name: string, surname: string, email: string, password: string, onErrorCallback?: (error: {errorCode: string, errorMessage: string}) => void) {
       // Send register request using AuthenticationApi
       const authenticationApi = new AuthenticationApi(self.environment.api)
       const result = yield authenticationApi.register(name, surname, email, password)
@@ -69,9 +69,35 @@ export const AuthenticationStoreModel = types
       } else {
         // Log error to tron console if in debug mode
         __DEV__ && console.tron.log(result.kind)
+        
+        if (onErrorCallback) {
+          // call onErrorCallback function to notify user that the login failed
+          onErrorCallback({errorCode: result.errorCode, errorMessage: result.errorMessage})
+        }
+      }
+    })
+  }))
+  .actions(self => ({
+    // Refresh token
+    requestNewTokens: flow(function* requestNewTokens (onErrorCallback?: (error: {errorCode: string, errorMessage: string}) => void) {
+      // Send refresh token request using AuthenticationApi
+      const authenticationApi = new AuthenticationApi(self.environment.api)
+      const result = yield authenticationApi.refreshToken(self.refreshToken)
 
-        // call onErrorCallback function to notify user that the login failed
-        onErrorCallback({errorCode: result.errorCode, errorMessage: result.errorMessage})
+      // Check response
+      if (result.kind === "ok") {
+        // Success. Update the token and user
+        self.accessToken = result.token
+        self.refreshToken = result.refreshToken
+        self.isAuthenticated = true
+      } else {
+        // Log error to tron console if in debug mode
+        __DEV__ && console.tron.log(result.kind)
+
+        if (onErrorCallback) {
+          // call onErrorCallback function to notify user that the login failed
+          onErrorCallback({errorCode: result.errorCode, errorMessage: result.errorMessage})
+        }
       }
     })
   }))
