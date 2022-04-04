@@ -1,7 +1,7 @@
 import { ApiResponse } from "apisauce"
 import { Api } from "../core/api"
 import { getGeneralApiProblem } from "../core/problem/api-problem"
-import { AuthenticationResult } from "../core/types/api.types"
+import { AuthenticationResult } from "../core/types/api.result.types"
 
 export class AuthenticationApi {
   private api: Api
