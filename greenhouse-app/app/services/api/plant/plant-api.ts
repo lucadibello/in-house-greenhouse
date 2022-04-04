@@ -1,6 +1,7 @@
 import { ApiResponse } from "apisauce";
 import { AddPlantResult, Api, getGeneralApiProblem } from ".."
 import { ApiBase } from "../core/base/ApiBase";
+import { AuthenticationError } from "../core/exceptions/AuthenticationError";
 
 export class PlantApi extends ApiBase {
   api: Api
@@ -31,6 +32,12 @@ export class PlantApi extends ApiBase {
         }
       })
       
+      // Check if GraphQL response is an AuthenticationError
+      if (this.isAuthenticationErrorResponse(response)) {
+        // Throw authentication exception
+        throw new AuthenticationError("Authentication error")
+      }
+
       // the typical ways to die when calling an api
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
@@ -70,6 +77,12 @@ export class PlantApi extends ApiBase {
         }
       })
       
+      // Check if GraphQL response is an AuthenticationError
+      if (this.isAuthenticationErrorResponse(response)) {
+        // Throw authentication exception
+        throw new AuthenticationError("Authentication error")
+      }
+
       // the typical ways to die when calling an api
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
@@ -104,7 +117,13 @@ export class PlantApi extends ApiBase {
           removePlantId: plantId
         }
       })
-      
+
+      // Check if GraphQL response is an AuthenticationError
+      if (this.isAuthenticationErrorResponse(response)) {
+        // Throw authentication exception
+        throw new AuthenticationError("Authentication error")
+      }
+       
       // the typical ways to die when calling an api
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
