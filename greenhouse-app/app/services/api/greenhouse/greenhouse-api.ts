@@ -35,7 +35,8 @@ export class GreenhouseApi extends ApiBase {
           }
         }`
       })
-
+      
+      // Check if GraphQL response is an AuthenticationError
       if (this.isAuthenticationErrorResponse(response)) {
         // Throw authentication exception
         throw new AuthenticationError("Authentication error")
