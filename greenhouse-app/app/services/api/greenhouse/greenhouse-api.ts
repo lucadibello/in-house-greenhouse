@@ -2,6 +2,7 @@ import { ApiResponse } from "apisauce";
 import { Api, getGeneralApiProblem, GetGreenhousesResult } from "../"
 import { Greenhouse } from "../../../models/greenhouse/greenhouse";
 import { ApiBase } from "../core/base/ApiBase";
+import { AuthenticationError } from "../core/exceptions/AuthenticationError";
 
 export class GreenhouseApi extends ApiBase {
   api: Api
@@ -34,6 +35,11 @@ export class GreenhouseApi extends ApiBase {
           }
         }`
       })
+
+      if (this.isAuthenticationErrorResponse(response)) {
+        // Throw authentication exception
+        throw new AuthenticationError("Authentication error")
+      }
       
       // the typical ways to die when calling an api
       if (!response.ok) {
@@ -52,8 +58,13 @@ export class GreenhouseApi extends ApiBase {
       // Return data
       return outputData;
     } catch (e) {
-      __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data" }
+      // Let the exception bubble up if is an AuthenticationError
+      if (e instanceof AuthenticationError) {
+        throw e
+      } else {
+        __DEV__ && console.tron.log(e.message)
+        return { kind: "bad-data" }
+      }
     }
   }
 }
