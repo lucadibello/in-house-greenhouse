@@ -10,7 +10,7 @@ import { UserModel } from "../user/user";
  * Function to set authentication header to API 
  */
 const addAuthorizationHeaderToApi = (api: Api, accessToken: string) => {
-  api.apisauce.setHeader("Authorization", `${accessToken}`)
+  api.apisauce.setHeader("Authorization", accessToken)
 }
 
 /**
