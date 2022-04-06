@@ -1,6 +1,6 @@
 import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Drawer, Icon, DrawerGroup, DrawerItem, Divider } from '@ui-kitten/components';
+import { Drawer, Icon, DrawerItem } from '@ui-kitten/components';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { DrawerParamList } from './navigators';
 import { AppStackNavigation } from './stack-navigation';
