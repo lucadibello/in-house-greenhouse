@@ -1,32 +1,44 @@
 import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Drawer, Icon, DrawerGroup, DrawerItem } from '@ui-kitten/components';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { DrawerParamList } from './navigators';
 import { AppStackNavigation } from './stack-navigation';
 import { useStores } from '../../models/root-store/root-store-context';
-import { LoginAppStackNavigation } from './auth-stack-navigation';
 import { observer } from 'mobx-react-lite';
+import { UserDetails } from '../../components';
+import { User } from '../../models';
 
 const HomeDrawer = createDrawerNavigator<DrawerParamList>();
 
-const DrawerContent = (props: { navigation, state, logoutUser: () => void }) => (
-  <Drawer>
+const styles = StyleSheet.create({
+  userDetails: {
+    marginBottom: 10
+  }
+})
+
+const DrawerContent = (props: { navigation, state, logoutUser: () => void, user: User, userDetailsClicked: () => void}) => (
+  <React.Fragment>
     <SafeAreaView>
-      <DrawerItem title='Homepage' 
-        accessoryLeft={<Icon name='home' fill='#8F9BB3'/>}
-        onPress={() => props.navigation.navigate("homepage")} 
-      />
-      <DrawerGroup title='Profile' accessoryLeft={<Icon name='person' fill='#8F9BB3'/>}>
-        <DrawerItem title='Manage profile' accessoryLeft={<Icon name='edit-2-outline' fill='#8F9BB3'/>}/>
-        <DrawerItem
-          title='Logout'
-          onPress={props.logoutUser}
-          accessoryLeft={<Icon name='log-out-outline' fill='#8F9BB3'/>}
-        />
-      </DrawerGroup>
+      {/* User details */}
+      <UserDetails style={styles.userDetails} user={props.user} onUserPress={props.userDetailsClicked} />
+      {/* Drawer options */}
+      <Drawer>
+          <DrawerItem title='Homepage' 
+            accessoryLeft={<Icon name='home' fill='#8F9BB3'/>}
+            onPress={() => props.navigation.navigate("homepage")} 
+          />
+          <DrawerGroup title='Profile' accessoryLeft={<Icon name='person' fill='#8F9BB3'/>}>
+            <DrawerItem title='Manage profile' accessoryLeft={<Icon name='edit-2-outline' fill='#8F9BB3'/>}/>
+            <DrawerItem
+              title='Logout'
+              onPress={props.logoutUser}
+              accessoryLeft={<Icon name='log-out-outline' fill='#8F9BB3'/>}
+            />
+          </DrawerGroup>
+      </Drawer>
     </SafeAreaView>
-  </Drawer>
+  </React.Fragment>
 );
 
 export const AppDrawerNavigator = observer(() => {
@@ -42,6 +54,11 @@ export const AppDrawerNavigator = observer(() => {
             // Logout user
             authenticationStore.logout()
           }}
+          userDetailsClicked={() => {
+            // Go to user profile page
+            props.navigation.navigate("profile")
+          }}
+          user={authenticationStore.user}
           {...props}
         />
       )}
@@ -51,11 +68,7 @@ export const AppDrawerNavigator = observer(() => {
         swipeEnabled: authenticationStore.isAuthenticated
       }}
     >
-      { authenticationStore.isAuthenticated ? (
-        <HomeDrawer.Screen name="homepage" component={AppStackNavigation} />
-      ): (
-        <HomeDrawer.Screen name="homepage" component={LoginAppStackNavigation} />
-      )}
+      <HomeDrawer.Screen name="homepage" component={AppStackNavigation} />
     </HomeDrawer.Navigator>
   )
 })
