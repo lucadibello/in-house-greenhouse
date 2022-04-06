@@ -1,21 +1,29 @@
 import React, { FC } from "react"
-import { Alert, StyleSheet, View } from "react-native"
+import { Alert, StyleSheet, TouchableOpacity, View } from "react-native"
 import { observer } from "mobx-react-lite"
 import { DrawerScreenProps } from "@react-navigation/drawer"
 import { DrawerParamList } from "../../navigators/components/navigators"
-import { Avatar, Icon, Layout, TopNavigation, TopNavigationAction, Text } from '@ui-kitten/components'
+import { Avatar, Icon, Layout, TopNavigation, TopNavigationAction, Text, Tooltip } from '@ui-kitten/components'
 import { SafeAreaView } from "react-native-safe-area-context"
 import { palette } from "../../theme/palette"
 import { useStores } from "../../models/root-store/root-store-context"
 import { ScrollView } from "react-native-gesture-handler"
 import { ImageOverlay } from "../../components/image-overlay/image-overlay"
 import { FollowDetailsButtons } from "../../components"
+import * as Clipboard from 'expo-clipboard';
 
 export const ProfileScreen: FC<DrawerScreenProps<DrawerParamList, "profile">> = observer(
   ({navigation}) => {
 
     // Load authentication store
     const { authenticationStore } = useStores()
+
+    const [visible, setVisible] = React.useState(false);
+  
+    const copyToClipboard = (value: string) => {
+      Clipboard.setString(value);
+      setVisible(true)
+    }
 
     return (
       <SafeAreaView style={[styles.container, styles.notch]}>
@@ -49,17 +57,24 @@ export const ProfileScreen: FC<DrawerScreenProps<DrawerParamList, "profile">> = 
 
               {/* User email */}
               <View style={styles.emailContainer}>
-                <Icon
-                  width={16}
-                  height={16}
-                  name='hash-outline'
-                  fill='white'
-                />
-                <Text
-                  style={styles.email}
-                  status='control'>
-                  {authenticationStore.user.email}
-                </Text>
+                
+
+                <Tooltip
+                  anchor={() => (
+                    <TouchableOpacity onPress={() => copyToClipboard(authenticationStore.user.email)}>
+                      <Text
+                        style={styles.email}
+                        status='control'
+                      >
+                        {authenticationStore.user.email}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                  visible={visible}
+                  placement="bottom start"
+                  onBackdropPress={() => setVisible(false)}>
+                  Profile id copied to clipboard!
+                </Tooltip>
               </View>
 
               {/* Follow and details buttons */}
@@ -77,11 +92,6 @@ export const ProfileScreen: FC<DrawerScreenProps<DrawerParamList, "profile">> = 
 })
 
 const styles = StyleSheet.create({
-  avatarContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: '10%'
-  },
   container: {
     flex: 1
   },
