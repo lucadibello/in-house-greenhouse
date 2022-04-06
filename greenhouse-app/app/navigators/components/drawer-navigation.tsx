@@ -9,6 +9,7 @@ import { observer } from 'mobx-react-lite';
 import { UserDetails } from '../../components';
 import { User } from '../../models';
 import { ProfileScreen } from '../../screens';
+import { LoginAppStackNavigation } from './auth-stack-navigation';
 
 const HomeDrawer = createDrawerNavigator<DrawerParamList>();
 
@@ -72,8 +73,14 @@ export const AppDrawerNavigator = observer(() => {
         swipeEnabled: authenticationStore.isAuthenticated
       }}
     >
-      <HomeDrawer.Screen name="homepage" component={AppStackNavigation} />
-      <HomeDrawer.Screen name="profile" component={ProfileScreen} />
+      { authenticationStore.isAuthenticated ? (
+        <React.Fragment>
+          <HomeDrawer.Screen name="homepage" component={AppStackNavigation} />
+          <HomeDrawer.Screen name="profile" component={ProfileScreen} />
+        </React.Fragment>
+      ): (
+        <HomeDrawer.Screen name="homepage" component={LoginAppStackNavigation} />
+      )}
     </HomeDrawer.Navigator>
   )
 })
