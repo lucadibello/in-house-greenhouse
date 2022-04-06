@@ -22,7 +22,7 @@ const DrawerContent = (props: { navigation, state, logoutUser: () => void, user:
   <React.Fragment>
     <SafeAreaView>
       {/* User details */}
-      <UserDetails style={styles.userDetails} user={props.user} onUserPress={props.userDetailsClicked} />
+      {props.user !== null && <UserDetails style={styles.userDetails} user={props.user} onUserPress={props.userDetailsClicked} /> }
 
       {/* Drawer options */}
       <Drawer>
