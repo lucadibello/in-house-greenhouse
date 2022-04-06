@@ -59,12 +59,11 @@ export class GreenhouseApi extends ApiBase {
       // Return data
       return outputData;
     } catch (e) {
-      console.log(e)
       // Let the exception bubble up if is an AuthenticationError
       if (e instanceof AuthenticationError) {
         throw e
       } else {
-        __DEV__ && console.tron.log(e.message)
+        __DEV__ && console.tron.log(e)
         return { kind: "bad-data" }
       }
     }
