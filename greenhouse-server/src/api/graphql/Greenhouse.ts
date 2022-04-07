@@ -50,10 +50,6 @@ export const GreenhouseQuery = extendType({
         description: nullable(stringArg({
           description: "New greenhouse's description"
         })),
-        plants: nullable(list(nonNull(arg({
-          type: 'PlantInput',
-          description: "List of plants that will be planted inside this greenhouse"
-        }))))
       },
       resolve(_, args, context) {
         // Check if user is authenticated
@@ -64,12 +60,7 @@ export const GreenhouseQuery = extendType({
         return context.prisma.greenhouse.create({
           data: {
             name: args.name,
-            description: args.description,
-            plants: args.plants != null ? {
-              createMany: {
-                data: args.plants
-              }
-            } : undefined
+            description: args.description
           },
           include: {
             plants: true
