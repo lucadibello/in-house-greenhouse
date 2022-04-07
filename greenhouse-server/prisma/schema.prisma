@@ -22,18 +22,54 @@ model Greenhouse {
   name String
   description String?
   plants Plant[]
+  data Data[]
   isOkay Boolean @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt @default(now())
+}
+
+model Position {
+  position String @id
+  sensors Sensor[]
+}
+
+model Type {
+  code String @id
+  sensors Sensor[]
+}
+
+model Sensor {
+  name String @id
+  type String
+  position String
+  data Data[]
+  
+  // Relation fields
+  TypeRelation Type @relation(fields: [type], references: [code]) 
+  PositionRelation Position @relation(fields: [position], references: [position]) 
+}
+
+model Data {
+  id Int @id @default(autoincrement())
+  sensor String
+  value Float
+  greenhouseId String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt @default(now()) 
+  
+  // Relation fields
+  GreenhouseRelation Greenhouse @relation(fields: [greenhouseId], references: [id])
+  SensorRelation Sensor @relation(fields: [sensor], references: [name])
 }
 
 model Plant {
   id Int @id @default(autoincrement())
   name String
   description String?
-  greenhouse Greenhouse? @relation(fields: [greenhouseId], references: [id])
-  greenhouseId String? // relation scalar field  (used in the `@relation` attribute above)
+  greenhouseId String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt @default(now())
   isDeleted Boolean @default(false)
+  // Relation field
+  greenhouse Greenhouse? @relation(fields: [greenhouseId], references: [id])
 }
