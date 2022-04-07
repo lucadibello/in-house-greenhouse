@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import { Alert, StyleSheet, TouchableOpacity, View } from "react-native"
+import { StyleSheet, TouchableOpacity, View } from "react-native"
 import { observer } from "mobx-react-lite"
 import { DrawerScreenProps } from "@react-navigation/drawer"
 import { DrawerParamList } from "../../navigators/components/navigators"
@@ -9,8 +9,13 @@ import { palette } from "../../theme/palette"
 import { useStores } from "../../models/root-store/root-store-context"
 import { ScrollView } from "react-native-gesture-handler"
 import { ImageOverlay } from "../../components/image-overlay/image-overlay"
-import { FollowDetailsButtons } from "../../components"
 import * as Clipboard from 'expo-clipboard';
+
+const getAvatarImageURI = (name: string) => {
+  // Replace spaces in name with "+"
+  const nameFormatted = name.replace(/ /g, "+")
+  return `https://ui-avatars.com/api/?background=random&name=${nameFormatted}&size=128&length=2`
+}
 
 export const ProfileScreen: FC<DrawerScreenProps<DrawerParamList, "profile">> = observer(
   ({navigation}) => {
@@ -38,12 +43,12 @@ export const ProfileScreen: FC<DrawerScreenProps<DrawerParamList, "profile">> = 
             {/* Centered content */}
             <ImageOverlay
               style={styles.header}
-              source={require('../../assets/image-background.jpg')}>
+              source={require('../../assets/profile-background.jpg')}>
               
               {/* User avatar */}
               <Avatar
                 style={styles.profileAvatar}
-                source={require('../../assets/plant-vase.png')}
+                source={{uri: getAvatarImageURI(authenticationStore.fullName)}}
               />
 
               {/* User name and surname */}
@@ -52,13 +57,11 @@ export const ProfileScreen: FC<DrawerScreenProps<DrawerParamList, "profile">> = 
                 category='h5'
                 status='control'
               >
-                {authenticationStore.user.name} {authenticationStore.user.surname} 
+                {authenticationStore.fullName} 
               </Text>
 
               {/* User email */}
               <View style={styles.emailContainer}>
-                
-
                 <Tooltip
                   anchor={() => (
                     <TouchableOpacity onPress={() => copyToClipboard(authenticationStore.user.email)}>
@@ -76,13 +79,9 @@ export const ProfileScreen: FC<DrawerScreenProps<DrawerParamList, "profile">> = 
                   Profile id copied to clipboard!
                 </Tooltip>
               </View>
-
-              {/* Follow and details buttons */}
-              <FollowDetailsButtons 
-                onFollowButtonPress={() => Alert.alert("Clicked follow!")}
-                onDetailsButtonPress={() => Alert.alert("Clicked details!")}
-              />     
             </ImageOverlay>
+
+            {/* Follow details buttons */}
             <ScrollView>
               <Text>User stats will be here</Text>
             </ScrollView>
