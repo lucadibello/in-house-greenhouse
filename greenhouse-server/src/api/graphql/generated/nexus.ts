@@ -197,7 +197,6 @@ export interface NexusGenArgTypes {
     addGreenhouse: { // args
       description?: string | null; // String
       name: string; // String!
-      plants?: NexusGenInputs['PlantInput'][] | null; // [PlantInput!]
     }
     addPlant: { // args
       description?: string | null; // String

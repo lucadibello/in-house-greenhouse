@@ -85,9 +85,6 @@ type Query {
 
     """New greenhouse's name"""
     name: String!
-
-    """List of plants that will be planted inside this greenhouse"""
-    plants: [PlantInput!]
   ): Greenhouse
 
   """Add plant to a greenhouses"""
