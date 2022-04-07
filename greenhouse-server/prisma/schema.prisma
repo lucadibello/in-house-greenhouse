@@ -31,6 +31,7 @@ model Greenhouse {
 model Position {
   position String @id
   sensors Sensor[]
+  plants Plant[]
 }
 
 model Type {
@@ -70,6 +71,9 @@ model Plant {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt @default(now())
   isDeleted Boolean @default(false)
+  position String
+
   // Relation field
   greenhouse Greenhouse? @relation(fields: [greenhouseId], references: [id])
+  positionRelation Position @relation(fields: [position], references: [position])
 }
