@@ -25,6 +25,11 @@ export const AuthenticationStoreModel = types
     user: types.maybeNull(UserModel),
     isAuthenticated: types.optional(types.boolean, false),
   })
+  .views(self => ({
+    get fullName() {
+      return self.user.name + " " + self.user.surname
+    }
+  }))
   .actions((self) => ({
     logout() {
       self.user = null
