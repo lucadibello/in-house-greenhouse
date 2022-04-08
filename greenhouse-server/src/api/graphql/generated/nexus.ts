@@ -37,6 +37,7 @@ export interface NexusGenInputs {
 
 export interface NexusGenEnums {
   Position: "BOTTOM_LEFT" | "BOTTOM_RIGHT" | "GENERAL" | "MIDDLE_LEFT" | "MIDDLE_RIGHT" | "TOP_LEFT" | "TOP_RIGHT"
+  Type: "HUMIDITY" | "SOIL_MOISTURE" | "TEMPERATURE"
 }
 
 export interface NexusGenScalars {

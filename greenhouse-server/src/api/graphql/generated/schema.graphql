@@ -176,6 +176,12 @@ type Query {
   users: [User!]
 }
 
+enum Type {
+  HUMIDITY
+  SOIL_MOISTURE
+  TEMPERATURE
+}
+
 type User {
   """User email"""
   email: String!
