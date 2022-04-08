@@ -1,4 +1,4 @@
-import { extendType, intArg, nonNull, objectType, stringArg } from "nexus"
+import { arg, extendType, intArg, nonNull, objectType, stringArg } from "nexus"
 
 export const Data = objectType({
   name: 'Data',
@@ -39,6 +39,10 @@ export const DataQuery = extendType({
         plantId: nonNull(intArg({
           description: "Plant ID"
         })),
+        type: arg({
+          type: 'Type',
+          description: "Type of sensor data to be retrieved",
+        })
       },
       async resolve(_, args, context) {
         // Fetch information related to the plant
@@ -50,9 +54,13 @@ export const DataQuery = extendType({
         if (plant !== null && plant.greenhouseId !== null) {
           // Find sensor with the same position as the plant
           const sensor = await context.prisma.sensor.findFirst({
-            where: { position: plant.position }
+            where: {
+              position: plant.position,
+              type: args.type || undefined
+            }
           });
           
+          // Check if sensor was found
           if (sensor !== null) {
             // Fetch data related to the plant and greenhouse
             return context.prisma.data.findMany({
