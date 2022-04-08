@@ -1,5 +1,5 @@
 import { AuthenticationError } from "apollo-server";
-import { extendType, inputObjectType, intArg, nonNull, nullable, objectType, stringArg } from "nexus";
+import { arg, extendType, inputObjectType, intArg, nonNull, nullable, objectType, stringArg } from "nexus";
 import { isLoggedIn } from "../../utils/request/authentication";
 
 export const Plant = objectType({
@@ -11,6 +11,7 @@ export const Plant = objectType({
     t.nonNull.field('created_at', { type: "dateTime", description: 'Last update timestamp' })
     t.nonNull.field('updated_at', { type: "dateTime", description: 'Last update timestamp' })
     t.nullable.string('greenhouseId', {description: 'Greenhouse ID'})
+    t.nonNull.field('position', {type: "Position", description: 'Plant position inside the greenhouse'})
     t.nonNull.boolean('isDeleted', { description: 'Flag that shows if the plant has been deleted or not'})
   },
 })
@@ -53,6 +54,10 @@ export const PlantQuery = extendType({
         })),
         description: nullable(stringArg({
           description: "Plant's description"
+        })),
+        position: nonNull(arg({
+          type: 'Position',
+          description: 'Position of the plant inside the greenhouse',
         }))
       },
       resolve(_, args, context) {
@@ -66,6 +71,7 @@ export const PlantQuery = extendType({
             name: args.name,
             description: args.description,
             greenhouseId: args.greenhouseId,
+            position: args.position
           }
         })
       }
