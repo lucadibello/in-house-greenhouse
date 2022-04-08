@@ -28,26 +28,11 @@ model Greenhouse {
   updated_at DateTime @updatedAt @default(now())
 }
 
-model Position {
-  position String @id
-  sensors Sensor[]
-  plants Plant[]
-}
-
-model Type {
-  code String @id
-  sensors Sensor[]
-}
-
 model Sensor {
   name String @id
-  type String
-  position String
+  type SensorType
+  position Position
   data Data[]
-  
-  // Relation fields
-  TypeRelation Type @relation(fields: [type], references: [code]) 
-  PositionRelation Position @relation(fields: [position], references: [position]) 
 }
 
 model Data {
@@ -71,9 +56,24 @@ model Plant {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt @default(now())
   isDeleted Boolean @default(false)
-  position String
+  position Position
 
   // Relation field
   greenhouse Greenhouse? @relation(fields: [greenhouseId], references: [id])
-  positionRelation Position @relation(fields: [position], references: [position])
+}
+
+enum Position {
+  TOP_LEFT
+  TOP_RIGHT
+  MIDDLE_LEFT
+  MIDDLE_RIGHT
+  BOTTOM_LEFT
+  BOTTOM_RIGHT
+  GENERAL
+}
+
+enum SensorType {
+  HUMIDITY
+  TEMPERATURE
+  SOIL_MOISTURE
 }
