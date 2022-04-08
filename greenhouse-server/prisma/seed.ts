@@ -11,45 +11,6 @@ const rootUsers: Prisma.UserCreateInput[] = [
   },
 ]
 
-const positions: Prisma.PositionCreateInput[] = [
-  {
-    position: 'TOP_LEFT'
-  },
-  {
-    position: 'TOP_RIGHT'
-  },
-  {
-    position: 'MIDDLE_LEFT'
-  },
-  {
-    position: 'MIDDLE_RIGHT'
-  },
-  {
-    position: 'BOTTOM_LEFT'
-  },
-  {
-    position: 'BOTTOM_RIGHT'
-  },
-  {
-    position: 'GENERAL'
-  },
-]
-
-const sensorTypes: Prisma.TypeCreateInput[] = [
-  {
-    code: "SOIL_MOISTURE"
-  },
-  {
-    code: "HUMIDITY"
-  },
-  {
-    code: "TEMPERATURE"
-  },
-  {
-    code: "CAMERA"
-  }
-]
-
 const sensors: Prisma.SensorUncheckedCreateInput[] = [
   {
     name: 'HUMIDITY_SENSOR',
@@ -105,31 +66,13 @@ async function main() {
     console.log(`Created user with id: ${user.id}`)
   }
 
-  // Create default positions
-  console.log("\n-- ADDING DEFAULT POSITIONS --")
-  for (const p of positions) {
-    const position = await prisma.position.create({
-      data: p,
-    })
-    console.log(`Created position with code: ${position.position}`)
-  }
-
-  // Create default sensor types
-  console.log("\n-- ADDING DEFAULT SENSOR TYPES --")
-  for (const t of sensorTypes) {
-    const type = await prisma.type.create({
-      data: t,
-    })
-    console.log(`Created sensor type with code: ${type.code}`)
-  }
-
   // Add default sensors
   console.log("\n-- ADDING DEFAULT SENSORS --")
   for (const s of sensors) {
     const sensor = await prisma.sensor.create({
       data: s
     })
-    console.log(`Created position with code: ${sensor.name}`)
+    console.log(`Created sensor with code: ${sensor.name} at position: ${sensor.position}`)
   }
 
   // Notify seeding finished
