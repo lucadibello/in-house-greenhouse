@@ -1,4 +1,4 @@
-import { nonNull, objectType, stringArg } from "nexus"
+import { extendType, nonNull, objectType, stringArg } from "nexus"
 import { compare, hashSync, genSaltSync } from 'bcrypt'
 import { JWT, TokenType } from '../../utils/jwt/jwt'
 import { getAccessTokenSecret, getRefreshTokenSecret } from '../../utils/env/env'
@@ -24,8 +24,66 @@ export const Auth = objectType({
   }
 })
 
-export const AuthQuery = objectType({
-  name: 'Query',
+export const AuthMutation = extendType({
+  type: 'Mutation',
+  definition(t) {
+    // Field for registering users
+    t.nonNull.field('registerUser', {
+      type: 'Auth',
+      args: {
+        email: nonNull(stringArg()),
+        name: nonNull(stringArg()),
+        surname: nonNull(stringArg()),
+        password: nonNull(stringArg()),
+      },
+      resolve: async (_, args, context) => {
+        try {
+          // Register user
+          const user = await context.prisma.user.create({
+            data: {
+              email: args.email,
+              name: args.name,
+              surname: args.surname,
+              password: hashSync(args.password, genSaltSync(12))
+            }
+          })
+
+          // Encode session with 30 minutes expiration
+          const session = jwtService.encodeSession(user)
+
+          // Password is correct, return Auth object with signed token
+          return {
+            token: session.accessToken,
+            refreshToken: jwtService.generateRefreshToken(),
+            isError: false,
+            errorCode: null,
+            errorMessage: '',
+            expire: session.expire.toISOString(), 
+            issued: session.issued.toISOString(),
+            user: user
+          }
+        } catch (e: any) {
+          // Add console.log to see error
+          console.log(e)
+
+          return {
+            token: null,
+            accessToken: null,
+            isError: true,
+            errorCode: 'REGISTER_DB_ERROR',
+            errorMessage: e.message,
+            expire: null,
+            issued: null,
+            user: null
+          }
+        }
+      }
+    });
+  }
+})
+
+export const AuthQuery = extendType({
+  type: 'Query',
   definition(t) {
     // Field for login users
     t.nonNull.field('loginUser', {
@@ -127,59 +185,6 @@ export const AuthQuery = objectType({
             errorMessage: '',
             expire: session.expire.toISOString(), 
             issued: session.issued.toISOString(),
-            user: null
-          }
-        }
-      }
-    });
-
-    // Field for registering users
-    t.nonNull.field('registerUser', {
-      type: 'Auth',
-      args: {
-        email: nonNull(stringArg()),
-        name: nonNull(stringArg()),
-        surname: nonNull(stringArg()),
-        password: nonNull(stringArg()),
-      },
-      resolve: async (_, args, context) => {
-        try {
-          // Register user
-          const user = await context.prisma.user.create({
-            data: {
-              email: args.email,
-              name: args.name,
-              surname: args.surname,
-              password: hashSync(args.password, genSaltSync(12))
-            }
-          })
-
-          // Encode session with 30 minutes expiration
-          const session = jwtService.encodeSession(user)
-
-          // Password is correct, return Auth object with signed token
-          return {
-            token: session.accessToken,
-            refreshToken: jwtService.generateRefreshToken(),
-            isError: false,
-            errorCode: null,
-            errorMessage: '',
-            expire: session.expire.toISOString(), 
-            issued: session.issued.toISOString(),
-            user: user
-          }
-        } catch (e: any) {
-          // Add console.log to see error
-          console.log(e)
-
-          return {
-            token: null,
-            accessToken: null,
-            isError: true,
-            errorCode: 'REGISTER_DB_ERROR',
-            errorMessage: e.message,
-            expire: null,
-            issued: null,
             user: null
           }
         }
