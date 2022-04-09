@@ -69,6 +69,51 @@ type Greenhouse {
   updated_at: dateTime!
 }
 
+type Mutation {
+  """Create a new greenhouse"""
+  addGreenhouse(
+    """New greenhouse's description"""
+    description: String
+
+    """New greenhouse's name"""
+    name: String!
+  ): Greenhouse
+
+  """Add plant to a greenhouses"""
+  addPlant(
+    """Plant's description"""
+    description: String
+
+    """Greenhouse ID"""
+    greenhouseId: String!
+
+    """Plant's name"""
+    name: String!
+
+    """Position of the plant inside the greenhouse"""
+    position: Position!
+  ): Plant
+  registerUser(email: String!, name: String!, password: String!, surname: String!): Auth!
+
+  """Remove a Plant from its greenhouse"""
+  removePlant(
+    """Plant ID"""
+    id: Int!
+  ): Plant
+
+  """Update a plant information"""
+  updatePlant(
+    """Plant's description"""
+    description: String
+
+    """Plant ID"""
+    id: Int!
+
+    """Plant's name"""
+    name: String!
+  ): Plant
+}
+
 type Plant {
   """Last update timestamp"""
   created_at: dateTime!
@@ -98,6 +143,7 @@ type Plant {
 input PlantInput {
   description: String
   name: String!
+  position: Position!
 }
 
 enum Position {
@@ -111,30 +157,6 @@ enum Position {
 }
 
 type Query {
-  """Create a new greenhouse"""
-  addGreenhouse(
-    """New greenhouse's description"""
-    description: String
-
-    """New greenhouse's name"""
-    name: String!
-  ): Greenhouse
-
-  """Add plant to a greenhouses"""
-  addPlant(
-    """Plant's description"""
-    description: String
-
-    """Greenhouse ID"""
-    greenhouseId: String!
-
-    """Plant's name"""
-    name: String!
-
-    """Position of the plant inside the greenhouse"""
-    position: Position!
-  ): Plant
-
   """List of all data related to a certain greenhouse"""
   getData(
     """Greenhouse UUID"""
@@ -145,6 +167,9 @@ type Query {
   getDataByPlant(
     """Plant ID"""
     plantId: Int!
+
+    """Type of sensor data to be retrieved"""
+    type: Type
   ): [Data!]
 
   """List of all known greenhouses"""
@@ -154,25 +179,6 @@ type Query {
   """List of all plants contained in one greenhouse"""
   plants: [Plant!]
   refreshToken(refreshToken: String!): Auth!
-  registerUser(email: String!, name: String!, password: String!, surname: String!): Auth!
-
-  """Remove a Plant from its greenhouse"""
-  removePlant(
-    """Plant ID"""
-    id: Int!
-  ): Plant
-
-  """Update a plant information"""
-  updatePlant(
-    """Plant's description"""
-    description: String
-
-    """Plant ID"""
-    id: Int!
-
-    """Plant's name"""
-    name: String!
-  ): Plant
   users: [User!]
 }
 

@@ -32,6 +32,7 @@ export interface NexusGenInputs {
   PlantInput: { // input type
     description?: string | null; // String
     name: string; // String!
+    position: NexusGenEnums['Position']; // Position!
   }
 }
 
@@ -76,6 +77,7 @@ export interface NexusGenObjects {
     name: string; // String!
     updated_at: NexusGenScalars['dateTime']; // dateTime!
   }
+  Mutation: {};
   Plant: { // root type
     created_at: NexusGenScalars['dateTime']; // dateTime!
     description?: string | null; // String
@@ -133,6 +135,13 @@ export interface NexusGenFieldTypes {
     plants: Array<NexusGenRootTypes['Plant'] | null> | null; // [Plant]
     updated_at: NexusGenScalars['dateTime']; // dateTime!
   }
+  Mutation: { // field return type
+    addGreenhouse: NexusGenRootTypes['Greenhouse'] | null; // Greenhouse
+    addPlant: NexusGenRootTypes['Plant'] | null; // Plant
+    registerUser: NexusGenRootTypes['Auth']; // Auth!
+    removePlant: NexusGenRootTypes['Plant'] | null; // Plant
+    updatePlant: NexusGenRootTypes['Plant'] | null; // Plant
+  }
   Plant: { // field return type
     created_at: NexusGenScalars['dateTime']; // dateTime!
     description: string | null; // String
@@ -144,17 +153,12 @@ export interface NexusGenFieldTypes {
     updated_at: NexusGenScalars['dateTime']; // dateTime!
   }
   Query: { // field return type
-    addGreenhouse: NexusGenRootTypes['Greenhouse'] | null; // Greenhouse
-    addPlant: NexusGenRootTypes['Plant'] | null; // Plant
     getData: NexusGenRootTypes['Data'][] | null; // [Data!]
     getDataByPlant: NexusGenRootTypes['Data'][] | null; // [Data!]
     greenhouses: NexusGenRootTypes['Greenhouse'][] | null; // [Greenhouse!]
     loginUser: NexusGenRootTypes['Auth']; // Auth!
     plants: NexusGenRootTypes['Plant'][] | null; // [Plant!]
     refreshToken: NexusGenRootTypes['Auth']; // Auth!
-    registerUser: NexusGenRootTypes['Auth']; // Auth!
-    removePlant: NexusGenRootTypes['Plant'] | null; // Plant
-    updatePlant: NexusGenRootTypes['Plant'] | null; // Plant
     users: NexusGenRootTypes['User'][] | null; // [User!]
   }
   User: { // field return type
@@ -193,6 +197,13 @@ export interface NexusGenFieldTypeNames {
     plants: 'Plant'
     updated_at: 'dateTime'
   }
+  Mutation: { // field return type name
+    addGreenhouse: 'Greenhouse'
+    addPlant: 'Plant'
+    registerUser: 'Auth'
+    removePlant: 'Plant'
+    updatePlant: 'Plant'
+  }
   Plant: { // field return type name
     created_at: 'dateTime'
     description: 'String'
@@ -204,17 +215,12 @@ export interface NexusGenFieldTypeNames {
     updated_at: 'dateTime'
   }
   Query: { // field return type name
-    addGreenhouse: 'Greenhouse'
-    addPlant: 'Plant'
     getData: 'Data'
     getDataByPlant: 'Data'
     greenhouses: 'Greenhouse'
     loginUser: 'Auth'
     plants: 'Plant'
     refreshToken: 'Auth'
-    registerUser: 'Auth'
-    removePlant: 'Plant'
-    updatePlant: 'Plant'
     users: 'User'
   }
   User: { // field return type name
@@ -226,7 +232,7 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
-  Query: {
+  Mutation: {
     addGreenhouse: { // args
       description?: string | null; // String
       name: string; // String!
@@ -236,19 +242,6 @@ export interface NexusGenArgTypes {
       greenhouseId: string; // String!
       name: string; // String!
       position: NexusGenEnums['Position']; // Position!
-    }
-    getData: { // args
-      greenhouseId: string; // String!
-    }
-    getDataByPlant: { // args
-      plantId: number; // Int!
-    }
-    loginUser: { // args
-      email: string; // String!
-      password: string; // String!
-    }
-    refreshToken: { // args
-      refreshToken: string; // String!
     }
     registerUser: { // args
       email: string; // String!
@@ -263,6 +256,22 @@ export interface NexusGenArgTypes {
       description?: string | null; // String
       id: number; // Int!
       name: string; // String!
+    }
+  }
+  Query: {
+    getData: { // args
+      greenhouseId: string; // String!
+    }
+    getDataByPlant: { // args
+      plantId: number; // Int!
+      type?: NexusGenEnums['Type'] | null; // Type
+    }
+    loginUser: { // args
+      email: string; // String!
+      password: string; // String!
+    }
+    refreshToken: { // args
+      refreshToken: string; // String!
     }
   }
 }
