@@ -23,7 +23,7 @@ export const PlantModel = types
     isDeleted: types.boolean
   })
   .actions(self => ({
-    updatePlant: flow(function* updatePlant (update: {name: string, description?: string}) {
+    updatePlant: flow(function* updatePlant (update: {name: string, description?: string, position: string}) {
       const plantApi = new PlantApi(self.environment.api)
       
       const result = yield runAuthenticatedApi<UpdatePlantResult>(
