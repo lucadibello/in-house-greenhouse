@@ -15,10 +15,12 @@ export const PlantModel = types
   .props({
     id: types.identifierNumber,
     name: types.string,
-    description: types.maybe(types.string),
+    description: types.maybeNull(types.string),
     created_at: types.string,
-    greenhouseId: types.maybe(types.string),
-    updated_at: types.string
+    greenhouseId: types.maybeNull(types.string),
+    updated_at: types.string,
+    position: types.string,
+    isDeleted: types.boolean
   })
   .actions(self => ({
     updatePlant: flow(function* updatePlant (update: {name: string, description?: string}) {
