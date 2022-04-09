@@ -93,6 +93,18 @@ type Mutation {
     """Position of the plant inside the greenhouse"""
     position: Position!
   ): Plant
+
+  """Record data from a sensor"""
+  recordData(
+    """Greenhouse ID"""
+    greenhouseId: String!
+
+    """Sensor name"""
+    sensor: String!
+
+    """Sensor value"""
+    value: Float!
+  ): Data
   registerUser(email: String!, name: String!, password: String!, surname: String!): Auth!
 
   """Remove a Plant from its greenhouse"""
@@ -179,7 +191,21 @@ type Query {
   """List of all plants contained in one greenhouse"""
   plants: [Plant!]
   refreshToken(refreshToken: String!): Auth!
+
+  """List of all known sensors"""
+  sensors: [Sensor!]
   users: [User!]
+}
+
+type Sensor {
+  """Sensor name"""
+  name: String!
+
+  """Sensor position"""
+  position: Position!
+
+  """Sensor type"""
+  type: Type!
 }
 
 enum Type {

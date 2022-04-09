@@ -89,6 +89,11 @@ export interface NexusGenObjects {
     updated_at: NexusGenScalars['dateTime']; // dateTime!
   }
   Query: {};
+  Sensor: { // root type
+    name: string; // String!
+    position: NexusGenEnums['Position']; // Position!
+    type: NexusGenEnums['Type']; // Type!
+  }
   User: { // root type
     email: string; // String!
     id: number; // Int!
@@ -138,6 +143,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     addGreenhouse: NexusGenRootTypes['Greenhouse'] | null; // Greenhouse
     addPlant: NexusGenRootTypes['Plant'] | null; // Plant
+    recordData: NexusGenRootTypes['Data'] | null; // Data
     registerUser: NexusGenRootTypes['Auth']; // Auth!
     removePlant: NexusGenRootTypes['Plant'] | null; // Plant
     updatePlant: NexusGenRootTypes['Plant'] | null; // Plant
@@ -159,7 +165,13 @@ export interface NexusGenFieldTypes {
     loginUser: NexusGenRootTypes['Auth']; // Auth!
     plants: NexusGenRootTypes['Plant'][] | null; // [Plant!]
     refreshToken: NexusGenRootTypes['Auth']; // Auth!
+    sensors: NexusGenRootTypes['Sensor'][] | null; // [Sensor!]
     users: NexusGenRootTypes['User'][] | null; // [User!]
+  }
+  Sensor: { // field return type
+    name: string; // String!
+    position: NexusGenEnums['Position']; // Position!
+    type: NexusGenEnums['Type']; // Type!
   }
   User: { // field return type
     email: string; // String!
@@ -200,6 +212,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     addGreenhouse: 'Greenhouse'
     addPlant: 'Plant'
+    recordData: 'Data'
     registerUser: 'Auth'
     removePlant: 'Plant'
     updatePlant: 'Plant'
@@ -221,7 +234,13 @@ export interface NexusGenFieldTypeNames {
     loginUser: 'Auth'
     plants: 'Plant'
     refreshToken: 'Auth'
+    sensors: 'Sensor'
     users: 'User'
+  }
+  Sensor: { // field return type name
+    name: 'String'
+    position: 'Position'
+    type: 'Type'
   }
   User: { // field return type name
     email: 'String'
@@ -242,6 +261,11 @@ export interface NexusGenArgTypes {
       greenhouseId: string; // String!
       name: string; // String!
       position: NexusGenEnums['Position']; // Position!
+    }
+    recordData: { // args
+      greenhouseId: string; // String!
+      sensor: string; // String!
+      value: number; // Float!
     }
     registerUser: { // args
       email: string; // String!
