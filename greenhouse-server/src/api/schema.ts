@@ -4,7 +4,6 @@ import {
 } from 'nexus'
 import { join } from 'path'
 import { DateTimeResolver } from 'graphql-scalars'
-import { Context } from './context'
 import * as types from './graphql'
 
 export const DateTime = asNexusMethod(DateTimeResolver, 'date')
