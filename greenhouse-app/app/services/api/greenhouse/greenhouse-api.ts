@@ -31,6 +31,8 @@ export class GreenhouseApi extends ApiBase {
               created_at
               updated_at
               greenhouseId
+              position
+              isDeleted
             }
           }
         }`
