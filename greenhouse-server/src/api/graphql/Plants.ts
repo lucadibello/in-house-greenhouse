@@ -1,5 +1,5 @@
 import { AuthenticationError } from "apollo-server";
-import { arg, extendType, inputObjectType, intArg, mutationType, nonNull, nullable, objectType, queryType, stringArg } from "nexus";
+import { arg, extendType, inputObjectType, intArg, nonNull, nullable, objectType, stringArg } from "nexus";
 import { isLoggedIn } from "../../utils/request/authentication";
 
 export const Plant = objectType({
