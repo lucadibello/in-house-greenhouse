@@ -4,6 +4,7 @@ import { RemovePlantResult, UpdatePlantResult } from "../../services/api"
 import { PlantApi } from "../../services/api/plant/plant-api"
 import { runAuthenticatedApi } from "../../utils/auth-runner"
 import { withEnvironment } from "../extensions/with-environment"
+import { PositionModel } from "../position/position"
 
 /**
  * Greenhouse's plant model
@@ -19,7 +20,7 @@ export const PlantModel = types
     created_at: types.string,
     greenhouseId: types.maybeNull(types.string),
     updated_at: types.string,
-    position: types.string,
+    position: PositionModel,
     isDeleted: types.boolean
   })
   .actions(self => ({
