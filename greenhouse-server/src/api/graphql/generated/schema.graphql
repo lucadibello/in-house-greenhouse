@@ -26,6 +26,26 @@ type Auth {
   user: User
 }
 
+type Data {
+  """Data record creation date"""
+  created_at: dateTime!
+
+  """Greenhouse ID"""
+  greenhouseId: String!
+
+  """Data record ID"""
+  id: Int!
+
+  """Sensor name"""
+  sensor: String!
+
+  """Data record update date"""
+  updated_at: dateTime!
+
+  """Sensor value"""
+  value: Float!
+}
+
 type Greenhouse {
   """Creation timestamp"""
   created_at: dateTime!
@@ -49,35 +69,7 @@ type Greenhouse {
   updated_at: dateTime!
 }
 
-type Plant {
-  """Last update timestamp"""
-  created_at: dateTime!
-
-  """Plant description"""
-  description: String
-
-  """Greenhouse ID"""
-  greenhouseId: String
-
-  """Plant identification number"""
-  id: Int!
-
-  """Flag that shows if the plant has been deleted or not"""
-  isDeleted: Boolean!
-
-  """Plant name"""
-  name: String!
-
-  """Last update timestamp"""
-  updated_at: dateTime!
-}
-
-input PlantInput {
-  description: String
-  name: String!
-}
-
-type Query {
+type Mutation {
   """Create a new greenhouse"""
   addGreenhouse(
     """New greenhouse's description"""
@@ -97,15 +89,22 @@ type Query {
 
     """Plant's name"""
     name: String!
+
+    """Position of the plant inside the greenhouse"""
+    position: Position!
   ): Plant
 
-  """List of all known greenhouses"""
-  greenhouses: [Greenhouse!]
-  loginUser(email: String!, password: String!): Auth!
+  """Record data from a sensor"""
+  recordData(
+    """Greenhouse ID"""
+    greenhouseId: String!
 
-  """List of all plants contained in one greenhouse"""
-  plants: [Plant!]
-  refreshToken(refreshToken: String!): Auth!
+    """Sensor name"""
+    sensor: String!
+
+    """Sensor value"""
+    value: Float!
+  ): Data
   registerUser(email: String!, name: String!, password: String!, surname: String!): Auth!
 
   """Remove a Plant from its greenhouse"""
@@ -125,7 +124,94 @@ type Query {
     """Plant's name"""
     name: String!
   ): Plant
+}
+
+type Plant {
+  """Last update timestamp"""
+  created_at: dateTime!
+
+  """Plant description"""
+  description: String
+
+  """Greenhouse ID"""
+  greenhouseId: String
+
+  """Plant identification number"""
+  id: Int!
+
+  """Flag that shows if the plant has been deleted or not"""
+  isDeleted: Boolean!
+
+  """Plant name"""
+  name: String!
+
+  """Plant position inside the greenhouse"""
+  position: Position!
+
+  """Last update timestamp"""
+  updated_at: dateTime!
+}
+
+input PlantInput {
+  description: String
+  name: String!
+  position: Position!
+}
+
+enum Position {
+  BOTTOM_LEFT
+  BOTTOM_RIGHT
+  GENERAL
+  MIDDLE_LEFT
+  MIDDLE_RIGHT
+  TOP_LEFT
+  TOP_RIGHT
+}
+
+type Query {
+  """List of all data related to a certain greenhouse"""
+  getData(
+    """Greenhouse UUID"""
+    greenhouseId: String!
+  ): [Data!]
+
+  """List of all data related to a certain plant"""
+  getDataByPlant(
+    """Plant ID"""
+    plantId: Int!
+
+    """Type of sensor data to be retrieved"""
+    type: Type
+  ): [Data!]
+
+  """List of all known greenhouses"""
+  greenhouses: [Greenhouse!]
+  loginUser(email: String!, password: String!): Auth!
+
+  """List of all plants contained in one greenhouse"""
+  plants: [Plant!]
+  refreshToken(refreshToken: String!): Auth!
+
+  """List of all known sensors"""
+  sensors: [Sensor!]
   users: [User!]
+}
+
+type Sensor {
+  """Sensor name"""
+  name: String!
+
+  """Sensor position"""
+  position: Position!
+
+  """Sensor type"""
+  type: Type!
+}
+
+enum Type {
+  HUMIDITY
+  SOIL_MOISTURE
+  TEMPERATURE
 }
 
 type User {

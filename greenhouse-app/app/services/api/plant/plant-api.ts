@@ -11,24 +11,27 @@ export class PlantApi extends ApiBase {
     this.api = api
   }
 
-  async addPlant(greenhouseId: string, update: {name: string, description?: string}): Promise<AddPlantResult> {
+  async addPlant(greenhouseId: string, update: {name: string, description?: string, position: string}): Promise<AddPlantResult> {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/addPlant`, {
-        query: `query AddPlant($greenhouseId: String!, $name: String!, $description: String) {
-          addPlant(greenhouseId: $greenhouseId, name: $name, description: $description) {
+        query: `mutation AddPlant($greenhouseId: String!, $name: String!, $position: Position!, $description: String) {
+          addPlant(greenhouseId: $greenhouseId, name: $name, position: $position, description: $description) {
             id
             name
             description
             created_at
             updated_at
             greenhouseId
+            position
+            isDeleted
           }
         }`,
         variables: {
           greenhouseId: greenhouseId,
           name: update.name,
-          description: update.description
+          description: update.description || null,
+          position: update.position
         }
       })
       
@@ -47,6 +50,11 @@ export class PlantApi extends ApiBase {
       }
       // Read response data
       const graphQLResponse = response.data
+
+      // Format position data
+      graphQLResponse.data.addPlant.position = {
+        name: graphQLResponse.data.addPlant.position 
+      } 
       
       // List greenhouses
       return {kind: "ok", plant: graphQLResponse.data.addPlant};
@@ -61,11 +69,11 @@ export class PlantApi extends ApiBase {
     }
   }
 
-  async updatePlant(plantId: number, update: {name: string, description?: string}): Promise<UpdatePlantResult> {
+  async updatePlant(plantId: number, update: {name: string, description?: string, position: string}): Promise<UpdatePlantResult> {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/updatePlant`, {
-        query: `query UpdatePlant($updatePlantId: Int!, $name: String!, $description: String) {
+        query: `mutation UpdatePlant($updatePlantId: Int!, $name: String!, $description: String) {
           updatePlant(id: $updatePlantId, name: $name, description: $description) {
             id
             name
@@ -73,12 +81,15 @@ export class PlantApi extends ApiBase {
             created_at
             updated_at
             greenhouseId
+            position
+            isDeleted
           }
         }`, 
         variables: {
           updatePlantId: plantId,
           name: update.name,
-          description: update.description
+          description: update.description || null,
+          position: update.position
         }
       })
       
@@ -113,14 +124,9 @@ export class PlantApi extends ApiBase {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/removePlant`, {
-        query: `query Query($removePlantId: Int!) {
+        query: `mutation RemovePlant($removePlantId: Int!) {
           removePlant(id: $removePlantId) {
-            id
-            name
-            description
-            created_at
-            updated_at
-            greenhouseId
+            isDeleted
           }
         }`, 
         variables: {

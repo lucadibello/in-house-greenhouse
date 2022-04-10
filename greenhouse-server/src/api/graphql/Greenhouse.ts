@@ -23,22 +23,9 @@ export const Greenhouse = objectType({
   },
 })
 
-export const GreenhouseQuery = extendType({
-  type: 'Query',
-  definition(t) {
-    // List all greenhouses
-    t.list.nonNull.field('greenhouses', {
-      type: 'Greenhouse',
-      description: 'List of all known greenhouses',
-      resolve(_, args, context) {
-        // Check if user is authenticated
-        if (!isLoggedIn(context.req)) {
-          throw new AuthenticationError('You must be logged in to perform this action')
-        }
-
-        return context.prisma.greenhouse.findMany();
-      },
-    });
+export const GreenhouseMutation = extendType({
+  type: 'Mutation',
+  definition (t) {
     // Create a new greenhouse
     t.field('addGreenhouse', {
       type: 'Greenhouse',
@@ -68,5 +55,24 @@ export const GreenhouseQuery = extendType({
         })
       }
     })
+  }
+})
+
+export const GreenhouseQuery = extendType({
+  type: 'Query',
+  definition(t) {
+    // List all greenhouses
+    t.list.nonNull.field('greenhouses', {
+      type: 'Greenhouse',
+      description: 'List of all known greenhouses',
+      resolve(_, args, context) {
+        // Check if user is authenticated
+        if (!isLoggedIn(context.req)) {
+          throw new AuthenticationError('You must be logged in to perform this action')
+        }
+
+        return context.prisma.greenhouse.findMany();
+      },
+    });
   }
 })

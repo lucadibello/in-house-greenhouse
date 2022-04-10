@@ -1,7 +1,8 @@
 import { GeneralApiProblem } from '../problem/api-problem'
 import { Greenhouse } from "../../../../models/greenhouse/greenhouse"
 import { Plant } from '../../../../models/plant/plant';
-import { User, UserSnapshot } from '../../../../models/user/user';
+import { UserSnapshot } from '../../../../models/user/user';
+import { Position } from '../../../../models/position/position';
 
 // Define greenhouse API response types
 export type GetGreenhousesResult = { kind: "ok" | string; greenhouses: Greenhouse[] } | GeneralApiProblem;
@@ -31,3 +32,7 @@ export type RefreshResult = {
   errorCode: string;
   errorMessage: string;
 } | GeneralApiProblem;
+
+
+// Define position API response types
+export type GetPositionsResult = { kind: "ok" | string; positions: Position[] } | GeneralApiProblem;

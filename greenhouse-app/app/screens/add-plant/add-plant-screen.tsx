@@ -3,9 +3,10 @@ import { Alert, StyleSheet } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { Avatar, Button, Divider, Icon, Input, Layout, Text, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
 import { SafeAreaView } from "react-native-safe-area-context"
-import { useStores } from "../../models"
+import { Position, useStores } from "../../models"
 import { observer } from "mobx-react-lite"
 import { NavigatorParamList } from "../../navigators/components/navigators"
+import { PositionSelectInput } from "../../components"
 
 export const AddPlantScreen: FC<StackScreenProps<NavigatorParamList, "addPlant">> = observer(
   ({navigation}) => {
@@ -22,6 +23,7 @@ export const AddPlantScreen: FC<StackScreenProps<NavigatorParamList, "addPlant">
       // Create input states
       const nameInputState = useInputState();
       const descriptionInputState = useInputState();
+      const [position, setPosition] = React.useState<Position>(); 
       
       // Show greenhouse inforamation
       return (
@@ -60,6 +62,11 @@ export const AddPlantScreen: FC<StackScreenProps<NavigatorParamList, "addPlant">
             {...descriptionInputState}
           />
 
+          {/* PLANT POSITION */}
+          <PositionSelectInput
+            onSelect={(position) => setPosition(position) }
+          />
+
           {/* UPDATE PLANT DATA */}
           <Button style={styles.applyChanges} onPress={() => {
             // Check data
@@ -67,7 +74,8 @@ export const AddPlantScreen: FC<StackScreenProps<NavigatorParamList, "addPlant">
               // Save data through API
               navigationStore.greenhouseScreenParams.greenhouse.addPlant({
                 name: nameInputState.value,
-                description: descriptionInputState.value
+                description: descriptionInputState.value,
+                position: position.name
               })
               // Go back
               navigation.goBack()

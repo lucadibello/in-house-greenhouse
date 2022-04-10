@@ -6,8 +6,6 @@ import { withEnvironment } from "../extensions/with-environment"
 import { withRootStore } from "../extensions/with-root-store"
 import { PlantModel } from "../plant/plant"
 
-const PlantsArray = types.array(PlantModel)
-
 /**
  * Model description here for TypeScript hints.
  */
@@ -20,12 +18,12 @@ export const GreenhouseModel = types
     name: types.string,
     description: types.maybeNull(types.string),
     isOkay: types.boolean,
-    plants: PlantsArray,
+    plants: types.array(PlantModel),
     created_at: types.string,
     updated_at: types.string
   })
   .actions(self => ({
-    addPlant: flow(function* addPlant (update: {name: string, description?: string}) {
+    addPlant: flow(function* addPlant (update: {name: string, description?: string, position: string}) {
       const plantApi = new PlantApi(self.environment.api)
       const result = yield runAuthenticatedApi<AddPlantResult>(
         self.rootStore.authenticationStore,

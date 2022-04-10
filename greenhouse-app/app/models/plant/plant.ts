@@ -4,6 +4,7 @@ import { RemovePlantResult, UpdatePlantResult } from "../../services/api"
 import { PlantApi } from "../../services/api/plant/plant-api"
 import { runAuthenticatedApi } from "../../utils/auth-runner"
 import { withEnvironment } from "../extensions/with-environment"
+import { PositionModel } from "../position/position"
 
 /**
  * Greenhouse's plant model
@@ -15,13 +16,15 @@ export const PlantModel = types
   .props({
     id: types.identifierNumber,
     name: types.string,
-    description: types.maybe(types.string),
+    description: types.maybeNull(types.string),
     created_at: types.string,
-    greenhouseId: types.maybe(types.string),
-    updated_at: types.string
+    greenhouseId: types.maybeNull(types.string),
+    updated_at: types.string,
+    position: PositionModel,
+    isDeleted: types.boolean
   })
   .actions(self => ({
-    updatePlant: flow(function* updatePlant (update: {name: string, description?: string}) {
+    updatePlant: flow(function* updatePlant (update: {name: string, description?: string, position: string}) {
       const plantApi = new PlantApi(self.environment.api)
       
       const result = yield runAuthenticatedApi<UpdatePlantResult>(
