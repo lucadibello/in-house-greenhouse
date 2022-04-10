@@ -23,7 +23,7 @@ export const GreenhouseModel = types
     updated_at: types.string
   })
   .actions(self => ({
-    addPlant: flow(function* addPlant (update: {name: string, description?: string}) {
+    addPlant: flow(function* addPlant (update: {name: string, description?: string, position: string}) {
       const plantApi = new PlantApi(self.environment.api)
       const result = yield runAuthenticatedApi<AddPlantResult>(
         self.rootStore.authenticationStore,
