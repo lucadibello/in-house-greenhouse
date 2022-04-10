@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import { useStores } from "../../models"
 import { observer } from "mobx-react-lite"
 import { NavigatorParamList } from "../../navigators/components/navigators"
+import { PositionSelectInput } from "../../components/position-select-input/position-select-input"
 
 export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant">> = observer(
   ({navigation}) => {
@@ -22,6 +23,7 @@ export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant
       // Create input states
       const nameInputState = useInputState(navigationStore.editPlantScreenParams.plant.name);
       const descriptionInputState = useInputState(navigationStore.editPlantScreenParams.plant.description);
+      const [position, setPosition] = React.useState(navigationStore.editPlantScreenParams.plant.position); 
       
       // Compute dates
       const createdAtDate = new Date(navigationStore.editPlantScreenParams.plant.created_at).toLocaleString()
@@ -86,14 +88,23 @@ export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant
             disabled={true}            
           />
 
+          {/* PLANT POSITION */}
+          <PositionSelectInput
+            onSelect={(position) => setPosition(position)}
+          />
+
           {/* UPDATE PLANT DATA */}
           <Button style={styles.applyChanges} onPress={() => {
+            // Send data through API
             navigationStore.editPlantScreenParams.plant.updatePlant(
               {
                 name: nameInputState.value,
-                description: descriptionInputState.value
+                description: descriptionInputState.value,
+                position: position.name
               }
             )
+            // Return to list page
+            navigation.goBack()
           }}>Apply changes</Button>
         </Layout>
       </SafeAreaView>
