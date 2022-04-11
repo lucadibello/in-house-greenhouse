@@ -183,6 +183,7 @@ type Query {
     """Type of sensor data to be retrieved"""
     type: Type
   ): [Data!]
+  greenhouseAuth(greenhouseId: String!): SensorAuth!
 
   """List of all known greenhouses"""
   greenhouses: [Greenhouse!]
@@ -206,6 +207,23 @@ type Sensor {
 
   """Sensor type"""
   type: Type!
+}
+
+type SensorAuth {
+  """Authentication error code"""
+  errorCode: String
+
+  """Authentication error message"""
+  errorMessage: String
+
+  """Access token expire time"""
+  expire: String
+
+  """Access token issued time"""
+  issued: String
+
+  """JWT token used to access API"""
+  token: String
 }
 
 enum Type {
