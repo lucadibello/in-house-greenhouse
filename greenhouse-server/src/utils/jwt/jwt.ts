@@ -13,8 +13,7 @@ type Session = {
 }
 
 export enum TokenType {
-  TOKEN_ACCESS, TOKEN_REFRESH,
-  ACCESS
+  TOKEN_ACCESS, TOKEN_REFRESH
 }
 
 export class JWT {
@@ -107,9 +106,23 @@ export class JWT {
         return verify(token, this.refreshSecret) as User
       } else if (tokenType == TokenType.TOKEN_ACCESS) {
         return verify(token, this.accessSecret) as User
-      } else {
+      }
+      else {
         return null
       }
+    } catch (err) {
+      console.log(err)
+      return null
+    }
+  }
+
+  public verifyGreenhouseToken (token: string): Greenhouse | null {
+    if (token == null || token.length == 0) {
+      return null
+    }
+    
+    try {
+      return verify(token, this.greenhouseSecret) as Greenhouse
     } catch (err) {
       console.log(err)
       return null

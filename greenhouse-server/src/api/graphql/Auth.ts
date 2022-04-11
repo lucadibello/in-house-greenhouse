@@ -1,13 +1,14 @@
 import { extendType, nonNull, objectType, stringArg } from "nexus"
 import { compare, hashSync, genSaltSync } from 'bcrypt'
 import { JWT, TokenType } from '../../utils/jwt/jwt'
-import { getAccessTokenSecret, getRefreshTokenSecret } from '../../utils/env/env'
+import { getAccessTokenSecret, getRefreshTokenSecret, getGreenhouseTokenSecret } from '../../utils/env/env'
 import { User } from "./User"
 
 // initialize JWT class using .env variables
 const jwtService = new JWT(
   getAccessTokenSecret(),
-  getRefreshTokenSecret()
+  getRefreshTokenSecret(),
+  getGreenhouseTokenSecret()
 )
 
 export const Auth = objectType({
