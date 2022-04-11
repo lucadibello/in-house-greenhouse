@@ -13,7 +13,10 @@ func main() {
 	fmt.Println("Starting proxy service...")
 
 	// Start proxy service
-	err := proxy.StartProxy(config.Webserver.Hostname, config.Webserver.Port, config.Webserver.ApiPath)
+	err := proxy.StartProxy(config.Webserver.Hostname, config.Webserver.Port, proxy.Proxy{
+		ProxyRoute:             config.Webserver.ApiPath,
+		AuthenticationEndpoint: config.Endpoints.Authentication,
+	})
 
 	// Check if started successfully
 	if err != nil {
