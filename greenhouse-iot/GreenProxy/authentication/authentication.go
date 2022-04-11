@@ -16,7 +16,7 @@ func Authenticate(endpoint string, UUID string) AuthenticationResult {
 	fmt.Println("Fetching temporary token for operation on greenhouse ", UUID)
 
 	// Send request to endpoint with data
-	response, err := http.Post("http://greenhouse.local/api/v1/authenticate", "application/json", nil)
+	response, err := http.Post(endpoint, "application/json", nil)
 
 	// Read response
 
