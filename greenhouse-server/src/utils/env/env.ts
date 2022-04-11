@@ -23,3 +23,12 @@ export const getRefreshTokenSecret = (): string => {
     return "MISSING*REFRESH*SECRET!"
   }
 }
+
+export const getGreenhouseTokenSecret = (): string => {
+  if (process.env.JWT_GREENHOUSE_TOKEN_SECRET !== undefined) {
+    return process.env.JWT_GREENHOUSE_TOKEN_SECRET as string
+  } else {
+    console.warn('JWT_GREENHOUSE_TOKEN_SECRET is not defined')
+    return "MISSING*GREENHOUSE*SECRET!"
+  }
+}

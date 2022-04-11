@@ -94,6 +94,13 @@ export interface NexusGenObjects {
     position: NexusGenEnums['Position']; // Position!
     type: NexusGenEnums['Type']; // Type!
   }
+  SensorAuth: { // root type
+    errorCode?: string | null; // String
+    errorMessage?: string | null; // String
+    expire?: string | null; // String
+    issued?: string | null; // String
+    token?: string | null; // String
+  }
   User: { // root type
     email: string; // String!
     id: number; // Int!
@@ -161,6 +168,7 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     getData: NexusGenRootTypes['Data'][] | null; // [Data!]
     getDataByPlant: NexusGenRootTypes['Data'][] | null; // [Data!]
+    greenhouseAuth: NexusGenRootTypes['SensorAuth']; // SensorAuth!
     greenhouses: NexusGenRootTypes['Greenhouse'][] | null; // [Greenhouse!]
     loginUser: NexusGenRootTypes['Auth']; // Auth!
     plants: NexusGenRootTypes['Plant'][] | null; // [Plant!]
@@ -172,6 +180,13 @@ export interface NexusGenFieldTypes {
     name: string; // String!
     position: NexusGenEnums['Position']; // Position!
     type: NexusGenEnums['Type']; // Type!
+  }
+  SensorAuth: { // field return type
+    errorCode: string | null; // String
+    errorMessage: string | null; // String
+    expire: string | null; // String
+    issued: string | null; // String
+    token: string | null; // String
   }
   User: { // field return type
     email: string; // String!
@@ -230,6 +245,7 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     getData: 'Data'
     getDataByPlant: 'Data'
+    greenhouseAuth: 'SensorAuth'
     greenhouses: 'Greenhouse'
     loginUser: 'Auth'
     plants: 'Plant'
@@ -241,6 +257,13 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
     position: 'Position'
     type: 'Type'
+  }
+  SensorAuth: { // field return type name
+    errorCode: 'String'
+    errorMessage: 'String'
+    expire: 'String'
+    issued: 'String'
+    token: 'String'
   }
   User: { // field return type name
     email: 'String'
@@ -289,6 +312,9 @@ export interface NexusGenArgTypes {
     getDataByPlant: { // args
       plantId: number; // Int!
       type?: NexusGenEnums['Type'] | null; // Type
+    }
+    greenhouseAuth: { // args
+      greenhouseId: string; // String!
     }
     loginUser: { // args
       email: string; // String!
