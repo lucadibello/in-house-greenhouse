@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"greenproxy/config"
 	"math/rand"
 
 	"github.com/machinebox/graphql"
@@ -11,8 +12,14 @@ import (
 func main() {
 	fmt.Println("[Test sending a GraphQL request to the proxy]")
 
+	// Import config
+	config := config.GetConfig("../config/config.yaml")
+
+	// Build GraphQL client string (mapped to proxy)
+	proxyURL := fmt.Sprintf("http://%s:%d/%s", config.Webserver.Hostname, config.Webserver.Port, config.Webserver.ProxyUrl)
+
 	// create graphql client
-	graphqlClient := graphql.NewClient("http://localhost:8080/greenproxy")
+	graphqlClient := graphql.NewClient(proxyURL)
 
 	// create graphql record API request
 	graphqlRequest := graphql.NewRequest(`
