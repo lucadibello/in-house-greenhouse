@@ -10,13 +10,17 @@ import (
 )
 
 func main() {
-	fmt.Println("[Test sending a GraphQL request to the proxy]")
+	fmt.Println("--- Test sending a GraphQL request to the proxy ---")
+	fmt.Println()
 
 	// Import config
 	config := config.GetConfig("../config/config.yaml")
 
 	// Build GraphQL client string (mapped to proxy)
-	proxyURL := fmt.Sprintf("http://%s:%d/%s", config.Webserver.Hostname, config.Webserver.Port, config.Webserver.ProxyUrl)
+	proxyURL := fmt.Sprintf("http://%s:%d%s", config.Webserver.Hostname, config.Webserver.Port, config.Webserver.ProxyUrl)
+
+	// Print url
+	fmt.Println("[TEST] Using proxy URL:", proxyURL)
 
 	// create graphql client
 	graphqlClient := graphql.NewClient(proxyURL)
