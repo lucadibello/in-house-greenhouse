@@ -9,13 +9,13 @@ import (
 // Main function
 func main() {
 	// Load config using config package
-	config := config.GetConfig()
+	config := config.GetConfig("config/config.yaml")
 	fmt.Println("Starting proxy service...")
 
 	// Start proxy service
 	err := proxy.StartProxy(config.Webserver.Hostname, config.Webserver.Port, proxy.Proxy{
-		ProxyRoute:             config.Webserver.ApiPath,
-		AuthenticationEndpoint: config.Endpoints.Authentication,
+		ProxyRoute:  config.Webserver.ProxyUrl,
+		ApiEndpoint: config.Endpoints.Api,
 	})
 
 	// Check if started successfully
