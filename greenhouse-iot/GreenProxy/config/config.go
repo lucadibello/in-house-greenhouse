@@ -13,6 +13,9 @@ type Config struct {
 		Port     int    `yaml:"port"`
 		ApiPath  string `yaml:"apiPath"`
 	}
+	Endpoints struct {
+		Authentication string `yaml:"authentication"`
+	}
 }
 
 func GetConfig() Config {
