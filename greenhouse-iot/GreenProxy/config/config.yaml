@@ -1,0 +1,7 @@
+webserver:
+  port: 8080
+  hostname: "localhost"
+  apiPath: "/greenproxy"
+endpoints:
+  authentication: "/auth"
+  
