@@ -15,27 +15,23 @@ type Proxy struct {
 	ApiEndpoint string
 }
 
-var authenticationStatus authentication.AuthenticationResult = authentication.AuthenticationResult{
-	Success: false,
-	Token:   "",
-}
-
 // Handle an API request
 func ProxyRequest(w http.ResponseWriter, r *http.Request, settings Proxy) {
+	// Notify that the request is being processed
+	// fmt.Println("[GreenProxy] Request received:", r.Method, r.URL.Path)
+
 	// Check if user has sent X-Greenhouse-UUID header
 	if r.Header.Get("X-Greenhouse-UUID") == "" {
 		// User has not sent X-Greenhouse-UUID header
-		fmt.Println("[Proxy] User has not sent X-Greenhouse-UUID header")
+		fmt.Println("[GreenProxy] User has not sent X-Greenhouse-UUID header")
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 
-	// Check if user has already a token saved inside global variable
-	// If not, fetch a new one
-	if !authenticationStatus.Success || authenticationStatus.Token == "" {
-		// Save new status
-		authenticationStatus = authentication.Authenticate(settings.ApiEndpoint, r.Header.Get("X-Greenhouse-UUID"))
-	}
+	// Save new status
+	fmt.Println("[GreenProxy] Request new authentication token for request")
+	authenticationStatus := authentication.Authenticate(settings.ApiEndpoint, r.Header.Get("X-Greenhouse-UUID"))
+	fmt.Println()
 
 	// Check if authentication was successful
 	if authenticationStatus.Success {
@@ -43,7 +39,7 @@ func ProxyRequest(w http.ResponseWriter, r *http.Request, settings Proxy) {
 		buf, err := ioutil.ReadAll(r.Body)
 
 		if err != nil {
-			fmt.Println("[Proxy] Error while reading request body:", err)
+			fmt.Println("[GreenProxy] Error while copying original request body. ", err.Error())
 			io.WriteString(w, "Error while reading request body")
 			w.WriteHeader(http.StatusInternalServerError)
 			return
@@ -53,26 +49,25 @@ func ProxyRequest(w http.ResponseWriter, r *http.Request, settings Proxy) {
 		bodyCopy := io.NopCloser(bytes.NewBuffer(buf))
 
 		// Create new request to API with same parameters but different endpoint
-		newRequest, _ := http.NewRequest(r.Method, settings.ApiEndpoint, bodyCopy)
+		newRequest, _ := http.NewRequest("POST", settings.ApiEndpoint, bodyCopy)
 
 		// Set token inside header
-
-		fmt.Println("[Proxy] New authentication token: " + authenticationStatus.Token)
 		newRequest.Header.Set("Authorization", authenticationStatus.Token)
 		newRequest.Header.Set("Content-Type", "application/json")
-		fmt.Println(newRequest)
+		fmt.Println("[GreenProxy] Added Authorization token to request header")
 
 		// Send request
 		resp, err := http.DefaultClient.Do(newRequest)
 
 		if err != nil {
-			fmt.Println("Error while sending request:", err)
+			fmt.Println("[GreenProxy] Error while forwarding request to API. ", err.Error())
 			return
 		}
 		// Copy response to the client
+		fmt.Println("[GreenProxy] Success. Response data sent successfully to client")
 		io.Copy(w, resp.Body)
 	} else {
-		io.WriteString(w, "Authentication failed: "+authenticationStatus.ErrorMessage)
+		fmt.Println("[GreenProxy] Authentication failed. ", authenticationStatus.ErrorMessage)
 	}
 }
 
@@ -83,7 +78,7 @@ func StartProxy(route string, port int, proxySettings Proxy) error {
 	}))
 
 	// Notify user the url to access the proxy
-	fmt.Println("Proxy service started at http://" + route + ":" + fmt.Sprintf("%d", port) + proxySettings.ProxyRoute)
+	fmt.Println("[GreenProxy] Proxy service started at http://" + route + ":" + fmt.Sprintf("%d", port) + proxySettings.ProxyRoute)
 
 	// Create server instance
 	server := &http.Server{

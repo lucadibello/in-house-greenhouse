@@ -26,7 +26,8 @@ type GraphQLResponse struct {
 
 // Authenticate function
 func Authenticate(endpoint string, UUID string) AuthenticationResult {
-	fmt.Println("Fetching temporary token for operation on greenhouse ", UUID)
+	// Notify user
+	fmt.Println("\n[GreenAuthentication] Requesting new token for greenhouse with UUID: ", UUID)
 
 	// Create graphql client
 	graphqlClient := graphql.NewClient(endpoint)
@@ -52,6 +53,8 @@ func Authenticate(endpoint string, UUID string) AuthenticationResult {
 	var graphqlResponse GraphQLResponse
 	ctx := context.Background()
 	if err := graphqlClient.Run(ctx, graphqlRequest, &graphqlResponse); err != nil {
+		fmt.Println("[GreenAuthentication] INTERNAL FAIL. Cannot send request: ", err.Error())
+
 		// Graphql request failed
 		return AuthenticationResult{
 			Success:      false,
@@ -62,6 +65,7 @@ func Authenticate(endpoint string, UUID string) AuthenticationResult {
 
 	// Check GraphQL response status
 	if graphqlResponse.GreenhouseAuth.ErrorCode != "" {
+		fmt.Println("[GreenAuthentication] GRAPHQL FAIL. GraphQL server error: ", graphqlResponse.GreenhouseAuth.ErrorMessage)
 		// GraphQL returned an error
 		return AuthenticationResult{
 			Success:      false,
@@ -69,6 +73,7 @@ func Authenticate(endpoint string, UUID string) AuthenticationResult {
 			ErrorMessage: graphqlResponse.GreenhouseAuth.ErrorMessage,
 		}
 	} else {
+		fmt.Println("[GreenAuthentication] Success! Access token for request: ", graphqlResponse.GreenhouseAuth.Token)
 		// GraphQL returned a token
 		return AuthenticationResult{
 			Success:      true,
