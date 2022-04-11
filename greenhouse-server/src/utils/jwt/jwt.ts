@@ -1,4 +1,4 @@
-import { User } from '@prisma/client'
+import { Greenhouse, User } from '@prisma/client'
 import { verify } from 'jsonwebtoken'
 import { sign } from 'jsonwebtoken'
 
@@ -12,7 +12,6 @@ type Session = {
   issued: Date
 }
 
-
 export enum TokenType {
   TOKEN_ACCESS, TOKEN_REFRESH,
   ACCESS
@@ -21,14 +20,18 @@ export enum TokenType {
 export class JWT {
   private accessTokenExpiresIn: number
   private refreshTokenExpiresIn: number
+  private greenhouseTokenExpiresIn: number
   private accessSecret: string
   private refreshSecret: string
+  private greenhouseSecret: string
 
-  constructor (accessSecret: string, refeshSecret: string ,accessTokenExpiresIn = 60*30, refreshTokenExpiresIn = 60*60*24*7) {
+  constructor (accessSecret: string, refeshSecret: string , greenhouseSecret: string,accessTokenExpiresIn = 60*30, refreshTokenExpiresIn = 60*60*24*7, greenhouseTokenExpiresIn = 60) {
     this.accessTokenExpiresIn = accessTokenExpiresIn
     this.refreshTokenExpiresIn = refreshTokenExpiresIn
+    this.greenhouseTokenExpiresIn = greenhouseTokenExpiresIn
     this.accessSecret = accessSecret
     this.refreshSecret = refeshSecret
+    this.greenhouseSecret = greenhouseSecret
   }
 
   /**
@@ -60,6 +63,22 @@ export class JWT {
     return {
       accessToken: sign(data, this.accessSecret, { expiresIn: this.accessTokenExpiresIn }),
       expire: this.expiration(this.accessTokenExpiresIn),
+      issued: new Date()
+    }
+  }
+
+  public encodeGreenhouse (greenhouse: Greenhouse): Session {
+    // Build data to encode
+    const data = {
+      id: greenhouse.id,
+      name: greenhouse.name,
+      description: greenhouse.description
+    }
+    
+    // Return a JWT greenhouse session
+    return {
+      accessToken: sign(data, this.greenhouseSecret, { expiresIn: this.greenhouseTokenExpiresIn }),
+      expire: this.expiration(this.greenhouseTokenExpiresIn),
       issued: new Date()
     }
   }
