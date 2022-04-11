@@ -11,10 +11,10 @@ type Config struct {
 	Webserver struct {
 		Hostname string `yaml:"hostname"`
 		Port     int    `yaml:"port"`
-		ApiPath  string `yaml:"apiPath"`
+		ProxyUrl string `yaml:"proxyUrl"`
 	}
 	Endpoints struct {
-		Authentication string `yaml:"authentication"`
+		Api string `yaml:"api"`
 	}
 }
 
