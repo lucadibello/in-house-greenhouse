@@ -18,10 +18,7 @@ type Config struct {
 	}
 }
 
-func GetConfig() Config {
-	// Filepath to config file
-	configFilePath := "config/config.yaml"
-
+func GetConfig(configFilePath string) Config {
 	// Read config file contents
 	data, err := os.ReadFile(configFilePath)
 
