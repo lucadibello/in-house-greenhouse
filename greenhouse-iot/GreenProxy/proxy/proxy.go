@@ -82,7 +82,7 @@ func StartProxy(route string, port int, proxySettings Proxy) error {
 
 	// Create server instance
 	server := &http.Server{
-		Addr:    fmt.Sprintf("%s:%d", route, port),
+		Addr:    fmt.Sprintf(":%d", port),
 		Handler: nil,
 	}
 
