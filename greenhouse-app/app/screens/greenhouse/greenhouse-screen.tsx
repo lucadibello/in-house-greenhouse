@@ -1,16 +1,16 @@
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { cast } from "mobx-state-tree"
-import { Alert, GestureResponderEvent, StyleSheet, TouchableOpacity, View } from "react-native"
+import { Alert, GestureResponderEvent, StyleSheet, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
 import { PlantCard } from "../../components"
 import { Greenhouse } from "../../models/greenhouse/greenhouse"
-import { SwipeListView } from 'react-native-swipe-list-view';
 import { SafeAreaView } from "react-native-safe-area-context"
 import { Plant } from "../../models/plant/plant"
 import { useStores } from "../../models"
 import { NavigatorParamList } from "../../navigators/components/navigators"
+import { FlatList } from "react-native-gesture-handler"
 
 interface PlantFormProps {
   greenhouse: Greenhouse,
@@ -26,33 +26,15 @@ const PlantForm = observer(
     // Conditional rendering
     if (isEmpty) {
       return (
-        <SwipeListView
-          useFlatList={true}
-          closeOnScroll={true}
-          disableRightSwipe={true}
-  
-          leftOpenValue={75}
-          rightOpenValue={-150}
-          previewOpenValue={-40}
-          previewOpenDelay={3000}
-          
+        <FlatList
           data={props.greenhouse.plants}
-          renderItem={({item}) => <PlantCard plant={cast(item)} />}
-          renderHiddenItem={ (data) => (
-            <View style={styles.rowBack}>
-              {/* EDIT PLANT INFORMATION */}
-              <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnLeft]} onPress={(event) => props.onEditPress(event, cast(data.item))}>
-                  <Icon style={styles.icon} fill='#000' name="edit-2-outline" />
-                  <Text style={styles.textBold}>EDIT</Text>
-              </TouchableOpacity>
-  
-              {/* REMOVE PLANT */}
-              <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={(event) => props.onDeletePress(event, cast(data.item))}>
-                  <Icon style={styles.icon} fill='#FFF' name="trash-2-outline" />
-                  <Text style={[styles.textBold, styles.textWhite]}>REMOVE</Text>
-              </TouchableOpacity>
-            </View>
-          )}
+          renderItem={(data) => <PlantCard
+            id={data.index}
+            style={styles.plantCard}
+            plant={cast(data.item)} 
+            onEditPress={props.onEditPress}
+            onDeletePress={props.onDeletePress}
+          />}
         />
       )
     } else {
@@ -86,7 +68,9 @@ export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhou
         />
         <Divider />
 
-        <Layout style={styles.container}>
+        <Layout style={[styles.container, styles.plantsContainer]}>
+          <Text category='h4'>Plants</Text>
+
           {/* SHOW PLANT FORM */}
           <PlantForm
             onEditPress={(event, source) => {
@@ -135,44 +119,19 @@ const deleteColor = '#DA4167'
 const white = "#FFF"
 const notchColor = '#FFF'
 const styles = StyleSheet.create({
-  backRightBtn: {
-    alignItems: 'center',
-    bottom: 0,
-    justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    width: 75,
-  },
-  backRightBtnLeft: {
-      backgroundColor: editColor,
-      right: 75,
-  },
-  backRightBtnRight: {
-      backgroundColor: deleteColor,
-      right: 0,
-  },
+  
   container: {
     flex: 1
-  },
-  icon: {
-    height: 32,
-    marginBottom: 5,
-    width: 32
   },
   notch: {
     backgroundColor: notchColor,
   },
-  rowBack: {
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 15,
+  plantCard: {
+    margin: 5,
+    width: "100%"
   },
-  textBold: {
-    fontWeight: 'bold',
+  plantsContainer: {
+    padding: 5
   },
-  textWhite: {
-    color: white
-  },
+ 
 })
