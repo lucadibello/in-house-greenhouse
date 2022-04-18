@@ -11,6 +11,37 @@ const rootUsers: Prisma.UserCreateInput[] = [
   },
 ]
 
+const positions: Prisma.PositionCreateInput[] = [
+  {
+    name: 'Top Left',
+    type: 'TOP_LEFT'
+  },
+  {
+    name: 'Top Right',
+    type: 'TOP_RIGHT'
+  },
+  {
+    name: 'Middle Left',
+    type: 'MIDDLE_LEFT'
+  },
+  {
+    name: 'Middle Right',
+    type: 'MIDDLE_RIGHT'
+  },
+  {
+    name: 'Bottom Left',
+    type: 'BOTTOM_LEFT'
+  },
+  {
+    name: 'Bottom Right',
+    type: 'BOTTOM_RIGHT'
+  },
+  {
+    name: 'Global',
+    type: 'GENERAL'
+  }
+]
+
 const sensors: Prisma.SensorUncheckedCreateInput[] = [
   {
     name: 'HUMIDITY_SENSOR',
@@ -64,6 +95,15 @@ async function main() {
       data: u,
     })
     console.log(`Created user with id: ${user.id}`)
+  }
+
+  // Add default positions
+  console.log("\n-- ADDING DEFAULT POSITIONS --")
+  for (const p of positions) {
+    const position = await prisma.position.create({
+      data: p
+    })
+    console.log(`Creaated position with name: ${position.name}`)
   }
 
   // Add default sensors

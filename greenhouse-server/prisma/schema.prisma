@@ -31,8 +31,9 @@ model Greenhouse {
 model Sensor {
   name String @id
   type SensorType
-  position Position
+  position PositionType
   data Data[]
+  positionRelation Position @relation(fields: [position], references: [type])
 }
 
 model Data {
@@ -56,13 +57,22 @@ model Plant {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt @default(now())
   isDeleted Boolean @default(false)
-  position Position
+  position PositionType
 
   // Relation field
   greenhouse Greenhouse? @relation(fields: [greenhouseId], references: [id])
+  positionRelation Position @relation(fields: [position], references: [type])
 }
 
-enum Position {
+model Position {
+  type PositionType @id
+  name String
+  sensors Sensor[]
+  plants Plant[]
+}
+
+
+enum PositionType {
   TOP_LEFT
   TOP_RIGHT
   MIDDLE_LEFT
