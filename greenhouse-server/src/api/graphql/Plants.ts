@@ -1,6 +1,7 @@
 import { AuthenticationError } from "apollo-server";
 import { arg, extendType, inputObjectType, intArg, nonNull, nullable, objectType, stringArg } from "nexus";
 import { isLoggedIn } from "../../utils/request/authentication";
+import { PositionType } from "./enums";
 
 export const Plant = objectType({
   name: 'Plant',
@@ -11,7 +12,7 @@ export const Plant = objectType({
     t.nonNull.field('created_at', { type: "dateTime", description: 'Last update timestamp' })
     t.nonNull.field('updated_at', { type: "dateTime", description: 'Last update timestamp' })
     t.nullable.string('greenhouseId', {description: 'Greenhouse ID'})
-    t.nonNull.field('position', {type: "Position", description: 'Plant position inside the greenhouse'})
+    t.nonNull.field('position', {type: PositionType, description: 'Plant position inside the greenhouse'})
     t.nonNull.boolean('isDeleted', { description: 'Flag that shows if the plant has been deleted or not'})
   },
 })
@@ -21,7 +22,7 @@ export const PlantInput = inputObjectType({
   definition(t) {
     t.nonNull.string('name')
     t.string('description')
-    t.nonNull.field('position', {type: "Position"})
+    t.nonNull.field('position', {type: PositionType})
   }
 })
 
@@ -43,7 +44,7 @@ export const PlantMutation = extendType({
           description: "Plant's description"
         })),
         position: nonNull(arg({
-          type: 'Position',
+          type: PositionType,
           description: 'Position of the plant inside the greenhouse',
         }))
       },

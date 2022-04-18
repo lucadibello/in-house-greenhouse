@@ -1,14 +1,14 @@
 import { AuthenticationError } from "apollo-server"
 import { extendType, list, objectType } from "nexus"
 import { isLoggedIn } from "../../utils/request/authentication"
-import { Position, Type } from "./enums"
+import { PositionType, SensorType } from "./enums"
 
 export const Sensor = objectType({
   name: 'Sensor',
   definition(t) {
     t.nonNull.string('name', { description: "Sensor name" }),
-    t.nonNull.field('type', { type: Type , description: "Sensor type"}),
-    t.nonNull.field('position', { type: Position, description: "Sensor position"})
+    t.nonNull.field('type', { type: SensorType , description: "Sensor type"}),
+    t.nonNull.field('position', { type: PositionType, description: "Sensor position"})
   }
 })
 

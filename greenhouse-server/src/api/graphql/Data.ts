@@ -52,11 +52,12 @@ export const DataMutation = extendType({
   }
 })
 
+
 export const DataQuery = extendType({
   type: 'Query',
   definition(t) {
     // List all data for a certain greenhouse
-    t.list.nonNull.field('getData', {
+    t.list.field('getData', {
       type: 'Data',
       description: 'List of all data related to a certain greenhouse',
       args: {
@@ -72,15 +73,15 @@ export const DataQuery = extendType({
     });
 
     // List all data for a certain Plant
-    t.list.nonNull.field('getDataByPlant', {
+    t.list.field('getDataByPlant', {
       type: 'Data',
       description: 'List of all data related to a certain plant',
       args: {
         plantId: nonNull(intArg({
           description: "Plant ID"
         })),
-        type: arg({
-          type: 'Type',
+        sensorType: arg({
+          type: 'SensorType',
           description: "Type of sensor data to be retrieved",
         })
       },
@@ -92,12 +93,12 @@ export const DataQuery = extendType({
 
         // Check if plant exists
         if (plant !== null && plant.greenhouseId !== null) {
-          console.log(plant, args.type)
+          console.log(plant, args.sensorType)
           // Find sensors with the same position as the plant with a specified type
           const sensors = await context.prisma.sensor.findMany({
             where: {
               position: plant.position,
-              type: args.type || undefined
+              type: args.sensorType || undefined
             }
           });
         
@@ -113,7 +114,7 @@ export const DataQuery = extendType({
               }
             });
           } else {
-            if (args.type) {
+            if (args.sensorType) {
               throw new UserInputError("Cannot find any sensor " +
                 " with the specified type at the same position as the plant")
             } else {
