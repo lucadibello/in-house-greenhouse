@@ -1,7 +1,7 @@
 import { enumType } from "nexus";
 
-export const Position = enumType({
-  name: 'Position',
+export const PositionType = enumType({
+  name: 'PositionType',
   members: [
     'TOP_LEFT',
     'TOP_RIGHT',

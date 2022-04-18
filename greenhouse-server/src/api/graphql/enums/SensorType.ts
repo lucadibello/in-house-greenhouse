@@ -1,7 +1,7 @@
 import { enumType } from "nexus";
 
-export const Type = enumType({
-  name: 'Type',
+export const SensorType = enumType({
+  name: 'SensorType',
   members: [
     'HUMIDITY',
     'TEMPERATURE',
