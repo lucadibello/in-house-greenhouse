@@ -1,2 +1,2 @@
-export * from "./Position";
-export * from "./Type";
+export * from "./PositionType";
+export * from "./SensorType";
