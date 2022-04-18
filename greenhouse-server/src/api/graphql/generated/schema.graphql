@@ -91,7 +91,7 @@ type Mutation {
     name: String!
 
     """Position of the plant inside the greenhouse"""
-    position: Position!
+    position: PositionType!
   ): Plant
 
   """Record data from a sensor"""
@@ -146,7 +146,7 @@ type Plant {
   name: String!
 
   """Plant position inside the greenhouse"""
-  position: Position!
+  position: PositionType!
 
   """Last update timestamp"""
   updated_at: dateTime!
@@ -155,10 +155,10 @@ type Plant {
 input PlantInput {
   description: String
   name: String!
-  position: Position!
+  position: PositionType!
 }
 
-enum Position {
+enum PositionType {
   BOTTOM_LEFT
   BOTTOM_RIGHT
   GENERAL
@@ -173,7 +173,7 @@ type Query {
   getData(
     """Greenhouse UUID"""
     greenhouseId: String!
-  ): [Data!]
+  ): [Data]
 
   """List of all data related to a certain plant"""
   getDataByPlant(
@@ -181,8 +181,8 @@ type Query {
     plantId: Int!
 
     """Type of sensor data to be retrieved"""
-    type: Type
-  ): [Data!]
+    sensorType: SensorType
+  ): [Data]
   greenhouseAuth(greenhouseId: String!): SensorAuth!
 
   """List of all known greenhouses"""
@@ -203,10 +203,10 @@ type Sensor {
   name: String!
 
   """Sensor position"""
-  position: Position!
+  position: PositionType!
 
   """Sensor type"""
-  type: Type!
+  type: SensorType!
 }
 
 type SensorAuth {
@@ -226,7 +226,7 @@ type SensorAuth {
   token: String
 }
 
-enum Type {
+enum SensorType {
   HUMIDITY
   SOIL_MOISTURE
   TEMPERATURE
