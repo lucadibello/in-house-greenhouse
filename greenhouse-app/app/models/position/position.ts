@@ -6,7 +6,8 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 export const PositionModel = types
   .model("Position")
   .props({
-    name: types.string
+    name: types.string,
+    type: types.string
   })
 
 type PositionType = Instance<typeof PositionModel>

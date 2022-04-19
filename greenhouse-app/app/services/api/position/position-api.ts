@@ -18,12 +18,10 @@ export class PositionApi extends ApiBase {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/positions`, {
-        query: `query {
-          __type(name:"Position"){
+        query: `query Positions {
+          positions {
             name
-            enumValues{
-              name
-            }
+            type
           }
         }`
       })
@@ -44,7 +42,7 @@ export class PositionApi extends ApiBase {
 
       // send back data 
       const graphQLResponse = response.data
-      return {kind: 'ok', positions: graphQLResponse.data.__type.enumValues}
+      return {kind: 'ok', positions: graphQLResponse.data.positions}
     } catch (e) {
       // Let the exception bubble up if is an AuthenticationError
       if (e instanceof AuthenticationError) {
