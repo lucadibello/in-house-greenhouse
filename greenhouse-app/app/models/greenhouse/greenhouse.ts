@@ -5,6 +5,7 @@ import { runAuthenticatedApi } from "../../utils/auth-runner"
 import { withEnvironment } from "../extensions/with-environment"
 import { withRootStore } from "../extensions/with-root-store"
 import { PlantModel } from "../plant/plant"
+import { Position } from "../position/position"
 
 /**
  * Model description here for TypeScript hints.
@@ -23,7 +24,7 @@ export const GreenhouseModel = types
     updated_at: types.string
   })
   .actions(self => ({
-    addPlant: flow(function* addPlant (update: {name: string, description?: string, position: string}) {
+    addPlant: flow(function* addPlant (update: {name: string, description?: string, position: Position}) {
       const plantApi = new PlantApi(self.environment.api)
       const result = yield runAuthenticatedApi<AddPlantResult>(
         self.rootStore.authenticationStore,
