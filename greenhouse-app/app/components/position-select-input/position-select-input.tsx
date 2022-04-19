@@ -4,10 +4,12 @@ import { observer } from "mobx-react-lite"
 import { IndexPath, Layout, Select, SelectItem } from "@ui-kitten/components"
 import { useStores } from "../../models/root-store/root-store-context"
 import { Position } from "../../models/position/position"
+import { clone, detach } from "mobx-state-tree"
 
 export interface PositionSelectInputProps {
   style?: StyleProp<ViewStyle>,
   onSelect: (position: Position) => void
+  value: Position | null 
 }
 
 /**
@@ -23,27 +25,32 @@ export const PositionSelectInput = observer(function (props: PositionSelectInput
     // Load positions from DB
     positionStore.getPositions();
     // Notify parent the default position used
-    if (positionStore.positions.length > 0) {
+    if (props.value == null && positionStore.positions.length > 0) {
       props.onSelect(positionStore.positions[0]);
     }
   }, [])
   
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
-  
+
   return (
     <Layout style={[styles.container, props.style]} level='1'>
       <Select
+        placeholder={'Select a position'}
+        value={props.value.name}
         selectedIndex={selectedIndex}
         caption={"Plant position"}
         onSelect={(index: IndexPath) => {
-          // Set local state index
-          setSelectedIndex(index);
-          // Return selected position to parent
-          props.onSelect(positionStore.positions[index.row]);
-        }}>
-        {positionStore.positions.map((position: Position, index: number) => (
-          <SelectItem key={index} title={position.name}  />
-        ))}
+          // Set current index
+          setSelectedIndex(index)
+          // Notify parent of change
+          props.onSelect(detach(clone(positionStore.positions[index.row])))
+        }}
+      >
+        {
+          positionStore.positions.map((position: Position) => (
+            <SelectItem key={position.type} title={position.name}  />
+          ))
+        }
       </Select>
     </Layout>
   )
