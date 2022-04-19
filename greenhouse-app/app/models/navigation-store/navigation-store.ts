@@ -13,6 +13,9 @@ export const NavigationStoreModel = types
     }),
     editPlantScreenParams: types.model('EditPlantScreenParams', {
       plant: types.maybe(types.safeReference(PlantModel)),
+    }),
+    inspectPlantScreenParams: types.model('InspectPlantScreenParams', {
+      plant: types.maybe(types.safeReference(PlantModel)),
     })
   })
   .actions((self) => ({
@@ -23,6 +26,11 @@ export const NavigationStoreModel = types
   .actions((self) => ({
     setEditPlantScreenParams (plant: Plant) {    
       self.editPlantScreenParams.plant = plant;
+    }
+  }))
+  .actions((self) => ({
+    setInspectPlantScreenParams (plant: Plant) {
+      self.inspectPlantScreenParams.plant = plant;
     }
   }))
 

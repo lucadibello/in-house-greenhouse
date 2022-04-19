@@ -15,6 +15,9 @@ export const RootStoreModel = types.model("RootStore").props({
     },
     editPlantScreenParams: {
       plant: undefined
+    },
+    inspectPlantScreenParams: {
+      plant: undefined
     }
   } as any),
   authenticationStore: types.optional(AuthenticationStoreModel, {} as any),
