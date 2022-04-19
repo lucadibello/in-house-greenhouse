@@ -8,6 +8,7 @@ import { observer } from "mobx-react-lite"
 import { NavigatorParamList } from "../../navigators/components/navigators"
 import { PositionSelectInput } from "../../components/position-select-input/position-select-input"
 import { palette } from "../../theme/palette"
+import { clone } from "mobx-state-tree"
 
 export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant">> = observer(
   ({navigation}) => {
@@ -24,8 +25,8 @@ export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant
       // Create input states
       const nameInputState = useInputState(navigationStore.editPlantScreenParams.plant.name);
       const descriptionInputState = useInputState(navigationStore.editPlantScreenParams.plant.description);
-      const [position, setPosition] = React.useState(navigationStore.editPlantScreenParams.plant.position); 
-      
+      const [position, setPosition] = React.useState(clone(navigationStore.editPlantScreenParams.plant.position)); 
+
       // Compute dates
       const createdAtDate = new Date(navigationStore.editPlantScreenParams.plant.created_at).toLocaleString()
       const updatedAtDate = new Date(navigationStore.editPlantScreenParams.plant.updated_at).toLocaleString()
@@ -91,6 +92,7 @@ export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant
 
           {/* PLANT POSITION */}
           <PositionSelectInput
+            value={position}
             onSelect={(position) => setPosition(position)}
           />
 
@@ -101,7 +103,7 @@ export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant
               {
                 name: nameInputState.value,
                 description: descriptionInputState.value,
-                position: position.name
+                position: position
               }
             )
             // Return to list page
