@@ -65,6 +65,7 @@ export const AddPlantScreen: FC<StackScreenProps<NavigatorParamList, "addPlant">
 
           {/* PLANT POSITION */}
           <PositionSelectInput
+            value={null}
             onSelect={(position) => setPosition(position) }
           />
 
@@ -76,8 +77,9 @@ export const AddPlantScreen: FC<StackScreenProps<NavigatorParamList, "addPlant">
               navigationStore.greenhouseScreenParams.greenhouse.addPlant({
                 name: nameInputState.value,
                 description: descriptionInputState.value,
-                position: position.name
+                position: position
               })
+
               // Go back
               navigation.goBack()
             } else {

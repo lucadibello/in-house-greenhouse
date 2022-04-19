@@ -36,7 +36,7 @@ export const PositionSelectInput = observer(function (props: PositionSelectInput
     <Layout style={[styles.container, props.style]} level='1'>
       <Select
         placeholder={'Select a position'}
-        value={props.value.name}
+        value={props.value !== null ? props.value.name : positionStore.positions[selectedIndex.row].name}
         selectedIndex={selectedIndex}
         caption={"Plant position"}
         onSelect={(index: IndexPath) => {
