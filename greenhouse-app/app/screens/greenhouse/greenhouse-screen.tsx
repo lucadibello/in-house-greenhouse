@@ -104,8 +104,6 @@ export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhou
                   cancelable: true,
                 }
               );
-
-              return false;
             }}
             greenhouse={navigationStore.greenhouseScreenParams.greenhouse}
           />
