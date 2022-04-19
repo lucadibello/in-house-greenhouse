@@ -9,7 +9,12 @@ export const palette = {
   angry: "#dd3333",
   deepPurple: "#5D2555",
   primaryBlue: "#3366FF",
-
+  buttons: {
+    primary: "#1D4E89",
+    success: "#7DCFB6",
+    warning: "#FBD1A2",
+    danger: "#F79256"
+  },
   coolors: {
     bluishDark: "#005f73",
     bluishGreen: "#0a9396",

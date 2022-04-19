@@ -84,10 +84,25 @@ export const PlantCard = observer(function (props: PlantCardProps) {
                 
                 {/* Edit / Delete Buttons */}
                 <View>
+                  {/* Inspect plant */}
+                  <Button
+                    status={"basic"}
+                    style={[styles.actionButton, styles.healthButton]}
+                    onPress={(event) => props.onEditPress(event, props.plant)}
+                    accessoryLeft={
+                      <Icon style={styles.icon}
+                        fill='#000'
+                        name="activity-outline"
+                      />
+                    }
+                  >
+                    HEALTH STATUS
+                  </Button>
+                  
                   {/* Edit plant */}
                   <Button
-                    status='basic'
-                    style={styles.actionButton}
+                    status={"basic"}
+                    style={[styles.actionButton, styles.editButton]}
                     onPress={(event) => props.onEditPress(event, props.plant)}
                     accessoryLeft={
                       <Icon style={styles.icon}
@@ -101,12 +116,12 @@ export const PlantCard = observer(function (props: PlantCardProps) {
 
                   {/* Remove plant */}
                   <Button
-                    status='danger'
-                    style={styles.actionButton}
+                    status={"basic"}
+                    style={[styles.actionButton, styles.deleteButton]}
                     onPress={(event) => props.onDeletePress(event, props.plant)}
                     accessoryLeft={
                       <Icon style={styles.icon}
-                        fill='#FFF'
+                        fill='#000'
                         name="trash-2-outline" 
                       />
                     }>
@@ -123,10 +138,10 @@ export const PlantCard = observer(function (props: PlantCardProps) {
 
 const styles = StyleSheet.create({
   actionButton: {
-    marginTop: 10,
+    marginTop: 10
   },
   card: {
-    backgroundColor: palette.primaryBlue,
+    backgroundColor: palette.buttons.primary,
     flex: 1
   },
   cardContainer: {
@@ -151,7 +166,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   collapsable: {
-    backgroundColor: palette.primaryBlue,
+    backgroundColor: palette.buttons.primary,
     height: "100",
     marginTop: 10,
     overflow: 'hidden',
@@ -161,9 +176,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
+  deleteButton: {
+    backgroundColor: palette.buttons.danger
+  },
+  editButton: {
+    backgroundColor: palette.buttons.warning,
+  },
   fullWidth: {
     width: '100%'
-  }, 
+  },
+  healthButton: {
+    backgroundColor: palette.buttons.success
+  },
   icon: {
     height: 24,
     marginRight: 10,

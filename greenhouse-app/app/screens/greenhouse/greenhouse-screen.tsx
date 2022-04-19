@@ -71,6 +71,7 @@ export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhou
 
         <Layout style={[styles.container, styles.plantsContainer]}>
           <Text category='h4'>Plants</Text>
+          <Divider />
 
           {/* SHOW PLANT FORM */}
           <PlantForm
