@@ -23,7 +23,9 @@ export const PositionSelectInput = observer(function (props: PositionSelectInput
     // Load positions from DB
     positionStore.getPositions();
     // Notify parent the default position used
-    props.onSelect(positionStore.positions[0]);
+    if (positionStore.positions.length > 0) {
+      props.onSelect(positionStore.positions[0]);
+    }
   }, [])
   
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
