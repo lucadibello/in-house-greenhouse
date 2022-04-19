@@ -31,7 +31,10 @@ export class GreenhouseApi extends ApiBase {
               created_at
               updated_at
               greenhouseId
-              position
+              position {
+                name
+                type
+              }
               isDeleted
             }
           }
@@ -53,19 +56,6 @@ export class GreenhouseApi extends ApiBase {
       }
       
       const graphQLResponse = response.data
-
-      // For each plant contained in each greenhouses, format the "position" string into a dictionary with this format:
-      // {
-      // "name": <position_value>,
-      // }
-      // And replace the new format into the result object
-      graphQLResponse.data.greenhouses.forEach(greenhouse => {
-        greenhouse.plants.forEach(plant => {
-          plant.position = {
-            name: plant.position
-          }
-        })
-      })
 
       // List greenhouses
       const greenhouses: Greenhouse[] = graphQLResponse.data.greenhouses
