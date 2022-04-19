@@ -17,6 +17,7 @@ interface PlantFormProps {
   greenhouse: Greenhouse,
   onEditPress: (event: GestureResponderEvent, source: Plant) => void,
   onDeletePress: (event: GestureResponderEvent, source: Plant) => void
+  onInspectPress: (event: GestureResponderEvent, source: Plant) => void
 }
 
 const PlantForm = observer(
@@ -35,6 +36,7 @@ const PlantForm = observer(
             plant={cast(data.item)} 
             onEditPress={props.onEditPress}
             onDeletePress={props.onDeletePress}
+            onInspectPress={props.onInspectPress}
           />}
         />
       )
@@ -75,6 +77,13 @@ export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhou
 
           {/* SHOW PLANT FORM */}
           <PlantForm
+            onInspectPress={(event, source) => {
+              // Save plant information into navigation store
+              navigationStore.setInspectPlantScreenParams(source)
+              // navigate to inspect plant screen
+              navigation.navigate("inspectPlant")
+            }}
+
             onEditPress={(event, source) => {
               // Save greenhouse information into navigation store
               navigationStore.setEditPlantScreenParams(source)

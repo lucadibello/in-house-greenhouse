@@ -12,6 +12,7 @@ export interface PlantCardProps {
   id: number,
   onEditPress: (event: GestureResponderEvent, source: Plant) => void,
   onDeletePress: (event: GestureResponderEvent, source: Plant) => void
+  onInspectPress: (event: GestureResponderEvent, source: Plant) => void
 }
 
 /**
@@ -88,7 +89,7 @@ export const PlantCard = observer(function (props: PlantCardProps) {
                   <Button
                     status={"basic"}
                     style={[styles.actionButton, styles.healthButton]}
-                    onPress={(event) => props.onEditPress(event, props.plant)}
+                    onPress={(event) => props.onInspectPress(event, props.plant)}
                     accessoryLeft={
                       <Icon style={styles.icon}
                         fill='#000'
