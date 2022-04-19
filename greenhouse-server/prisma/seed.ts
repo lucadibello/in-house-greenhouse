@@ -46,42 +46,42 @@ const sensors: Prisma.SensorUncheckedCreateInput[] = [
   {
     name: 'HUMIDITY_SENSOR',
     type: 'HUMIDITY',
-    position: 'GENERAL',
+    positionType: 'GENERAL',
   },
   {
     name: 'TEMPERATURE_SENSOR',
     type: 'TEMPERATURE',
-    position: 'GENERAL',
+    positionType: 'GENERAL',
   },
   {
     name: 'SOIL_SENSOR_1',
     type: 'SOIL_MOISTURE',
-    position: 'TOP_LEFT',
+    positionType: 'TOP_LEFT',
   },
   {
     name: 'SOIL_SENSOR_2',
     type: 'SOIL_MOISTURE',
-    position: 'TOP_RIGHT',
+    positionType: 'TOP_RIGHT',
   },
   {
     name: 'SOIL_SENSOR_3',
     type: 'SOIL_MOISTURE',
-    position: 'MIDDLE_LEFT',
+    positionType: 'MIDDLE_LEFT',
   },
   {
     name: 'SOIL_SENSOR_4',
     type: 'SOIL_MOISTURE',
-    position: 'MIDDLE_RIGHT',
+    positionType: 'MIDDLE_RIGHT',
   },
   {
     name: 'SOIL_SENSOR_5',
     type: 'SOIL_MOISTURE',
-    position: 'BOTTOM_LEFT',
+    positionType: 'BOTTOM_LEFT',
   },
   {
     name: 'SOIL_SENSOR_6',
     type: 'SOIL_MOISTURE',
-    position: 'BOTTOM_RIGHT',
+    positionType: 'BOTTOM_RIGHT',
   },
 ]
 
@@ -112,7 +112,7 @@ async function main() {
     const sensor = await prisma.sensor.create({
       data: s
     })
-    console.log(`Created sensor with code: ${sensor.name} at position: ${sensor.position}`)
+    console.log(`Created sensor with code: ${sensor.name} at position: ${sensor.positionType}`)
   }
 
   // Notify seeding finished

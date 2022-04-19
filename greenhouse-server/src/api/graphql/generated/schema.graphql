@@ -91,7 +91,7 @@ type Mutation {
     name: String!
 
     """Position of the plant inside the greenhouse"""
-    position: PositionType!
+    positionType: PositionType!
   ): Plant
 
   """Record data from a sensor"""
@@ -123,6 +123,9 @@ type Mutation {
 
     """Plant's name"""
     name: String!
+
+    """Position of the plant inside the greenhouse"""
+    positionType: PositionType!
   ): Plant
 }
 
@@ -144,9 +147,10 @@ type Plant {
 
   """Plant name"""
   name: String!
+  position: Position
 
   """Plant position inside the greenhouse"""
-  position: PositionType!
+  positionType: PositionType!
 
   """Last update timestamp"""
   updated_at: dateTime!
@@ -212,9 +216,10 @@ type Query {
 type Sensor {
   """Sensor name"""
   name: String!
+  position: Position
 
   """Sensor position"""
-  position: PositionType!
+  positionType: PositionType!
 
   """Sensor type"""
   type: SensorType!

@@ -31,9 +31,9 @@ model Greenhouse {
 model Sensor {
   name String @id
   type SensorType
-  position PositionType
+  positionType PositionType
   data Data[]
-  positionRelation Position @relation(fields: [position], references: [type])
+  positionRelation Position @relation(fields: [positionType], references: [type])
 }
 
 model Data {
@@ -57,11 +57,11 @@ model Plant {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt @default(now())
   isDeleted Boolean @default(false)
-  position PositionType
+  positionType PositionType
 
   // Relation field
   greenhouse Greenhouse? @relation(fields: [greenhouseId], references: [id])
-  positionRelation Position @relation(fields: [position], references: [type])
+  positionRelation Position @relation(fields: [positionType], references: [type])
 }
 
 model Position {
