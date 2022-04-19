@@ -2,6 +2,7 @@ import { AuthenticationError } from "apollo-server";
 import { arg, extendType, inputObjectType, intArg, nonNull, nullable, objectType, stringArg } from "nexus";
 import { isLoggedIn } from "../../utils/request/authentication";
 import { PositionType } from "./enums";
+import { Position } from "./Position";
 
 export const Plant = objectType({
   name: 'Plant',
@@ -12,8 +13,16 @@ export const Plant = objectType({
     t.nonNull.field('created_at', { type: "dateTime", description: 'Last update timestamp' })
     t.nonNull.field('updated_at', { type: "dateTime", description: 'Last update timestamp' })
     t.nullable.string('greenhouseId', {description: 'Greenhouse ID'})
-    t.nonNull.field('position', {type: PositionType, description: 'Plant position inside the greenhouse'})
+    t.nonNull.field('positionType', {type: PositionType, description: 'Plant position inside the greenhouse'})
     t.nonNull.boolean('isDeleted', { description: 'Flag that shows if the plant has been deleted or not'})
+    t.field('position', {
+      type: Position,
+      resolve: (parent, _, ctx) => {
+        return ctx.prisma.position.findUnique({
+          where: { type: parent.positionType },
+        })
+      },
+    });
   },
 })
 
@@ -43,7 +52,7 @@ export const PlantMutation = extendType({
         description: nullable(stringArg({
           description: "Plant's description"
         })),
-        position: nonNull(arg({
+        positionType: nonNull(arg({
           type: PositionType,
           description: 'Position of the plant inside the greenhouse',
         }))
@@ -53,13 +62,13 @@ export const PlantMutation = extendType({
         if (!isLoggedIn(context.req)) {
           throw new AuthenticationError('You must be logged in to perform this action')
         }
-        
+
         return context.prisma.plant.create({
           data: {
             name: args.name,
             description: args.description,
             greenhouseId: args.greenhouseId,
-            position: args.position
+            positionType: args.positionType
           }
         })
       }
@@ -78,6 +87,10 @@ export const PlantMutation = extendType({
         })),
         description: nullable(stringArg({
           description: "Plant's description"
+        })),
+        positionType: nonNull(arg({
+          type: PositionType,
+          description: 'Position of the plant inside the greenhouse',
         }))
       },
       resolve(_, args, context) {
@@ -93,6 +106,7 @@ export const PlantMutation = extendType({
           data: {
             name: args.name,
             description: args.description,
+            positionType: args.positionType
           }
         })
       }
