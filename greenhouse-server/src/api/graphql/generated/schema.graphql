@@ -158,6 +158,14 @@ input PlantInput {
   position: PositionType!
 }
 
+type Position {
+  """Position readable name"""
+  name: String!
+
+  """Position type"""
+  type: PositionType!
+}
+
 enum PositionType {
   BOTTOM_LEFT
   BOTTOM_RIGHT
@@ -191,6 +199,9 @@ type Query {
 
   """List of all plants contained in one greenhouse"""
   plants: [Plant!]
+
+  """List of all known positions"""
+  positions: [Position!]
   refreshToken(refreshToken: String!): Auth!
 
   """List of all known sensors"""

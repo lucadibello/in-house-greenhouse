@@ -88,6 +88,10 @@ export interface NexusGenObjects {
     position: NexusGenEnums['PositionType']; // PositionType!
     updated_at: NexusGenScalars['dateTime']; // dateTime!
   }
+  Position: { // root type
+    name: string; // String!
+    type: NexusGenEnums['PositionType']; // PositionType!
+  }
   Query: {};
   Sensor: { // root type
     name: string; // String!
@@ -165,6 +169,10 @@ export interface NexusGenFieldTypes {
     position: NexusGenEnums['PositionType']; // PositionType!
     updated_at: NexusGenScalars['dateTime']; // dateTime!
   }
+  Position: { // field return type
+    name: string; // String!
+    type: NexusGenEnums['PositionType']; // PositionType!
+  }
   Query: { // field return type
     getData: Array<NexusGenRootTypes['Data'] | null> | null; // [Data]
     getDataByPlant: Array<NexusGenRootTypes['Data'] | null> | null; // [Data]
@@ -172,6 +180,7 @@ export interface NexusGenFieldTypes {
     greenhouses: NexusGenRootTypes['Greenhouse'][] | null; // [Greenhouse!]
     loginUser: NexusGenRootTypes['Auth']; // Auth!
     plants: NexusGenRootTypes['Plant'][] | null; // [Plant!]
+    positions: NexusGenRootTypes['Position'][] | null; // [Position!]
     refreshToken: NexusGenRootTypes['Auth']; // Auth!
     sensors: NexusGenRootTypes['Sensor'][] | null; // [Sensor!]
     users: NexusGenRootTypes['User'][] | null; // [User!]
@@ -242,6 +251,10 @@ export interface NexusGenFieldTypeNames {
     position: 'PositionType'
     updated_at: 'dateTime'
   }
+  Position: { // field return type name
+    name: 'String'
+    type: 'PositionType'
+  }
   Query: { // field return type name
     getData: 'Data'
     getDataByPlant: 'Data'
@@ -249,6 +262,7 @@ export interface NexusGenFieldTypeNames {
     greenhouses: 'Greenhouse'
     loginUser: 'Auth'
     plants: 'Plant'
+    positions: 'Position'
     refreshToken: 'Auth'
     sensors: 'Sensor'
     users: 'User'
