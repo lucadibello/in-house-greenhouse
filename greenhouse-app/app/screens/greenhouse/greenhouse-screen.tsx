@@ -11,6 +11,7 @@ import { Plant } from "../../models/plant/plant"
 import { useStores } from "../../models"
 import { NavigatorParamList } from "../../navigators/components/navigators"
 import { FlatList } from "react-native-gesture-handler"
+import { palette } from "../../theme/palette"
 
 interface PlantFormProps {
   greenhouse: Greenhouse,
@@ -114,17 +115,12 @@ export const GreenhouseScreen: FC<StackScreenProps<NavigatorParamList, "greenhou
   }
 )
 
-const editColor = '#F4D35E'
-const deleteColor = '#DA4167'
-const white = "#FFF"
-const notchColor = '#FFF'
 const styles = StyleSheet.create({
-  
   container: {
     flex: 1
   },
   notch: {
-    backgroundColor: notchColor,
+    backgroundColor: palette.white,
   },
   plantCard: {
     margin: 5,

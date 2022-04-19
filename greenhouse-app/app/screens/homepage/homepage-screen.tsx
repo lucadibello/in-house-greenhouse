@@ -8,6 +8,7 @@ import { useStores } from "../../models"
 import { Greenhouse } from "../../models/greenhouse/greenhouse"
 import { DrawerScreenProps } from "@react-navigation/drawer"
 import { TabParamList, NavigatorParamList, DrawerParamList } from "../../navigators/components/navigators"
+import { palette } from "../../theme/palette"
 
 export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamList), "homepage"> & DrawerScreenProps<DrawerParamList>> = observer(
   ({navigation}) => {
@@ -54,7 +55,6 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
   }
 )
 
-const notchColor = '#FFF'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   notch: {
-    backgroundColor: notchColor,
+    backgroundColor: palette.white,
   },
   title: {
     marginBottom: 2,

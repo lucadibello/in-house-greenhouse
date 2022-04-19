@@ -7,6 +7,7 @@ import { Position, useStores } from "../../models"
 import { observer } from "mobx-react-lite"
 import { NavigatorParamList } from "../../navigators/components/navigators"
 import { PositionSelectInput } from "../../components"
+import { palette } from "../../theme/palette"
 
 export const AddPlantScreen: FC<StackScreenProps<NavigatorParamList, "addPlant">> = observer(
   ({navigation}) => {
@@ -96,7 +97,6 @@ export const AddPlantScreen: FC<StackScreenProps<NavigatorParamList, "addPlant">
   }
 )
 
-const notchColor = '#FFF'
 const styles = StyleSheet.create({
   applyChanges: {
     marginTop: 10
@@ -124,6 +124,6 @@ const styles = StyleSheet.create({
     margin: 2,
   },
   notch: {
-    backgroundColor: notchColor,
+    backgroundColor: palette.white,
   }
 })

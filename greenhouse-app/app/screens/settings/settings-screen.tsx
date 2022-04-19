@@ -4,6 +4,7 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { Divider, Layout, Text, TopNavigation } from "@ui-kitten/components"
 import { SafeAreaView, StyleSheet } from 'react-native' 
 import { TabParamList } from "../../navigators/components/navigators"
+import { palette } from "../../theme/palette"
 
 export const SettingsScreen: FC<StackScreenProps<TabParamList, "settings">> = observer(function SettingsScreen() {
   return (
@@ -22,13 +23,12 @@ export const SettingsScreen: FC<StackScreenProps<TabParamList, "settings">> = ob
   )
 })
 
-const notchColor = '#FFF'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   notch: {
-    backgroundColor: notchColor,
+    backgroundColor: palette.white,
   }
 })
 

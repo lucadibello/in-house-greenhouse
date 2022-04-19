@@ -4,6 +4,7 @@ import { SafeAreaView, StyleSheet } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { TopNavigation, TopNavigationAction, Icon, Divider, Layout, Text } from "@ui-kitten/components"
 import { NavigatorParamList } from "../../navigators/components/navigators"
+import { palette } from "../../theme/palette"
 
 export const ScanScreen: FC<StackScreenProps<NavigatorParamList, "scan">> = observer(
   ({navigation}) => {
@@ -26,12 +27,11 @@ export const ScanScreen: FC<StackScreenProps<NavigatorParamList, "scan">> = obse
     )
 })
 
-const notchColor = '#FFF'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   notch: {
-    backgroundColor: notchColor,
+    backgroundColor: palette.white,
   }
 })
