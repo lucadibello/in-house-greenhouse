@@ -1,5 +1,6 @@
 import { ApiResponse } from "apisauce";
 import { AddPlantResult, Api, getGeneralApiProblem, RemovePlantResult, UpdatePlantResult } from ".."
+import { Position } from "../../../models";
 import { ApiBase } from "../core/base/ApiBase";
 import { AuthenticationError } from "../core/types/exceptions/AuthenticationError";
 
@@ -11,27 +12,30 @@ export class PlantApi extends ApiBase {
     this.api = api
   }
 
-  async addPlant(greenhouseId: string, update: {name: string, description?: string, position: string}): Promise<AddPlantResult> {
+  async addPlant(greenhouseId: string, update: {name: string, description?: string, position: Position}): Promise<AddPlantResult> {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/addPlant`, {
-        query: `mutation AddPlant($greenhouseId: String!, $name: String!, $position: Position!, $description: String) {
-          addPlant(greenhouseId: $greenhouseId, name: $name, position: $position, description: $description) {
+        query: `mutation AddPlant($greenhouseId: String!, $name: String!, $positionType: PositionType!, $description: String) {
+          addPlant(greenhouseId: $greenhouseId, name: $name, positionType: $positionType, description: $description) {
             id
             name
             description
             created_at
             updated_at
             greenhouseId
-            position
             isDeleted
+            position {
+              name
+              type
+            }
           }
         }`,
         variables: {
           greenhouseId: greenhouseId,
           name: update.name,
           description: update.description || null,
-          position: update.position
+          positionType: update.position.type
         }
       })
       
@@ -51,11 +55,6 @@ export class PlantApi extends ApiBase {
       // Read response data
       const graphQLResponse = response.data
 
-      // Format position data
-      graphQLResponse.data.addPlant.position = {
-        name: graphQLResponse.data.addPlant.position 
-      } 
-      
       // List greenhouses
       return {kind: "ok", plant: graphQLResponse.data.addPlant};
     } catch (e) {
@@ -69,27 +68,31 @@ export class PlantApi extends ApiBase {
     }
   }
 
-  async updatePlant(plantId: number, update: {name: string, description?: string, position: string}): Promise<UpdatePlantResult> {
+  async updatePlant(plantId: number, update: {name: string, description?: string, position: Position}): Promise<UpdatePlantResult> {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/updatePlant`, {
-        query: `mutation UpdatePlant($updatePlantId: Int!, $name: String!, $description: String) {
-          updatePlant(id: $updatePlantId, name: $name, description: $description) {
+        query: `mutation UpdatePlant($updatePlantId: Int!, $positionType: PositionType!, $name: String!, $description: String) {
+          updatePlant(id: $updatePlantId, positionType: $positionType, name: $name, description: $description) {
             id
             name
             description
             created_at
             updated_at
             greenhouseId
-            position
+            positionType
             isDeleted
+            position {
+              name
+              type
+            }
           }
         }`, 
         variables: {
           updatePlantId: plantId,
           name: update.name,
           description: update.description || null,
-          position: update.position
+          positionType: update.position.type
         }
       })
       
