@@ -9,7 +9,13 @@ import { palette } from "../../theme/palette"
 
 export const InspectPlantScreen: FC<StackScreenProps<NavigatorParamList, "inspectPlant">> = observer(
   ({navigation}) => {
-  const { navigationStore } = useStores()
+  const { navigationStore, dataStore } = useStores()
+
+  React.useEffect(() => {
+    if (navigationStore.inspectPlantScreenParams.plant !== undefined) {
+      dataStore.getPlantData(navigationStore.inspectPlantScreenParams.plant)
+    }
+  }, [])
 
   // Check if a plant has been selected
   if (navigationStore.inspectPlantScreenParams.plant !== undefined) {
@@ -24,6 +30,8 @@ export const InspectPlantScreen: FC<StackScreenProps<NavigatorParamList, "inspec
          <Divider />
         <Layout>
           <Text>Inspecting plant {navigationStore.inspectPlantScreenParams.plant.id}</Text>
+          <Text>DATA:</Text>
+          <Text>{JSON.stringify(dataStore.data)}</Text>
         </Layout>
       </SafeAreaView>
     )
