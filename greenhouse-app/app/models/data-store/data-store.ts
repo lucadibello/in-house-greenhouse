@@ -19,18 +19,16 @@ export const DataStoreModel = types
   })
   .actions((self) => ({
     getPlantData: flow(function* getPositions (plant: Plant) {
-      const positionApi = new DataApi(self.environment.api)
+      const dataApi = new DataApi(self.environment.api)
       const result = yield runAuthenticatedApi<GetPlantDataResult>(
         self.rootStore.authenticationStore,
-        positionApi,
-        () => positionApi.getPlantData(plant)
+        dataApi,
+        () => dataApi.getPlantData(plant)
       )
       
-      console.log("PLANT DATA: ", result)
-
       // Set data
       if (result.kind === "ok") {
-        self.data.replace(result.positions)
+        self.data.replace(result.data)
       } else {
         __DEV__ && console.tron.log(result.kind)
       }

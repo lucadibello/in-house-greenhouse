@@ -45,10 +45,8 @@ export class DataApi extends ApiBase {
         }
       }
 
-      console.log("GRAPHQL RESPONSE: ", response.data)
-      
       // List greenhouses
-      const outputData = {kind: "ok", data: []};
+      const outputData = {kind: "ok", data: response.data.data.getDataByPlant};
       // Return data
       return outputData;
     } catch (e) {
