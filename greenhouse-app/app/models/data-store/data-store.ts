@@ -18,6 +18,11 @@ export const DataStoreModel = types
   .props({
     data: types.optional(types.array(DataModel), []),
   })
+  .actions(self => ({
+    clear () {
+      self.data.clear()
+    }
+  }))
   .actions((self) => ({
     getPlantData: flow(function* getPositions (plant: Plant) {
       const dataApi = new DataApi(self.environment.api)
