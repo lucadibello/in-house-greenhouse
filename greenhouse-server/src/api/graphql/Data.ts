@@ -97,7 +97,7 @@ export const DataQuery = extendType({
           // Find sensors with the same position as the plant with a specified type
           const sensors = await context.prisma.sensor.findMany({
             where: {
-              position: plant.position,
+              positionType: plant.positionType,
               type: args.sensorType || undefined
             }
           });
