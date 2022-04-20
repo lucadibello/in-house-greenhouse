@@ -6,7 +6,7 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 export const DataModel = types
   .model("Data")
   .props({
-    id: types.identifier,
+    id: types.integer,
     sensor: types.string,
     value: types.number,
     greenhouseId: types.string,

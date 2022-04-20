@@ -2,6 +2,7 @@ import { ApiResponse } from "apisauce";
 import { Api, getGeneralApiProblem, GetPlantDataResult } from "../"
 import { Plant } from "../../../models/plant/plant";
 import { ApiBase } from "../core/base/ApiBase";
+import { SensorType } from "../core/types/api.data.types";
 import { AuthenticationError } from "../core/types/exceptions/AuthenticationError";
 
 export class DataApi extends ApiBase {
@@ -12,12 +13,12 @@ export class DataApi extends ApiBase {
     this.api = api
   }
 
-  async getPlantData(plant: Plant): Promise<GetPlantDataResult> {
+  async getPlantData(plant: Plant, type: SensorType): Promise<GetPlantDataResult> {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`/plantData`,{
-        query: `query GetDataByPlant($plantId: Int!) {
-          getDataByPlant(plantId: $plantId) {
+        query: `query GetDataByPlant($plantId: Int!, $sensorType: SensorType) {
+          getDataByPlant(plantId: $plantId, sensorType: $sensorType) {
             id
             sensor
             value
@@ -27,7 +28,8 @@ export class DataApi extends ApiBase {
           }
         }`,
         variables: {
-          plantId: plant.id
+          plantId: plant.id,
+          sensorType: type
         }
       })
       

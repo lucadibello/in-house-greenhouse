@@ -1,6 +1,7 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { Plant } from ".."
 import { GetPlantDataResult } from "../../services/api"
+import { SensorType } from "../../services/api/core/types/api.data.types"
 import { DataApi } from "../../services/api/data/data-api"
 import { runAuthenticatedApi } from "../../utils/auth-runner"
 import { DataModel } from "../data/data"
@@ -23,7 +24,7 @@ export const DataStoreModel = types
       const result = yield runAuthenticatedApi<GetPlantDataResult>(
         self.rootStore.authenticationStore,
         dataApi,
-        () => dataApi.getPlantData(plant)
+        () => dataApi.getPlantData(plant, SensorType.SOIL)
       )
       
       // Set data
