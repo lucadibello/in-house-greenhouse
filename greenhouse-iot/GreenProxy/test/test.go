@@ -42,10 +42,10 @@ func main() {
 	// add variables to request
 	graphqlRequest.Var("sensor", "SOIL_SENSOR_1")
 	graphqlRequest.Var("value", rand.Float32())
-	graphqlRequest.Var("greenhouseId", "a0eeb624-9dc5-4a13-b2e7-840c43f68189")
+	graphqlRequest.Var("greenhouseId", "cd8918aa-8ead-4ed0-83df-2b227ad939e0")
 
 	// Add UUID to header
-	graphqlRequest.Header.Add("X-Greenhouse-UUID", "a0eeb624-9dc5-4a13-b2e7-840c43f68189")
+	graphqlRequest.Header.Add("X-Greenhouse-UUID", "cd8918aa-8ead-4ed0-83df-2b227ad939e0")
 
 	var graphqlResponse interface{}
 	ctx := context.Background()
