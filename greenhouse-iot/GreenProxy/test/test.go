@@ -6,12 +6,17 @@ import (
 	"greenproxy/config"
 	"math/rand"
 
+	"time"
+
 	"github.com/machinebox/graphql"
 )
 
 func main() {
 	fmt.Println("--- Test sending a GraphQL request to the proxy ---")
 	fmt.Println()
+
+	// Set random seed
+	rand.Seed(time.Now().UnixNano())
 
 	// Import config
 	config := config.GetConfig("../config/config.yaml")
@@ -41,7 +46,7 @@ func main() {
 
 	// add variables to request
 	graphqlRequest.Var("sensor", "SOIL_SENSOR_1")
-	graphqlRequest.Var("value", rand.Float32())
+	graphqlRequest.Var("value", rand.Float64())
 	graphqlRequest.Var("greenhouseId", "cd8918aa-8ead-4ed0-83df-2b227ad939e0")
 
 	// Add UUID to header
