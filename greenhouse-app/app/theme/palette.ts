@@ -9,6 +9,7 @@ export const palette = {
   angry: "#dd3333",
   deepPurple: "#5D2555",
   primaryBlue: "#3366FF",
+  success: "#84DD63",
   buttons: {
     primary: "#1D4E89",
     success: "#7DCFB6",
