@@ -17,25 +17,23 @@ export interface DataRecordProps {
 export const DataRecord = observer(function DataRecord(props: DataRecordProps) {
   return (
     <Layout style={props.style}>
-      <Card style={styles.card} status='success'>
-        <Text category={"h4"}>Health</Text>
-        <View style={styles.dataRecordBar}>
-          <ProgressCircle
-              percent={props.percentage !== null ? props.percentage * 100 : 100}
-              radius={70}
-              borderWidth={12}
-              color={props.percentage !== null ? palette.success : palette.angry}
-              shadowColor="#999"
-              bgColor="#FFF"
-            >
-              <Text style={styles.text}>{props.percentage !== null ? 'Soil Moisture' : 'No data'}</Text>
-              {
-                props.percentage !== null &&
-                  <Text style={styles.text}>{Math.floor(props.percentage * 100)}%</Text>
-              }
-            </ProgressCircle>
-        </View>
-      </Card>
+      <Text category={"h4"}>Soil moisture</Text>
+      <View style={styles.dataRecordBar}>
+        <ProgressCircle
+            percent={props.percentage !== null ? props.percentage * 100 : 100}
+            radius={70}
+            borderWidth={12}
+            color={props.percentage !== null ? palette.success : palette.angry}
+            shadowColor="#999"
+            bgColor="#FFF"
+          >
+            <Text style={styles.text}>{props.percentage !== null ? 'Soil Moisture' : 'No data'}</Text>
+            {
+              props.percentage !== null &&
+                <Text style={styles.text}>{Math.floor(props.percentage * 100)}%</Text>
+            }
+          </ProgressCircle>
+      </View>
     </Layout>
   )
 })

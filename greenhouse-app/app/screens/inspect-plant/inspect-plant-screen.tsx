@@ -7,18 +7,22 @@ import { useStores } from "../../models"
 import { SafeAreaView, StyleSheet } from "react-native"
 import { palette } from "../../theme/palette"
 import { DataRecord } from "../../components/data-record/data-record"
+import { AreaChart } from "../../components"
 
 export const InspectPlantScreen: FC<StackScreenProps<NavigatorParamList, "inspectPlant">> = observer(
   ({navigation}) => {
   const { navigationStore, dataStore } = useStores()
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [chartData, setChartData] = React.useState<number[]>([]); 
 
   React.useEffect(() => {
     if (navigationStore.inspectPlantScreenParams.plant !== undefined) {
       // Clear all data 
       dataStore.clear()
       // Get plant data
-      dataStore.getPlantData(navigationStore.inspectPlantScreenParams.plant)
+      dataStore.getPlantData(navigationStore.inspectPlantScreenParams.plant).then(() => {
+        // Save data inside chart data
+        setChartData(dataStore.data.map(data => data.value * 100))
+      })
     }
   }, [])
 
@@ -32,31 +36,20 @@ export const InspectPlantScreen: FC<StackScreenProps<NavigatorParamList, "inspec
           subtitle={'Inspect your plant health parameters'}
           accessoryLeft={<TopNavigationAction icon={<Icon name='arrow-back'/>} onPress={() => navigation.goBack()} />}
         />
-         <Divider />
+        <Divider />
         <Layout style={[styles.container, styles.dataContainer]}>
-          <Text category={"h4"}>Plant information</Text>
-          
           <DataRecord
             style={styles.healthCard}
-            percentage={dataStore.data.length !== 0 ? dataStore.data[0].value : null}
+            percentage={dataStore.data.length !== 0 ? dataStore.data[dataStore.data.length - 1].value : null}
           />
           
-          {/* SWIPABLE CARDS */}
-          <ViewPager
-            style={styles.viewPager}
-            selectedIndex={selectedIndex}
-            onSelect={index => setSelectedIndex(index)}>
-            <Layout
-              style={styles.tab}
-              level='2'>
-              <Text category='h5'>Chart</Text>
-            </Layout>
-            <Layout
-              style={styles.tab}
-              level='2'>
-              <Text category='h5'>Data History</Text>
-            </Layout>
-          </ViewPager>
+          <Layout style={[styles.container, styles.chartContainer]}>
+            { /* Soil moisture chart */ }  
+            <Text category='h4'>Soil chart</Text>
+            
+            {/* Humidity chart */}
+            <AreaChart data={chartData}/>
+          </Layout>
         </Layout>
       </SafeAreaView>
     )
@@ -79,6 +72,9 @@ export const InspectPlantScreen: FC<StackScreenProps<NavigatorParamList, "inspec
 })
 
 const styles = StyleSheet.create({
+  chartContainer: {
+    padding: 16
+  },
   container: {
     flex: 1,
   },
