@@ -1,7 +1,17 @@
 import { Instance, SnapshotOut, types, flow } from "mobx-state-tree"
+import { Api } from "../../services/api";
 import { AuthenticationApi } from "../../services/api/authentication/authentication-api";
 import { IKeyChainData } from "../../services/keychain/keychain";
 import { withEnvironment } from "../extensions/with-environment";
+import { UserModel } from "../user/user";
+
+
+/**
+ * Function to set authentication header to API 
+ */
+const addAuthorizationHeaderToApi = (api: Api, accessToken: string) => {
+  api.apisauce.setHeader("Authorization", accessToken)
+}
 
 /**
  * Authentication model. This model is used to store the authentication state
@@ -12,11 +22,17 @@ export const AuthenticationStoreModel = types
   .props({
     accessToken: types.optional(types.string, ""),
     refreshToken: types.optional(types.string, ""),
-    user: types.optional(types.string, "{IMPLEMENT ME PLEASE}"),
+    user: types.maybeNull(UserModel),
     isAuthenticated: types.optional(types.boolean, false),
   })
+  .views(self => ({
+    get fullName() {
+      return self.user.name + " " + self.user.surname
+    }
+  }))
   .actions((self) => ({
     logout() {
+      self.user = null
       self.accessToken = ""
       self.refreshToken = ""
       self.isAuthenticated = false
@@ -31,14 +47,16 @@ export const AuthenticationStoreModel = types
       // Check response
       if (result.kind === "ok") {
         // Success. Update the token and user
-        // TODO: self.user = null
+        self.user = result.user
         self.accessToken = result.token
         self.refreshToken = result.refreshToken
         self.isAuthenticated = true
 
+        // Set authorization header to API
+        addAuthorizationHeaderToApi(self.environment.api, self.accessToken)
+
         // Save data to keychain using KeychainService
         self.environment.keychain.save(email, password).then((status) => {
-          console.log(status)
           // check keychain result status and notify via tron
           if (status.success) {
             console.tron.debug("Keychain save success")
@@ -54,6 +72,67 @@ export const AuthenticationStoreModel = types
         onErrorCallback({errorCode: result.errorCode, errorMessage: result.errorMessage})
       }
     }) 
+  }))
+  .actions(self => ({
+    register: flow(function* register (name: string, surname: string, email: string, password: string, onErrorCallback?: (error: {errorCode: string, errorMessage: string}) => void) {
+      // Send register request using AuthenticationApi
+      const authenticationApi = new AuthenticationApi(self.environment.api)
+      const result = yield authenticationApi.register(name, surname, email, password)
+
+      // Check response
+      if (result.kind === "ok") {
+        // Success. Update the token and user
+        self.user = result.user
+        self.accessToken = result.token
+        self.refreshToken = result.refreshToken
+        self.isAuthenticated = true
+
+        // Set authorization header to API
+        addAuthorizationHeaderToApi(self.environment.api, self.accessToken)
+      } else {
+        // Log error to tron console if in debug mode
+        __DEV__ && console.tron.log(result.kind)
+        
+        if (onErrorCallback) {
+          // call onErrorCallback function to notify user that the login failed
+          onErrorCallback({errorCode: result.errorCode, errorMessage: result.errorMessage})
+        }
+      }
+    })
+  }))
+  .actions(self => ({
+    // Refresh token
+    requestNewTokens: flow(function* requestNewTokens (
+      onErrorCallback?: (error: {errorCode: string, errorMessage: string}) => void,
+      onSuccessCallback?: (newContext: Api) => void
+    ) {
+      // Send refresh token request using AuthenticationApi
+      const authenticationApi = new AuthenticationApi(self.environment.api)
+      const result = yield authenticationApi.refreshToken(self.refreshToken)
+
+      // Check response
+      if (result.kind === "ok") {
+        // Success. Update the token and user
+        self.accessToken = result.token
+        self.refreshToken = result.refreshToken
+        
+        // Set authorization header to environment API service
+        addAuthorizationHeaderToApi(self.environment.api, self.accessToken)
+
+        // If onSuccessCallback is defined, call it
+        if (onSuccessCallback) {
+          onSuccessCallback(self.environment.api)
+        }
+      } else {
+        // Log error to tron console if in debug mode
+        __DEV__ && console.tron.log(result.kind)
+
+        if (onErrorCallback) {
+          // call onErrorCallback function to notify user that the login failed
+          onErrorCallback({errorCode: result.errorCode, errorMessage: result.errorMessage})
+        }
+      }
+    })
   }))
   .actions(self => ({
     loadCredentials: flow(function* loadCredentials (callback: (response: IKeyChainData) => void) {

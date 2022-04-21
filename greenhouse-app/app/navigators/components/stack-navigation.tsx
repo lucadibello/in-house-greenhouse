@@ -1,6 +1,6 @@
 import React from "react"
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ScanScreen, GreenhouseScreen, EditPlantScreen, AddPlantScreen } from "../../screens";
+import { ScanScreen, GreenhouseScreen, EditPlantScreen, AddPlantScreen, InspectPlantScreen } from "../../screens";
 import { NavigatorParamList } from "./navigators";
 import { AppTabNavigator } from "./bottom-navigation";
 
@@ -21,6 +21,7 @@ export const AppStackNavigation = () => {
       <Stack.Screen name="greenhouse" component={GreenhouseScreen} />
       <Stack.Screen name="editPlant" component={EditPlantScreen} />
       <Stack.Screen name="addPlant" component={AddPlantScreen} />
+      <Stack.Screen name="inspectPlant" component={InspectPlantScreen} />
     </Stack.Navigator>
   )
 }

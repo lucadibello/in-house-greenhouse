@@ -3,13 +3,47 @@
 
 
 type Auth {
+  """Authentication error code"""
   errorCode: String
+
+  """Authentication error message"""
   errorMessage: String
+
+  """Access token expire time"""
   expire: String
+
+  """Authentication error flag"""
   isError: Boolean
+
+  """Access token issued time"""
   issued: String
+
+  """JWT token used to refresh access token. Expires in 7 days."""
   refreshToken: String
+
+  """JWT token used to access API"""
   token: String
+  user: User
+}
+
+type Data {
+  """Data record creation date"""
+  created_at: dateTime!
+
+  """Greenhouse ID"""
+  greenhouseId: String!
+
+  """Data record ID"""
+  id: Int!
+
+  """Sensor name"""
+  sensor: String!
+
+  """Data record update date"""
+  updated_at: dateTime!
+
+  """Sensor value"""
+  value: Float!
 }
 
 type Greenhouse {
@@ -35,6 +69,66 @@ type Greenhouse {
   updated_at: dateTime!
 }
 
+type Mutation {
+  """Create a new greenhouse"""
+  addGreenhouse(
+    """New greenhouse's description"""
+    description: String
+
+    """New greenhouse's name"""
+    name: String!
+  ): Greenhouse
+
+  """Add plant to a greenhouses"""
+  addPlant(
+    """Plant's description"""
+    description: String
+
+    """Greenhouse ID"""
+    greenhouseId: String!
+
+    """Plant's name"""
+    name: String!
+
+    """Position of the plant inside the greenhouse"""
+    positionType: PositionType!
+  ): Plant
+
+  """Record data from a sensor"""
+  recordData(
+    """Greenhouse ID"""
+    greenhouseId: String!
+
+    """Sensor name"""
+    sensor: String!
+
+    """Sensor value"""
+    value: Float!
+  ): Data
+  registerUser(email: String!, name: String!, password: String!, surname: String!): Auth!
+
+  """Remove a Plant from its greenhouse"""
+  removePlant(
+    """Plant ID"""
+    id: Int!
+  ): Plant
+
+  """Update a plant information"""
+  updatePlant(
+    """Plant's description"""
+    description: String
+
+    """Plant ID"""
+    id: Int!
+
+    """Plant's name"""
+    name: String!
+
+    """Position of the plant inside the greenhouse"""
+    positionType: PositionType!
+  ): Plant
+}
+
 type Plant {
   """Last update timestamp"""
   created_at: dateTime!
@@ -53,6 +147,10 @@ type Plant {
 
   """Plant name"""
   name: String!
+  position: Position
+
+  """Plant position inside the greenhouse"""
+  positionType: PositionType!
 
   """Last update timestamp"""
   updated_at: dateTime!
@@ -61,33 +159,43 @@ type Plant {
 input PlantInput {
   description: String
   name: String!
+  position: PositionType!
+}
+
+type Position {
+  """Position readable name"""
+  name: String!
+
+  """Position type"""
+  type: PositionType!
+}
+
+enum PositionType {
+  BOTTOM_LEFT
+  BOTTOM_RIGHT
+  GENERAL
+  MIDDLE_LEFT
+  MIDDLE_RIGHT
+  TOP_LEFT
+  TOP_RIGHT
 }
 
 type Query {
-  """Create a new greenhouse"""
-  addGreenhouse(
-    """New greenhouse's description"""
-    description: String
-
-    """New greenhouse's name"""
-    name: String!
-
-    """List of plants that will be planted inside this greenhouse"""
-    plants: [PlantInput!]
-  ): Greenhouse
-
-  """Add plant to a greenhouses"""
-  addPlant(
-    """Plant's description"""
-    description: String
-
-    """Greenhouse ID"""
+  """List of all data related to a certain greenhouse"""
+  getData(
+    """Greenhouse UUID"""
     greenhouseId: String!
+  ): [Data]
 
-    """Plant's name"""
-    name: String!
-  ): Plant
-  addUser(email: String!, name: String!, password: String!, surname: String!): User!
+  """List of all data related to a certain plant"""
+  getDataByPlant(
+    """Plant ID"""
+    plantId: Int!
+
+    """Type of sensor data to be retrieved"""
+    sensorType: SensorType
+  ): [Data]
+  greenhouseAuth(greenhouseId: String!): SensorAuth!
 
   """List of all known greenhouses"""
   greenhouses: [Greenhouse!]
@@ -95,33 +203,62 @@ type Query {
 
   """List of all plants contained in one greenhouse"""
   plants: [Plant!]
+
+  """List of all known positions"""
+  positions: [Position!]
   refreshToken(refreshToken: String!): Auth!
 
-  """Remove a Plant from its greenhouse"""
-  removePlant(
-    """Plant ID"""
-    id: Int!
-  ): Plant
-
-  """Update a plant information"""
-  updatePlant(
-    """Plant's description"""
-    description: String
-
-    """Plant ID"""
-    id: Int!
-
-    """Plant's name"""
-    name: String!
-  ): Plant
+  """List of all known sensors"""
+  sensors: [Sensor!]
   users: [User!]
 }
 
-type User {
-  email: String!
-  id: Int!
+type Sensor {
+  """Sensor name"""
   name: String!
-  password: String!
+  position: Position
+
+  """Sensor position"""
+  positionType: PositionType!
+
+  """Sensor type"""
+  type: SensorType!
+}
+
+type SensorAuth {
+  """Authentication error code"""
+  errorCode: String
+
+  """Authentication error message"""
+  errorMessage: String
+
+  """Access token expire time"""
+  expire: String
+
+  """Access token issued time"""
+  issued: String
+
+  """JWT token used to access API"""
+  token: String
+}
+
+enum SensorType {
+  HUMIDITY
+  SOIL_MOISTURE
+  TEMPERATURE
+}
+
+type User {
+  """User email"""
+  email: String!
+
+  """User identification number"""
+  id: Int!
+
+  """User name"""
+  name: String!
+
+  """User surname"""
   surname: String!
 }
 

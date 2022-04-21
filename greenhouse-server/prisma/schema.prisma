@@ -22,18 +22,68 @@ model Greenhouse {
   name String
   description String?
   plants Plant[]
+  data Data[]
   isOkay Boolean @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt @default(now())
+}
+
+model Sensor {
+  name String @id
+  type SensorType
+  positionType PositionType
+  data Data[]
+  positionRelation Position @relation(fields: [positionType], references: [type])
+}
+
+model Data {
+  id Int @id @default(autoincrement())
+  sensor String
+  value Float
+  greenhouseId String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt @default(now()) 
+  
+  // Relation fields
+  GreenhouseRelation Greenhouse @relation(fields: [greenhouseId], references: [id])
+  SensorRelation Sensor @relation(fields: [sensor], references: [name])
 }
 
 model Plant {
   id Int @id @default(autoincrement())
   name String
   description String?
-  greenhouse Greenhouse? @relation(fields: [greenhouseId], references: [id])
-  greenhouseId String? // relation scalar field  (used in the `@relation` attribute above)
+  greenhouseId String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt @default(now())
   isDeleted Boolean @default(false)
+  positionType PositionType
+
+  // Relation field
+  greenhouse Greenhouse? @relation(fields: [greenhouseId], references: [id])
+  positionRelation Position @relation(fields: [positionType], references: [type])
+}
+
+model Position {
+  type PositionType @id
+  name String
+  sensors Sensor[]
+  plants Plant[]
+}
+
+
+enum PositionType {
+  TOP_LEFT
+  TOP_RIGHT
+  MIDDLE_LEFT
+  MIDDLE_RIGHT
+  BOTTOM_LEFT
+  BOTTOM_RIGHT
+  GENERAL
+}
+
+enum SensorType {
+  HUMIDITY
+  TEMPERATURE
+  SOIL_MOISTURE
 }

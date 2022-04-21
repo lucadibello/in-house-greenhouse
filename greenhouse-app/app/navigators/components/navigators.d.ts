@@ -4,7 +4,8 @@ export type NavigatorParamList = {
   scan: undefined
   greenhouse: undefined,
   editPlant: undefined,
-  addPlant: undefined
+  addPlant: undefined,
+  inspectPlant: undefined,
 }
 
 export type TabParamList = {

@@ -6,6 +6,9 @@ import { SafeAreaView } from "react-native-safe-area-context"
 import { useStores } from "../../models"
 import { observer } from "mobx-react-lite"
 import { NavigatorParamList } from "../../navigators/components/navigators"
+import { PositionSelectInput } from "../../components/position-select-input/position-select-input"
+import { palette } from "../../theme/palette"
+import { clone } from "mobx-state-tree"
 
 export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant">> = observer(
   ({navigation}) => {
@@ -13,8 +16,6 @@ export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant
     const { navigationStore } = useStores()
 
     if (navigationStore.editPlantScreenParams.plant !== undefined) {
-      console.log(navigationStore.editPlantScreenParams.plant)
-      
       // Input state generator
       const useInputState = (initialValue = '') => {
         const [value, setValue] = React.useState(initialValue);
@@ -24,7 +25,8 @@ export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant
       // Create input states
       const nameInputState = useInputState(navigationStore.editPlantScreenParams.plant.name);
       const descriptionInputState = useInputState(navigationStore.editPlantScreenParams.plant.description);
-      
+      const [position, setPosition] = React.useState(clone(navigationStore.editPlantScreenParams.plant.position)); 
+
       // Compute dates
       const createdAtDate = new Date(navigationStore.editPlantScreenParams.plant.created_at).toLocaleString()
       const updatedAtDate = new Date(navigationStore.editPlantScreenParams.plant.updated_at).toLocaleString()
@@ -88,14 +90,24 @@ export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant
             disabled={true}            
           />
 
+          {/* PLANT POSITION */}
+          <PositionSelectInput
+            value={position}
+            onSelect={(position) => setPosition(position)}
+          />
+
           {/* UPDATE PLANT DATA */}
           <Button style={styles.applyChanges} onPress={() => {
+            // Send data through API
             navigationStore.editPlantScreenParams.plant.updatePlant(
               {
                 name: nameInputState.value,
-                description: descriptionInputState.value
+                description: descriptionInputState.value,
+                position: position
               }
             )
+            // Return to list page
+            navigation.goBack()
           }}>Apply changes</Button>
         </Layout>
       </SafeAreaView>
@@ -108,7 +120,6 @@ export const EditPlantScreen: FC<StackScreenProps<NavigatorParamList, "editPlant
   }
 )
 
-const notchColor = '#FFF'
 const styles = StyleSheet.create({
   applyChanges: {
     marginTop: 10
@@ -136,6 +147,6 @@ const styles = StyleSheet.create({
     margin: 2,
   },
   notch: {
-    backgroundColor: notchColor,
+    backgroundColor: palette.white,
   }
 })

@@ -1,42 +1,59 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
-import { PlantApi } from "../../services/api/plant/greenhouse-api"
+import { withRootStore } from ".."
+import { RemovePlantResult, UpdatePlantResult } from "../../services/api"
+import { PlantApi } from "../../services/api/plant/plant-api"
+import { runAuthenticatedApi } from "../../utils/auth-runner"
 import { withEnvironment } from "../extensions/with-environment"
+import { Position, PositionModel } from "../position/position"
 
 /**
  * Greenhouse's plant model
  */
 export const PlantModel = types
   .model("Plant")
+  .extend(withRootStore)
   .extend(withEnvironment)
   .props({
     id: types.identifierNumber,
     name: types.string,
-    description: types.maybe(types.string),
+    description: types.maybeNull(types.string),
     created_at: types.string,
-    greenhouseId: types.maybe(types.string),
-    updated_at: types.string
+    greenhouseId: types.maybeNull(types.string),
+    updated_at: types.string,
+    position: PositionModel,
+    isDeleted: types.boolean
   })
   .actions(self => ({
-    updatePlant: flow(function* updatePlant (update: {name: string, description?: string}) {
+    updatePlant: flow(function* updatePlant (update: {name: string, description?: string, position: Position}) {
       const plantApi = new PlantApi(self.environment.api)
-      const result = yield plantApi.updatePlant(self.id ,update);
-
-      // Update model data
+      
+      const result = yield runAuthenticatedApi<UpdatePlantResult>(
+        self.rootStore.authenticationStore,
+        plantApi,
+        () => {return plantApi.updatePlant(self.id, update)},
+      )
+      
+      // Create callback handler
       if (result.kind === "ok") {
         self.id = result.plant.id
         self.name = result.plant.name
         self.description = result.plant.description
         self.created_at = result.plant.created_at
         self.updated_at = result.plant.updated_at
+        self.position = result.plant.position
       } else {
         __DEV__ && console.tron.log(result.kind)
       }
     })
   }))
   .actions(self => ({
-    removePlant: flow(function* removePlant () {
+    removePlant: flow(function* removePlant (onSuccess?: () => void) {
       const plantApi = new PlantApi(self.environment.api)
-      const result = yield plantApi.removePlant(self.id);
+      const result = yield runAuthenticatedApi<RemovePlantResult>(
+        self.rootStore.authenticationStore,
+        plantApi,
+        () => {return plantApi.removePlant(self.id, onSuccess)},
+      )
 
       // notify in case of error
       if (result.kind !== "ok") {

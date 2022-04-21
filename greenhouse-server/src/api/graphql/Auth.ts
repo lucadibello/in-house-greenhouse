@@ -1,29 +1,90 @@
-import { nonNull, objectType, stringArg } from "nexus"
-import { compare } from 'bcrypt'
-import { JWT } from '../../utils/jwt/jwt'
-import { getAccessTokenSecret, getRefreshTokenSecret } from '../../utils/env/env'
+import { extendType, nonNull, objectType, stringArg } from "nexus"
+import { compare, hashSync, genSaltSync } from 'bcrypt'
+import { JWT, TokenType } from '../../utils/jwt/jwt'
+import { getAccessTokenSecret, getRefreshTokenSecret, getGreenhouseTokenSecret } from '../../utils/env/env'
+import { User } from "./User"
 
 // initialize JWT class using .env variables
 const jwtService = new JWT(
   getAccessTokenSecret(),
-  getRefreshTokenSecret()
+  getRefreshTokenSecret(),
+  getGreenhouseTokenSecret()
 )
 
 export const Auth = objectType({
   name: 'Auth',
   definition(t) {
-    t.string('token')
-    t.string('refreshToken')
-    t.string('expire')
-    t.string('issued')
-    t.boolean('isError')
-    t.string('errorCode')
-    t.string('errorMessage')
+    t.string('token', { description: "JWT token used to access API" })
+    t.string('refreshToken', { description: "JWT token used to refresh access token. Expires in 7 days." })
+    t.string('expire', { description: "Access token expire time"})
+    t.string('issued', { description: "Access token issued time"})
+    t.boolean('isError', { description: "Authentication error flag"})
+    t.string('errorCode', { description: "Authentication error code"})
+    t.string('errorMessage', { description: "Authentication error message"})
+    t.field('user', {type: User})
   }
 })
 
-export const AuthQuery = objectType({
-  name: 'Query',
+export const AuthMutation = extendType({
+  type: 'Mutation',
+  definition(t) {
+    // Field for registering users
+    t.nonNull.field('registerUser', {
+      type: 'Auth',
+      args: {
+        email: nonNull(stringArg()),
+        name: nonNull(stringArg()),
+        surname: nonNull(stringArg()),
+        password: nonNull(stringArg()),
+      },
+      resolve: async (_, args, context) => {
+        try {
+          // Register user
+          const user = await context.prisma.user.create({
+            data: {
+              email: args.email,
+              name: args.name,
+              surname: args.surname,
+              password: hashSync(args.password, genSaltSync(12))
+            }
+          })
+
+          // Encode session with 30 minutes expiration
+          const session = jwtService.encodeSession(user)
+
+          // Password is correct, return Auth object with signed token
+          return {
+            token: session.accessToken,
+            refreshToken: jwtService.generateRefreshToken(),
+            isError: false,
+            errorCode: null,
+            errorMessage: '',
+            expire: session.expire.toISOString(), 
+            issued: session.issued.toISOString(),
+            user: user
+          }
+        } catch (e: any) {
+          // Add console.log to see error
+          console.log(e)
+
+          return {
+            token: null,
+            accessToken: null,
+            isError: true,
+            errorCode: 'REGISTER_DB_ERROR',
+            errorMessage: e.message,
+            expire: null,
+            issued: null,
+            user: null
+          }
+        }
+      }
+    });
+  }
+})
+
+export const AuthQuery = extendType({
+  type: 'Query',
   definition(t) {
     // Field for login users
     t.nonNull.field('loginUser', {
@@ -49,7 +110,8 @@ export const AuthQuery = objectType({
             errorMessage: 'User or password are incorrect',
             errorCode: 'LOGIN_ERROR',
             issued: null,
-            expire: null
+            expire: null,
+            user: null
           }
         }
 
@@ -69,7 +131,8 @@ export const AuthQuery = objectType({
             errorCode: null,
             errorMessage: '',
             expire: session.expire.toISOString(), 
-            issued: session.issued.toISOString()
+            issued: session.issued.toISOString(),
+            user: user
           }
         } else {
           // Return error message
@@ -80,7 +143,8 @@ export const AuthQuery = objectType({
             errorCode: 'LOGIN_ERROR',
             errorMessage: 'User or password are incorrect',
             expire: null,
-            issued: null
+            issued: null,
+            user: null
           }
         }
       }
@@ -94,8 +158,8 @@ export const AuthQuery = objectType({
       },
       resolve: async (_, args, context) => {
         // check if JWT refresh token is not expired
-        const userData = jwtService.verifyToken(args.refreshToken)
-
+        const userData = jwtService.verifyToken(args.refreshToken, TokenType.TOKEN_REFRESH)
+        
         // Check if refreshToken was valid
         if (userData == null) {
           // Return error
@@ -106,7 +170,8 @@ export const AuthQuery = objectType({
             errorCode: 'REFRESH_TOKEN_ERROR',
             errorMessage: 'Invalid token',
             issued: null,
-            expire: null
+            expire: null,
+            user: null
           }
         } else {
           // Token is valid, generate new session with 30 minutes expiration
@@ -120,7 +185,8 @@ export const AuthQuery = objectType({
             errorCode: null,
             errorMessage: '',
             expire: session.expire.toISOString(), 
-            issued: session.issued.toISOString()
+            issued: session.issued.toISOString(),
+            user: null
           }
         }
       }

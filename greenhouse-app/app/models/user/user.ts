@@ -8,20 +8,17 @@ export const UserModel = types
   .model("User")
   .extend(withEnvironment)
   .props({
-    id: types.identifier,
+    id: types.number,
     name: types.string,
     email: types.string,
-    password: types.string,
-    surname: types.string,
-    createdAt: types.string,
-    updatedAt: types.string
+    surname: types.string
   })
   .actions((self) => ({
     // Set swap object
     setUser: (user: User) => {
+      self.id = user.id
       self.name = user.name
       self.email = user.email
-      self.password = user.password
       self.surname = user.surname
     }
   })) 
