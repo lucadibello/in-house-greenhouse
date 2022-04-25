@@ -7,22 +7,22 @@ public class SensorList {
     /**
      * List of all available humidity sensors
      */
-    private List<HumiditySensor> humiditySensors = new ArrayList<>();
+    private final List<HumiditySensor> humiditySensors = new ArrayList<>();
 
     /**
      * List of all available temperature sensors
      */
-    private List<TemperatureSensor> temperatureSensors = new ArrayList<>();
+    private final List<TemperatureSensor> temperatureSensors = new ArrayList<>();
 
     /**
      * List of all available water sensors
      */
-    private List<WaterSensor> waterSensors = new ArrayList<>();
+    private final List<WaterSensor> waterSensors = new ArrayList<>();
 
     /**
      * List of all available moisture sensors
      */
-    private List<MoistureSensor> moistureSensors = new ArrayList<>();
+    private final List<MoistureSensor> moistureSensors = new ArrayList<>();
 
     /**
      * Add a humidity sensor to the list
