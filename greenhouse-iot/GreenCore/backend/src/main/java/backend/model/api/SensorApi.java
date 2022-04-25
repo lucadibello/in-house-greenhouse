@@ -24,15 +24,23 @@ public class SensorApi extends Api{
                 "}"
         );
 
-        // Send HTTP request to API base URL and get response
-        final ApiResponse response = sendRequest(query);
-        System.out.println("Api response: " + response.errorMessage);
+        // Build API request
+        final ApiRequest request = new ApiRequest(
+                this,
+                query,
+                new ApiHeader("X-Greenhouse-UUID", "FIXME") // FIXME: Replace with real UUID
+        );
+
+        // Send HTTP requests to API base URL and get response
+        final ApiResponse response = sendRequest(request);
 
         // Check if response is valid
         if (response.isSuccess) {
             // Create empty list of sensors
             List<ISensor> sensors = new ArrayList<>();
+
             // Parse GraphQL response to a list of sensors
+            System.out.println(response.data);
 
             // Return sensor list
             return sensors;

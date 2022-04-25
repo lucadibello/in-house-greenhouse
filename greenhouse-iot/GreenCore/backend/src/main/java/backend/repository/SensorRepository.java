@@ -1,6 +1,7 @@
 package backend.repository;
 
 import backend.exception.ProxyRequestFailException;
+import backend.exception.RepositoryLoadException;
 import backend.model.api.SensorApi;
 import backend.model.sensor.*;
 
@@ -11,7 +12,6 @@ public class SensorRepository implements IRepository {
      */
     private final SensorList greenhouseSensors = new SensorList();
 
-
     /**
      * Sensor API object
      */
@@ -20,9 +20,13 @@ public class SensorRepository implements IRepository {
     /**
      * Load all the sensors from the database
      */
-    public void load() throws ProxyRequestFailException {
-        // Fetch sensors from the database
-        api.getSensors().forEach(System.out::println);
+    public void load() throws RepositoryLoadException {
+        try {
+            // Fetch sensors from the database
+            api.getSensors().forEach(System.out::println);
+        } catch (ProxyRequestFailException e) {
+            throw new RepositoryLoadException("Failed to load sensors from the database");
+        }
 
         // FIXME: DATA WILL BE LOADED FROM API INSTEAD
 

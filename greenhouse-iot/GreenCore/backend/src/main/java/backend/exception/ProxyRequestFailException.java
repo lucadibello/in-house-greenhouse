@@ -1,16 +1,17 @@
 package backend.exception;
 
-import backend.model.api.Api;
+import backend.model.api.ApiResponse;
 
-public class ProxyRequestFailException extends Throwable {
+public class ProxyRequestFailException extends Exception {
 
-    private final Api.ApiResponse response;
+    private final ApiResponse response;
 
-    public ProxyRequestFailException(Api.ApiResponse response) {
+    public ProxyRequestFailException(ApiResponse response) {
+        super(response.errorMessage);
         this.response = response;
     }
 
-    public Api.ApiResponse getResponse() {
+    public ApiResponse getResponse() {
         return response;
     }
 }

@@ -44,7 +44,7 @@
                     <archive>
                         <manifest>
                             <mainClass>
-                                com.inhousegreenhouse.ch.app.core.GreenhouseManager
+                                com.inhousegreenhouse.ch.app.main.GreenhouseManager
                             </mainClass>
                         </manifest>
                     </archive>

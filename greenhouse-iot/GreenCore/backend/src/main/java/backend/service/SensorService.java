@@ -1,6 +1,6 @@
 package backend.service;
 
-import backend.exception.ProxyRequestFailException;
+import backend.exception.RepositoryLoadException;
 import backend.model.sensor.SensorList;
 import backend.repository.SensorRepository;
 
@@ -29,10 +29,9 @@ public class SensorService {
             sensorRepository.load();
             // Return sensor list
             return sensorRepository.getGreenhouseSensors();
-        } catch (ProxyRequestFailException e) {
+        } catch (RepositoryLoadException e) {
             // Return empty sensor list
-            System.err.println("Sensor proxy request failed!");
-            return new SensorList();
+            return null;
         }
     }
 }

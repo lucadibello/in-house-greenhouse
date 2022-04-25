@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SensorController {
 
-    private SensorService sensorService;
+    private final SensorService sensorService;
 
     public SensorController () {
         this.sensorService = new SensorService(new SensorRepository());
