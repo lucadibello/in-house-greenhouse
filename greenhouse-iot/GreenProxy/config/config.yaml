@@ -1,7 +1,0 @@
-webserver:
-  port: 6864 
-  hostname: "localhost"
-  proxyUrl: "/greenproxy"
-endpoints:
-  api: "http://192.168.1.119:4000/graphql"
-  
