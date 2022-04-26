@@ -34,7 +34,6 @@ export const isLoggedIn = (req: ExpressContext, isGreenhouseToken = false): bool
     if (error instanceof TokenExpiredError) {
       return false
     } else {
-      console.log(error)
       return false;
     }
   }

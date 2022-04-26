@@ -93,7 +93,6 @@ export const DataQuery = extendType({
 
         // Check if plant exists
         if (plant !== null && plant.greenhouseId !== null) {
-          console.log(plant, args.sensorType)
           // Find sensors with the same position as the plant with a specified type
           const sensors = await context.prisma.sensor.findMany({
             where: {
@@ -102,8 +101,6 @@ export const DataQuery = extendType({
             }
           });
         
-          console.log(sensors);
-          
           // Check if sensor was found
           if (sensors.length > 0) {
             // Fetch data related to the plant and greenhouse
