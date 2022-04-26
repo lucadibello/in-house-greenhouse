@@ -5,15 +5,28 @@ import backend.exception.CriticalGreenhouseError;
 import backend.helper.SetupHelper;
 import backend.model.util.GreenhouseSetup;
 
+/**
+ * This class is used to setup the greenhouse.
+ */
 public class SetupSequence extends Sequence implements IGreenhouseSequence{
 
+    /**
+     * Greenhouse controller, needed to talk with the backend.
+     */
     private final GreenhouseController greenhouseController;
 
+    /**
+     * Constructor.
+     */
     public SetupSequence() {
         super("SET_UP_SEQUENCE");
         greenhouseController = new GreenhouseController();
     }
 
+    /**
+     * This method is used to setup the greenhouse.
+     * @throws CriticalGreenhouseError if the setup fails.
+     */
     public void run() throws CriticalGreenhouseError {
         System.out.println("\n-- S E T U P\tS E Q U E N C E --");
 

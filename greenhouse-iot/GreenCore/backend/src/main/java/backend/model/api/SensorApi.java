@@ -7,11 +7,15 @@ import backend.model.util.GraphQLQuery;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * SensorApi is a class that handles all requests to the Sensor API.
+ */
 public class SensorApi extends Api{
 
     /**
-     * Fetch list of sensors from GraphQL APIs
-     * @return List of sensors
+     * Get all sensors from the API.
+     * @return List of all sensors.
+     * @throws ProxyRequestFailException If the request fails.
      */
     public List<ISensor> getSensors() throws ProxyRequestFailException {
         // Build GraphQL query
@@ -26,9 +30,9 @@ public class SensorApi extends Api{
 
         // Build API request
         final ApiRequest request = new ApiRequest(
-                this,
-                query,
-                new ApiHeader("X-Greenhouse-UUID", "FIXME") // FIXME: Replace with real UUID
+            this,
+            query,
+            new ApiHeader("X-Greenhouse-UUID", "FIXME") // FIXME: Replace with real UUID
         );
 
         // Send HTTP requests to API base URL and get response

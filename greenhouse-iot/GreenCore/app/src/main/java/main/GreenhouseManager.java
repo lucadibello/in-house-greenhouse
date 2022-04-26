@@ -10,6 +10,9 @@ import core.sequence.StartupSequence;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entry point for the In-House Greenhouse monitoring system.
+ */
 public class GreenhouseManager {
 
     /**

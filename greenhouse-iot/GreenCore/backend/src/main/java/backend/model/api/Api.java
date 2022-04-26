@@ -5,11 +5,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.ConnectException;
-import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+/**
+ * This class is used to send requests to the GraphQL API.
+ */
 public abstract class Api {
 
     /**
@@ -61,12 +63,6 @@ public abstract class Api {
             );
         }
     }
-
-    public String sendRequestAsync (GraphQLQuery query) {
-        // Send an HTTP request to the API base URL with the query as the body.
-        return "";
-    }
-
 
     /**
      * The URL of the API.

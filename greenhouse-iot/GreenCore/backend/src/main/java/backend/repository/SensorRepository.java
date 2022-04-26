@@ -5,6 +5,9 @@ import backend.exception.RepositoryLoadException;
 import backend.model.api.SensorApi;
 import backend.model.sensor.*;
 
+/**
+ * Sensor repository that manage all the sensors.
+ */
 public class SensorRepository implements IRepository {
 
     /**

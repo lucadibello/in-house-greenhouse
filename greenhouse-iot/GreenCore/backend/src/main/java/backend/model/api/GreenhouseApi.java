@@ -6,16 +6,30 @@ import backend.model.util.GraphQLQuery;
 import backend.model.util.Greenhouse;
 import org.json.JSONObject;
 
+/**
+ * GreenhouseApi is a class that handles all requests to the Greenhouse API.
+ */
 public class GreenhouseApi extends Api {
 
+    /**
+     * Access token needed to access the Greenhouse API.
+     */
     private final String USER_TOKEN;
 
+    /**
+     * Constructor for GreenhouseApi.
+     * @param userToken The access token needed to access the Greenhouse API.
+     */
     public GreenhouseApi(String userToken) {
         this.USER_TOKEN = userToken;
     }
 
     /**
-     * The name of the greenhouse.
+     * Register a new greenhouse inside the Greenhouse API.
+      * @param name The name of the greenhouse.
+     * @param description The description of the greenhouse.
+     * @return The greenhouse that was registered as a Greenhouse object.
+     * @throws ProxyRequestFailException If the request to the Greenhouse API fails.
      */
     public Greenhouse registerGreenhouse(String name, String description) throws ProxyRequestFailException {
         // Build GraphQL query
@@ -42,18 +56,15 @@ public class GreenhouseApi extends Api {
             // Parse GraphQL response to a list of sensors
             System.out.println("[GREEN PROXY] GreenProxy works like a charm! The request has been forwarded to the API server...");
 
-            // Parse response to JSON object
-            final JSONObject jsonObject = new JSONObject(response.data);
-
             // Check if response is a GraphQL error
-            if (ApiResponse.isGraphQLResponseError(jsonObject)) {
+            if (response.isGraphQLResponseError()) {
                 // Read GraphQL error message
-                final String errorMessage = jsonObject.getJSONArray("errors").getJSONObject(0).getString("message");
+                final String errorMessage = response.data.getJSONArray("errors").getJSONObject(0).getString("message");
                 System.out.println("[ERROR] GraphQL has returned an error: " + errorMessage);
                 throw new ProxyRequestFailException(new ApiResponse(false, errorMessage, ""));
             } else {
                 // Read GraphQL response
-                JSONObject data = jsonObject.getJSONObject("data").getJSONObject("addGreenhouse");
+                JSONObject data = response.data.getJSONObject("data").getJSONObject("addGreenhouse");
 
                 // Return sensor list
                 return new Greenhouse(

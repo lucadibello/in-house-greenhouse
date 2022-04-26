@@ -4,6 +4,9 @@ import backend.exception.RepositoryLoadException;
 import backend.model.sensor.SensorList;
 import backend.repository.SensorRepository;
 
+/**
+ * Service of Sensor.
+ */
 public class SensorService {
 
     /**

@@ -11,6 +11,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+/**
+ * A GreenhouseRepository is a repository that manage data related to the current Greenhouse.
+ */
 public class GreenhouseRepository implements IRepository {
 
     /**
@@ -56,6 +59,14 @@ public class GreenhouseRepository implements IRepository {
         }
     }
 
+    /**
+     * Register a new greenhouse to the API.
+     * @param name The name of the greenhouse.
+     * @param description The description of the greenhouse.
+     * @param userToken The user token.
+     * @throws ProxyRequestFailException If the request to the API fails.
+     * @throws RepositoryLoadException If the repository is not initialized.
+     */
     public void addGreenhouse (String name, String description, String userToken) throws ProxyRequestFailException, RepositoryLoadException {
         GreenhouseApi api = new GreenhouseApi(userToken);
         this.greenhouse = api.registerGreenhouse(name, description);
@@ -78,6 +89,10 @@ public class GreenhouseRepository implements IRepository {
         }
     }
 
+    /**
+     * Get the locally saved greenhouse.
+     * @return The locally saved greenhouse.
+     */
     public Greenhouse getGreenhouse() {
         return greenhouse;
     }

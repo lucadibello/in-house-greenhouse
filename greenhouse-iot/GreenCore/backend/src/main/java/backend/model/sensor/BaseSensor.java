@@ -1,5 +1,9 @@
 package backend.model.sensor;
 
+/**
+ * BaseSensor is the base class for all sensors.
+ * @param <T> The type of data the sensor detects.
+ */
 public abstract class BaseSensor<T> {
     /**
      * Value held by the sensor.
@@ -17,7 +21,10 @@ public abstract class BaseSensor<T> {
     public final Position POSITION;
 
     /**
-     * Constructor.
+     * Set the sensor value.
+      * @param nameId The sensor name.
+     * @param sensorPosition The sensor position inside the greenhouse.
+     * @param defaultValue The sensor default value.
      */
     public BaseSensor(String nameId, Position sensorPosition, T defaultValue) {
         this.value = defaultValue;
