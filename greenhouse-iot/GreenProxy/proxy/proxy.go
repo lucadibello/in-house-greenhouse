@@ -27,29 +27,47 @@ func ProxyRequest(w http.ResponseWriter, r *http.Request, settings Proxy) {
 	// Notify that the request is being processed
 	fmt.Println("[GreenProxy] Request received:", r.RemoteAddr)
 
-	// Check if user has sent X-Greenhouse-UUID header
-	if r.Header.Get("X-Greenhouse-UUID") == "" {
-		// User has not sent X-Greenhouse-UUID header
-		fmt.Println("[GreenProxy] User has not sent X-Greenhouse-UUID header")
+	// Check if user is already authenticated
+	isAlreadyAuthenticated := r.Header.Get("Authorization") != ""
 
-		// Set response as JSON
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusBadRequest)
+	// Create temporary variable that will hold the authentication response
+	var authenticationStatus authentication.AuthenticationResult
 
-		// Send response to user
-		json.NewEncoder(w).Encode(ProxyResponse{
-			false,
-			"User has not sent X-Greenhouse-UUID header",
-			"",
-		})
+	if !isAlreadyAuthenticated {
+		// Check if user has sent X-Greenhouse-UUID header
+		if r.Header.Get("X-Greenhouse-UUID") == "" {
+			// User has not sent X-Greenhouse-UUID header
+			fmt.Println("[GreenProxy] User has not sent X-Greenhouse-UUID header")
 
-		return
+			// Set response as JSON
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+
+			// Send response to user
+			json.NewEncoder(w).Encode(ProxyResponse{
+				false,
+				"User has not sent X-Greenhouse-UUID header",
+				"",
+			})
+
+			return
+		}
+
+		// Save new status
+		fmt.Println("[GreenProxy] Request new authentication token for request")
+		authenticationStatus = authentication.Authenticate(settings.ApiEndpoint, r.Header.Get("X-Greenhouse-UUID"))
+		fmt.Println()
+	} else {
+		// User is already authenticated, create a new authenticationStatus object with the token
+		fmt.Println("[GreenProxy] User is already authenticated")
+
+		// Create new authenticationStatus object
+		authenticationStatus = authentication.AuthenticationResult{
+			Success:      true,
+			Token:        r.Header.Get("Authorization"),
+			ErrorMessage: "",
+		}
 	}
-
-	// Save new status
-	fmt.Println("[GreenProxy] Request new authentication token for request")
-	authenticationStatus := authentication.Authenticate(settings.ApiEndpoint, r.Header.Get("X-Greenhouse-UUID"))
-	fmt.Println()
 
 	// Check if authentication was successful
 	if authenticationStatus.Success {
