@@ -45,7 +45,7 @@ This chapter describes the technologies and languages used to program/set up eve
     </td>
     <td>
       <ul>
-        <li>Raspberry Pi 3 Model B+</li>
+        <li>Raspberry Pi 4</li>
         <li>Python</li>
         <li>Sensors (soil moisture, temperature, humidity and water level)</li>
       </ul>
@@ -134,10 +134,11 @@ In the user's model we save others 4 informations: email, name, surname, passwor
 In the case plant's model there are others 6 informations: name, description, greenhouse, greenhouseId, isDeleted, position. The greenhouse's component is used to hold the reference of the greenhouse, in which the plant is planted. While the isDeleted's component is a "flag" that says if the plant is deleted or not.
 
 Then, as regards the sensor, we save 3 informations: the name, the value, the type of sensor and the position. The saved name is unique, so it means that it can be used as an identifier to distinguish the various sensors, while the value indicates the temperature or humidity of a particular sensor. As regards the position and the type of sensor, enumeratives are used:
-- enum for position: TOP_LEFT, TOP_RIGHT, MIDDLE_LEFT, MIDDLE_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, GENERAL
-- enum for the type of sensor: HUMIDITY, TEMPERATURE, SOIL_MOISTURE
 
-The 6 models are managed by Query via API, where they allow the creation and the possibility of having a list of users, or greenhouses, plants, sensors, data. In each of the 6 models we have user authentication using a token, and it is verified every time the individual wants to apply changes from the application. If the authentication is correct then it is checked whether the action the user wants to take is feasible or not, and the result is notified (greenhouse-server\src\api\graphql). Authentication is handled in the file Auth.ts.As far as the positions are concerned, it is also possible to have a list of all known positions of plants and sensors. While, for plants, it is also possible: to insert a plant in the greenhouse, to make an update, to remove. clearly all these functions are allowed with the help of GraphQL.
+- enum for position which may indicate: top letf, top right, middle left, middle right, bottom left, bottom right, general.
+- enum for the type of sensor which may indicate: humidity, temperature, soil moisture.
+
+The 6 models are managed by Query via API, where they allow the creation and the possibility of having a list of users, or greenhouses, plants, sensors, data. In each of the 6 models we have user authentication using a token, and it is verified every time the individual wants to apply changes from the application. If the authentication is correct then it is checked whether the action the user wants to take is feasible or not, and the result is notified (greenhouse-server\src\api\graphql). Authentication is handled in the file Auth.ts. As far as the positions are concerned, it is also possible to have a list of all known positions of plants and sensors. While, for plants, it is also possible: to insert a plant in the greenhouse, to make an update, to remove. clearly all these functions are allowed with the help of GraphQL.
 
 ### **5.2 App**
 
