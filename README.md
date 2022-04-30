@@ -158,7 +158,7 @@ The plant screen takes care of loading the greenhouse to which you want to add t
 
 ### **5.2.1 App's API**
 
-As for APIs within the application, we find: the authentication API, the core API, the data API, the greenhouse API, the plant API, the location API, the keyhain API and the reactotron API.
+As for APIs within the application, we find: the authentication API, the core API, the data API, the greenhouse API, the plant API, the location API.
 
 As regards the core API, there is the management of the error in the case of the response from the server, more precisely the part dedicated to authentication. Furthermore we have the part inherent to the configuration and the part of the printouts for the errors that can be generated inside, such as: connection error, client error, network error, elimination error .. In addition, there is the management of the data type and response management to data, more precisely: greenhouse API data, plant API data, location API data.
 
@@ -167,7 +167,7 @@ When logging in, it checks whether the email and password entered are correct or
 
 Then data API takes care of retrieving the data by checking the data with GraphQL and the same thing happens with the greenhouse API, but with the data of all the greenhouses, therefore a set of data that make up each of them. While for the API of the plant you manage: the addition, the removal and the modification. In all 3 cases, the authentication is always carried out and then the action chosen is secondary. As far as the position API is concerned, it takes care of restoring the position of a sensor or of a plant, passing name and type as parameters.
 
-In addition to the API services there are also available: the keychain and the reactotron.
+In addition to the API how services there are also available: the keychain and the reactotron.
 
 The keychain takes care of: saving the user's credentials and loading the credentials. These two processes allow you to manage the data relating to registration and login by the user. Finally, there is the reactotron that allows you to manage the application configuration (setup and the general archive) and the states of the actions that take place "behind the scenes of the application".
 
