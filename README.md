@@ -158,14 +158,14 @@ The plant screen takes care of loading the greenhouse to which you want to add t
 
 ### **5.2.1 App's API**
 
-As for APIs within the application, we find: the authentication API, the core API, the data API, the greenhouse API, the plant API, the location API.
+As for APIs within the application, we find: the authentication API, the core API, the data API, the greenhouse API, the plant API, the position API.
 
-As regards the core API, there is the management of the error in the case of the response from the server, more precisely the part dedicated to authentication. Furthermore we have the part inherent to the configuration and the part of the printouts for the errors that can be generated inside, such as: connection error, client error, network error, elimination error .. In addition, there is the management of the data type and response management to data, more precisely: greenhouse API data, plant API data, location API data.
-
-The authentication API deals with managing the user, where we have: login, registration, token update.
+The authentication API (greenhouse-app\app\services\api\authentication) deals with managing the user, where we have: login, registration, token update.
 When logging in, it checks whether the email and password entered are correct or not, so when the user tries to access part of the request to the server to know if the user exists and if everything is fine then the application is loaded with the data retrieval, while in case of denied access, the user is notified. Instead, as far as registration is concerned, we manage: first name, last name, email and password. More precisely for the password you go to check if the required criteria are actually met, that is.: at least 8 characters, at least one upper case, at least one digit, at least one lower case, at least one special character, less than 16 characters¨. If the criteria are met, the user is created. Finally we have the token management, where each authentication is updated.
 
-Then data API takes care of retrieving the data by checking the data with GraphQL and the same thing happens with the greenhouse API, but with the data of all the greenhouses, therefore a set of data that make up each of them. While for the API of the plant you manage: the addition, the removal and the modification. In all 3 cases, the authentication is always carried out and then the action chosen is secondary. As far as the position API is concerned, it takes care of restoring the position of a sensor or of a plant, passing name and type as parameters.
+As regards the core API (greenhouse-app\app\services\api\core), there is the management of the error in the case of the response from the server, more precisely the part dedicated to authentication. Furthermore we have the part inherent to the configuration and the part of the printouts for the errors that can be generated inside, such as: connection error, client error, network error, elimination error .. In addition, there is the management of the data type and response management to data, more precisely: greenhouse API data, plant API data, location API data.
+
+Then data API (greenhouse-app\app\services\api\data) takes care of retrieving the data by checking the data with GraphQL and the same thing happens with the greenhouse API (greenhouse-app\app\services\api\greenhouse), but with the data of all the greenhouses, therefore a set of data that make up each of them. While for the API of the plant (greenhouse-app\app\services\api\plant) you manage: the addition, the removal and the modification. In all 3 cases, the authentication is always carried out and then the action chosen is secondary. As far as the position API (greenhouse-app\app\services\api\position) is concerned, it takes care of restoring the position of a sensor or of a plant, passing name and type as parameters.
 
 In addition to the API how services there are also available: the keychain and the reactotron.
 
