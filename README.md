@@ -138,21 +138,13 @@ Then, as regards the sensor, we save 3 informations: the name, the value, the ty
 - enum for position which may indicate: top left, top right, middle left, middle right, bottom left, bottom right, general.
 - enum for the type of sensor which may indicate: humidity, temperature, soil moisture.
 
+### **5.1.1 Server's API**
+
 The 6 models are managed by Query via API, where they allow the creation and the possibility of having a list of users, or greenhouses, plants, sensors, data. In each of the 6 models we have user authentication using a token, and it is verified every time the individual wants to apply changes from the application. If the authentication is correct then it is checked whether the action the user wants to take is feasible or not, and the result is notified (greenhouse-server\src\api\graphql). Authentication is handled in the file Auth.ts. As far as the positions are concerned, it is also possible to have a list of all known positions of plants and sensors. While, for plants, it is also possible: to insert a plant in the greenhouse, to make an update, to remove. clearly all these functions are allowed with the help of GraphQL.
 
 ### **5.2 App**
 
-The application starts with a login procedure where the user must enter a password containing: at least 8 characters, at least one upper case, at least one digit, at least one lower case, at least one special character, less than 16 characters¨. If the password does not meet all the criteria, it is marked with a red "x" which criteria are not met, and vice versa with a double view of the criteria met, and if all are fine, access is granted (greenhouse-app\app\components\password-validation\password-validation.tsx).
-
-<td>
-      <p align="center">
-        <img src="/extra/schemas/system-icons/screen_User's_registration.jpg" height="800" width="auto">
-      </p>
-    </td>
-
-
-
-In addition, in the app you can see information about the user and in addition there is the possibility of logout.
+The application starts with a login procedure where the user must enter a password containing: at least 8 characters, at least one upper case, at least one digit, at least one lower case, at least one special character, less than 16 characters¨. If the password does not meet all the criteria, it is marked with a red "x" which criteria are not met, and vice versa with a double view of the criteria met, and if all are fine, access is granted (greenhouse-app\app\components\password-validation\password-validation.tsx). In addition, in the app you can see information about the user and in addition there is the possibility of logout.
 
 Then, it shows information about the greenhouse and plants (greenhouse-app\app\components). The part relating to the greenhouse reports the number of plants planted and the state itself, so if it needs control (red color) or if everything is ok (green color) (greenhouse-app\app\components\greenhouse-card.tsx), in addition you can see the list of greenhouses (greenhouse-app\app\components\greenhouse-list.tsx). As far as the navigation “behind the scenes” is concerned, it is managed in the navigation-utilities file (greenhouse-app\app\navigators).
 
@@ -164,12 +156,27 @@ The plant screen takes care of loading the greenhouse to which you want to add t
 
 **//need to write the part of screen's setting//**
 
-As for the app’s memory, you can save the greenhouse, remove the plant from the database and from the state tree (greenhouse-app\app\models\greenhouse-store).
+### **5.2.1 App's API**
+
+As for APIs within the application, we find: the authentication API, the core API, the data API, the greenhouse API, the plant API, the location API, the keyhain API and the reactotron API.
+
+As regards the core API, there is the management of the error in the case of the response from the server, more precisely the part dedicated to authentication. Furthermore we have the part inherent to the configuration and the part of the printouts for the errors that can be generated inside, such as: connection error, client error, network error, elimination error .. In addition, there is the management of the data type and response management to data, more precisely: greenhouse API data, plant API data, location API data.
+
+The authentication API deals with managing the user, where we have: login, registration, token update.
+When logging in, it checks whether the email and password entered are correct or not, so when the user tries to access part of the request to the server to know if the user exists and if everything is fine then the application is loaded with the data retrieval, while in case of denied access, the user is notified. Instead, as far as registration is concerned, we manage: first name, last name, email and password. More precisely for the password you go to check if the required criteria are actually met, that is.: at least 8 characters, at least one upper case, at least one digit, at least one lower case, at least one special character, less than 16 characters¨. If the criteria are met, the user is created. Finally we have the token management, where each authentication is updated.
+
+Then data API takes care of retrieving the data by checking the data with GraphQL and the same thing happens with the greenhouse API, but with the data of all the greenhouses, therefore a set of data that make up each of them. While for the API of the plant you manage: the addition, the removal and the modification. In all 3 cases, the authentication is always carried out and then the action chosen is secondary. As far as the position API is concerned, it takes care of restoring the position of a sensor or of a plant, passing name and type as parameters.
+
+In addition to the API services there are also available: the keychain and the reactotron.
+
+The keychain takes care of: saving the user's credentials and loading the credentials. These two processes allow you to manage the data relating to registration and login by the user. Finally, there is the reactotron that allows you to manage the application configuration (setup and the general archive) and the states of the actions that take place "behind the scenes of the application".
 
 ### **5.3 Internet of Things (IoT)**
 
 In the greehouse-iot part, the loading part of the greenhouse is managed, where the user sends a token (that is to say that the user authenticates), with which it is possible to verify by means of an HTTP request in the database if actually c 'is the greenhouse associated with that user (user) and if there is, it makes the setup of the greenhouse take place using the socket help (greenhouse-iot\GreenCore\backend\src\main\java\backend\helper). 
 Authentication is handled with the help of a proxy server.
+
+### **5.3.1 IoT's API**
 
 In loading there are 2 scenarios: the first checks if the greenhouse is already set and in that case sets the greenhouse starting a socket, the second case the greenhouse is not present and therefore it is registered in the database. 
 To manage the necessary information and actions, we have APIs available: for authentication, for the request headers, for the request itself, for the response to the request, for the greenhouse and finally for the sensors (greenhouse-iot\GreenCore\backend\src\main\java\backend\model\api).
