@@ -146,7 +146,7 @@ The application starts with a login procedure where the user must enter a passwo
 
 <td>
       <p align="center">
-        <img src="/extra/schemas/system-icons/screen_User's_registration.jpg" alt="Greenhouse icon" height="800" width="auto">
+        <img src="/extra/schemas/system-icons/screen_User's_registration.jpg" height="800" width="auto">
         <br>
         In-House Greenhouse
       </p>
