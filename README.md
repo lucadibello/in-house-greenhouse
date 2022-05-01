@@ -125,7 +125,7 @@ In addition, the API takes care of data management and communication between Gre
 
 ### **5.1 Server**
 
-The server is based on 6 principals models: user, greenhouse, plant, sensor, data, position.
+The server is based on 6 principals models (greenhouse-server\prisma), that they are: user, greenhouse, plant, sensor, data, position.
 
 The models save some informations for the app, of which few of them are the same for 3 models: greenhouse, plant, user. These informations are 3: id, date's creation, date's updating. In the case of the id, it is incremented at each new user that we register, while in the case of date, it is managed by a function that it gives the date in that instant of the creation or updating.
 
