@@ -1,8 +1,9 @@
 package com.inhousegreenhouse.ch.backend.orchestrator;
 
 import com.inhousegreenhouse.ch.backend.exception.ProxyRequestFailException;
+import com.inhousegreenhouse.ch.backend.exception.SpiCannotBeInitializedException;
 import com.inhousegreenhouse.ch.backend.model.api.SensorApi;
-import com.inhousegreenhouse.ch.backend.model.sensor.ISensor;
+import com.inhousegreenhouse.ch.backend.model.sensor.core.ISensor;
 
 public class SensorObserver<T extends ISensor<?>> implements Runnable {
 
@@ -25,20 +26,22 @@ public class SensorObserver<T extends ISensor<?>> implements Runnable {
             // Wait a certain amount of time
             try {
                 Thread.sleep(config.getTimeBetweenChecks());
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignored) {
             }
 
             System.out.println("Checking sensor " + sensor.getName() + " ...");
 
-            // Update sensor value
-            sensor.updateValue();
-
             // Record data
             try {
+                // Update sensor value
+                sensor.updateAndGet();
+
                 // Record data
                 recordData();
             } catch (ProxyRequestFailException e) {
                 System.out.println("[Thread Orchestrator] " + threadIdentifier + ": Error while recording data inside DB." + e.getResponse().errorMessage);
+            } catch (SpiCannotBeInitializedException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -46,12 +49,12 @@ public class SensorObserver<T extends ISensor<?>> implements Runnable {
     /**
      * Record data inside the database
      */
-    private void recordData () throws ProxyRequestFailException {
+    private void recordData () throws ProxyRequestFailException, SpiCannotBeInitializedException {
         // Create sensor api
         SensorApi sensorApi = new SensorApi();
 
         // Record data
         sensorApi.recordData(sensor, config.getGreenhouse());
-        System.out.println("[Thread Orchestrator] " + threadIdentifier + ": Recorded data " + sensor.getValue());
+        System.out.println("[Thread Orchestrator] " + threadIdentifier + ": Recorded data " + sensor.getCachedValue());
     }
 }
