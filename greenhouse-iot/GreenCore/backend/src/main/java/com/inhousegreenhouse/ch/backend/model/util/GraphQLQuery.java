@@ -12,7 +12,7 @@ public class GraphQLQuery {
     /**
      * The variables of the query.
      */
-    private final List<GraphQLVariable> variables;
+    private final List<GraphQLVariable<?>> variables;
 
     /**
      * The actual GraphQL query.
@@ -49,7 +49,7 @@ public class GraphQLQuery {
      */
     public <T> GraphQLQuery addVariable (String variableName, T variableValue) {
         // Add variable to query
-        variables.add(new GraphQLVariable<T>(variableName, variableValue));
+        variables.add(new GraphQLVariable<>(variableName, variableValue));
         // Return context
         return this;
     }
@@ -68,7 +68,7 @@ public class GraphQLQuery {
         if (variables.size() > 0) {
             // Add variables to query
             JSONObject variablesJson = new JSONObject();
-            for (GraphQLVariable variable : variables) {
+            for (GraphQLVariable<?> variable : variables) {
                 // Create a JSON object for the variable
                 // Add variable name and value to JSON object
                 variablesJson.put(variable.getName(), variable.getValue());
