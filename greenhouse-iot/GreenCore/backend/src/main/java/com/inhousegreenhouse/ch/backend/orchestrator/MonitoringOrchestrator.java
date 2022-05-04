@@ -6,16 +6,37 @@ import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorList;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Sensor observers orchestrator required to monitor the greenhouse sensors.
+ */
 public class MonitoringOrchestrator {
+    /**
+     * Is the orchestrator running?
+     */
     public static volatile boolean isRunning = true;
 
+    /**
+     * List of sensors to monitor.
+     */
     private final SensorList sensorList;
+
+    /**
+     * List of sensor observer threads.
+     */
     private final List<Thread> threadPool = new ArrayList<>();
 
+    /**
+     * Constructor.
+     * @param sensorList List of sensors to monitor.
+     */
     public MonitoringOrchestrator(SensorList sensorList) {
         this.sensorList = sensorList;
     }
 
+    /**
+     * Start the monitoring orchestrator.
+     * @param config Monitoring configuration.
+     */
     public void startMonitoring (MonitoringConfig config) {
         // Initialize the thread pool
         threadPool.addAll(initializeThreadPool(config));
@@ -28,6 +49,11 @@ public class MonitoringOrchestrator {
         System.out.println("[!] ALl monitor threads have been notified to start successfully.");
     }
 
+    /**
+     * Initialize the sensor observers into the thread pool.
+     * @param config Monitoring configuration.
+     * @return List of sensor observers threads.
+     */
     private List<Thread> initializeThreadPool (MonitoringConfig config) {
         List<Thread> tempPool = new ArrayList<>();
         // Create a thread pool
@@ -48,6 +74,9 @@ public class MonitoringOrchestrator {
         return tempPool;
     }
 
+    /**
+     * Stop the monitoring orchestrator.
+     */
     public void stopMonitoring () {
         isRunning = false;
     }
