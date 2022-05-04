@@ -7,12 +7,24 @@ import com.pi4j.io.spi.SpiFactory;
 import java.io.IOException;
 
 /**
- * This class represents the MCP3008 ADC of the Raspberry Pi.
+ * This class represents the MCP3008 Analog-To-Digital Converter chip connected of the Raspberry Pi.
  */
 public class ADC {
+
+    /**
+     * SPI interface used to communicate with the ADC chip.
+     */
     private final SpiDevice spi;
+
+    /**
+     * The maximum number of channels available on the ADC chip.
+     */
     public static short ADC_CHANNEL_COUNT = 8;
 
+    /**
+     * Constructor.
+     * @throws IOException If the SPI interface cannot be opened.
+     */
     public ADC () throws IOException {
         // Create SPI device
         spi = SpiFactory.getInstance(
@@ -25,6 +37,7 @@ public class ADC {
     /**
      * Reads the value of the specified ADC channel.
      * @return The value of the specified ADC channel.
+     * @throws IOException If the SPI interface cannot be opened.
      */
     public int read(int channel) throws IOException {
         // Check if channel is valid, otherwise throw an exception.
