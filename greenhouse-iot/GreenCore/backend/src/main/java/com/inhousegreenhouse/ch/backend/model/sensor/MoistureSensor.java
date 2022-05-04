@@ -17,6 +17,8 @@ public class MoistureSensor extends AnalogSensor<Double> {
      * @param nameId the name of the sensor.
      * @param sensorPosition the position of the sensor.
      * @param defaultValue the default value of the sensor.
+     * @param adc the AdC object to use to convert analog signal.
+     * @param channel the ADC channel where the sensor is connected.
      */
     public MoistureSensor(String nameId, Position sensorPosition, double defaultValue, ADC adc, final int channel) {
         super(nameId, sensorPosition, defaultValue, adc, channel);
