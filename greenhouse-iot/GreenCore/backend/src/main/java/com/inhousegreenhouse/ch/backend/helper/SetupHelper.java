@@ -13,14 +13,30 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.Scanner;
 
+/**
+ * This class is used to help the app SetupSequence to fetch the greenhouse settings from the user.
+ * The user, through a socket connection, will send the settings to the app, and this class will handle all the process
+ * behind the scene.
+ */
 public class SetupHelper {
 
+    /**
+     * Flag to indicate if the settings socket is open.
+     */
     private boolean isRunning = true;
 
+    /**
+     * Close the socket connection.
+     */
     public void stop () {
         isRunning = false;
     }
 
+    /**
+     * Start the socket connection and wait for user settings.
+     * @param port The port to listen on.
+     * @return The greenhouse settings, sent by the user.
+     */
     public GreenhouseSetup waitServerData (int port) {
         try {
             // Create server socket on port
