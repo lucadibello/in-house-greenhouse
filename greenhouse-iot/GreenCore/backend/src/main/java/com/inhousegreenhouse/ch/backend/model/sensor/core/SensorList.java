@@ -8,6 +8,9 @@ import com.inhousegreenhouse.ch.backend.model.sensor.WaterSensor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class stores all the loaded sensors, where every sensor is sorted by its type in a own list.
+ */
 public class SensorList {
     /**
      * List of all available humidity sensors
