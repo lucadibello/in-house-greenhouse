@@ -1,11 +1,11 @@
 package com.inhousegreenhouse.ch.app.main;
 
-import com.inhousegreenhouse.ch.backend.exception.CriticalGreenhouseError;
-import com.inhousegreenhouse.ch.app.core.graphic.SplashScreen;
-import com.inhousegreenhouse.ch.app.core.sequence.IGreenhouseSequence;
 import com.inhousegreenhouse.ch.app.core.sequence.SetupSequence;
 import com.inhousegreenhouse.ch.app.core.sequence.SplashScreenSequence;
 import com.inhousegreenhouse.ch.app.core.sequence.StartupSequence;
+import com.inhousegreenhouse.ch.backend.exception.CriticalGreenhouseError;
+import com.inhousegreenhouse.ch.app.core.graphic.SplashScreen;
+import com.inhousegreenhouse.ch.app.core.sequence.IGreenhouseSequence;
 
 import java.util.ArrayList;
 import java.util.List;
