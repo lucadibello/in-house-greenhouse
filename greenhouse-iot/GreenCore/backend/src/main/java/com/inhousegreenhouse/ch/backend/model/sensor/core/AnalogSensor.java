@@ -4,9 +4,20 @@ import com.inhousegreenhouse.ch.backend.model.sensor.converter.ADC;
 
 import java.io.IOException;
 
+/**
+ * This class represents an analog sensor and is used to read the analog value of the sensor.
+ * @param <T> Type of data read from the sensor.
+ */
 public abstract class AnalogSensor<T extends Number> extends BaseSensor<T> {
 
+    /**
+     * ADC object used to read the analog value of the sensor.
+     */
     private final ADC adc;
+
+    /**
+     * Channel where the sensor is connected.
+     */
     private final int channel;
 
     /**
@@ -27,6 +38,11 @@ public abstract class AnalogSensor<T extends Number> extends BaseSensor<T> {
         this.channel = channel;
     }
 
+    /**
+     * Read the digital value of the sensor, that the AdC has converted.
+     * @return The digital value of the sensor.
+     * @throws IOException If there is an error reading the sensor.
+     */
     protected int getConversionData() throws IOException {
         return adc.read(channel);
     }
