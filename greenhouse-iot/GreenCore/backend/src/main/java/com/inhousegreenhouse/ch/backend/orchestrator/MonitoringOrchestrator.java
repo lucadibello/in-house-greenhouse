@@ -1,6 +1,7 @@
 package com.inhousegreenhouse.ch.backend.orchestrator;
 
 import com.inhousegreenhouse.ch.backend.model.sensor.*;
+import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +33,15 @@ public class MonitoringOrchestrator {
         // Create a thread pool
         int counter = 0;
         for (TemperatureSensor sensor : sensorList.getTemperatureSensors()) {
-            tempPool.add(new Thread(new SensorObserver<TemperatureSensor>(config, sensor, "TemperatureSensor-" + counter++)));
+            tempPool.add(new Thread(new SensorObserver<>(config, sensor, "TemperatureSensor-" + counter++)));
         }
         counter = 0;
         for (HumiditySensor sensor : sensorList.getHumiditySensors()) {
-            tempPool.add(new Thread(new SensorObserver<HumiditySensor>(config, sensor, "HumiditySensor-" + counter++)));
+            tempPool.add(new Thread(new SensorObserver<>(config, sensor, "HumiditySensor-" + counter++)));
         }
         counter = 0;
         for (MoistureSensor sensor : sensorList.getMoistureSensors()) {
-            tempPool.add(new Thread(new SensorObserver<MoistureSensor>(config, sensor, "MoistureSensor-" + counter++)));
+            tempPool.add(new Thread(new SensorObserver<>(config, sensor, "MoistureSensor-" + counter++)));
         }
 
         // Return the thread pool
