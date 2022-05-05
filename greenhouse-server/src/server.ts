@@ -14,8 +14,8 @@ const server = new ApolloServer({
   }
 })
 // Check if API server url and port are set in .env, otherwise set default settings
-const port = process.env.PORT || 4000
-const url = process.env.API_URL || 'localhost'
+const port = process.env.API_SERVER_PORT || 4000
+const url = process.env.API_SERVER_URL || 'localhost'
 
 // Start listening
 server.listen({
