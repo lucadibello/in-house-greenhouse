@@ -43,7 +43,7 @@ This chapter describes each component present in the system, delving into the te
     </td>
     <td>
       <ul>
-        <li>Raspberry Pi 4</li>
+        <li>Raspberry Pi 3 Model B+</li>
         <li>Java + Pi4J</li>
         <li>Sensors (soil moisture, temperature, humidity and water level sensor)</li>
       </ul>
@@ -103,7 +103,7 @@ The application is developed with React Native and Expo using TypeScript. To sim
 
 The physical greenhouse is able to manage itself autonomously.
 
-The software behind the physical IoT greenhouse allows it to be managed autonomously. Its software, which has been called "GreenCore", allows the greenhouse to manage autonomously both the configuration part (at the first power on a greenhouse must be registered within the system via API). It has been implemented entirely in Java using also some parallel programming techniques to optimize some sensor reading processes. Moreover, the Pi4J library (version 1.4, https://pi4j.com/1.4) is used to allow the control of the GPIO pins of the Raspberry Pi 4.
+The software behind the physical IoT greenhouse allows it to be managed autonomously. Its software, which has been called "GreenCore", allows the greenhouse to manage autonomously both the configuration part (at the first power on a greenhouse must be registered within the system via API). It has been implemented entirely in Java using also some parallel programming techniques to optimize some sensor reading processes. Moreover, the Pi4J library (version 1.4, https://pi4j.com/1.4) is used to allow the control of the GPIO pins of the Raspberry Pi 3 Model B+.
 
 The greenhouse features the following sensors:
 
