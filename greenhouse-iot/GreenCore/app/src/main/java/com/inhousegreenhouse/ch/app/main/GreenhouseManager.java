@@ -28,6 +28,11 @@ public class GreenhouseManager {
     }
 
     /**
+     * Counter that describes the current step of the greenhouse life cycle.
+     */
+    private int currentSequence = 0;
+
+    /**
      * Constructor.
      * @param args Arguments of the program.
      */
@@ -57,13 +62,15 @@ public class GreenhouseManager {
      */
     public void startSequences () {
         try {
-            for (IGreenhouseSequence sequence : sequences) {
+            for (; currentSequence < sequences.size(); currentSequence++) {
                 // Start the sequence
-                sequence.run();
+                sequences.get(currentSequence).run();
             }
         } catch (CriticalGreenhouseError e) {
             // If a critical error occurs, print the error message and exit the program
             SplashScreen.printCriticalError(e);
+            // Re-execute failed sequence
+            startSequences();
         }
     }
 }
