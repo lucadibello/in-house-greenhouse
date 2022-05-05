@@ -13,9 +13,15 @@ const server = new ApolloServer({
     return context(req)
   }
 })
+// Check if API server url and port are set in .env, otherwise set default settings
+const port = process.env.PORT || 4000
+const url = process.env.API_URL || 'localhost'
 
 // Start listening
-server.listen().then(async ({ url }) => {
+server.listen({
+  host: url,
+  port: port
+}).then(async ({ url }) => {
   console.log(`\
     🌳 Greenhouse Server ready at: ${url}
   `)
