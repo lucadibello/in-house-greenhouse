@@ -189,3 +189,11 @@ In loading there are 2 scenarios: the first checks if the greenhouse is already 
 To manage the necessary information and actions, we have APIs available: for authentication, for the request headers, for the request itself, for the response to the request, for the greenhouse and finally for the sensors (greenhouse-iot\GreenCore\backend\src\main\java\backend\model\api).
 
 Finally, for the sensors we have classes (greenhouse-iot\GreenCore\backend\src\main\java\backend\model\sensor) that are used to work with the database to find the inherent data of a given greenhouse, so we have: the possible positions (Position.java), the types of sensors with their fields and the list of sensors (SensorList.java).
+
+## Personal thoughts
+
+Unfortunately, there were several delays with the shipment of certain essential greenhouse components, such as the Raspberry Pi 3 Model B+ and the shipment of a few sensors. These delays wasted a lot of useful time in the development of GreenCore (see Chapter 4.3).
+If they had arrived in time, the final product could have been more complete than the current version, offering all the features originally thought.
+
+The project was very ambitious, but this only spurred me on. Thanks to In-House Greenhouse I was able to further deepen my knowledge of this kind of technologies, which are very much in demand in today's working environment.
+The hardware part, where I actually had to connect the various components between them, was definitely the one that scared me the most since I've always developed software but (almost) never interfaced with hardware peripherals. In the end, however, I must admit that it was one of the most fun parts of the development of this project.
