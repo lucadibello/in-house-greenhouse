@@ -131,9 +131,6 @@ echo "Logging in..."
 # Build response body inline
 BODY="{\"query\":\"query LoginUser(\$email: String!, \$password: String!) { loginUser(email: \$email, password: \$password) { token refreshToken expire issued isError errorCode errorMessage }}\",\"variables\":{\"email\":\"$EMAIL\",\"password\":\"$PASSWORD\"}}"
 
-# print body
-echo "$BODY"
-
 # Send request to the API server using the formatted body and save the response in a variable called LOGIN_RESPONSE
 LOGIN_RESPONSE=$(curl -s -H "Content-Type: application/json" -X POST -d "$BODY" "$HOST/graphql")
 
