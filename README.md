@@ -133,24 +133,24 @@ Every table in the database is defined in the Prisma schema. The schema is defin
 
 A special feature of this database is that the plant data is never completely deleted, but is only hidden by setting the *isDeleted* flag to "true".
 
-### **5.1 API Server**
+### **5.2 API Server**
 
 The API server is the core of In-House Greenhouse. The server, as mentioned earlier, was developed through the use of Apollo Server (webserver) with GraphQL (API query language) and Nexus GraphQL (schema generator). The API server uses the Prisma ORM database to handle queries and changes to the database.
 
 APIs are divided into two major groups:
 
-1. Queries: here reside the APIs that do not go to modify data within the database
-2. Mutation: here, instead, are the APIs that modify data (delete, modify and write).
+1. **Queries**: here reside the APIs that do not go to modify data within the database
+2. **Mutation**: here, instead, are the APIs that modify data (delete, modify and write).
 
 Here is a diagram showing the structure of the GraphQL API:
 
 ![**API schema**](./greenhouse-server/extra/graphql/graph.png)
 
-#### **5.1.1 Building queries**
+#### **5.2.1 Building queries**
 
 For the development of the various queries, the server presents a Sandbox for testing, accessible via the loopback address: [http://localhost:4000](http://localhost:4000).
 
-#### **5.1.2 Config file**
+#### **5.2.2 Config file**
 
 You can change server settings via the `.env` configuration file.
 
@@ -165,7 +165,7 @@ This is a list of all available settings:
 | API_SERVER_PORT | Port where the APIs are accessible |
 | API_SERVER_URL | Host where the APIs are accessible |
 
-#### **5.1.3 Authentication**
+#### **5.2.3 Authentication**
 
 The API server uses 3 types of tokens for authentication:
 
@@ -175,9 +175,11 @@ The API server uses 3 types of tokens for authentication:
 
 This is a small example diagram showing the authentication process between the API server and the IoT greenhouse/SmartPhone application:
 
+1. Application requests to the API server
 
+2. Greenhouse IoT device requests to the API server
 
-### **5.2 App**
+### **5.3 App**
 
 The application starts with a login procedure where the user must enter a password containing: at least 8 characters, at least one upper case, at least one digit, at least one lower case, at least one special character, less than 16 characters¨. If the password does not meet all the criteria, it is marked with a red "x" which criteria are not met, and vice versa with a double view of the criteria met, and if all are fine, access is granted (greenhouse-app\app\components\password-validation\password-validation.tsx). In addition, in the app you can see information about the user and in addition there is the possibility of logout.
 
@@ -191,7 +193,7 @@ The plant screen takes care of loading the greenhouse to which you want to add t
 
 **//need to write the part of screen's setting//**
 
-### **5.2.1 App's API**
+### **5.3.1 App's API**
 
 As for APIs within the application, we find: the authentication API, the core API, the data API, the greenhouse API, the plant API, the position API.
 
@@ -206,12 +208,12 @@ In addition to the API how services there are also available: the keychain and t
 
 The keychain takes care of: saving the user's credentials and loading the credentials. These two processes allow you to manage the data relating to registration and login by the user. Finally, there is the reactotron that allows you to manage the application configuration (setup and the general archive) and the states of the actions that take place "behind the scenes of the application".
 
-### **5.3 Internet of Things (IoT)**
+### **5.4 Internet of Things (IoT)**
 
 In the greehouse-iot part, the loading part of the greenhouse is managed, where the user sends a token (that is to say that the user authenticates), with which it is possible to verify by means of an HTTP request in the database if actually c 'is the greenhouse associated with that user (user) and if there is, it makes the setup of the greenhouse take place using the socket help (greenhouse-iot\GreenCore\backend\src\main\java\backend\helper). 
 Authentication is handled with the help of a proxy server.
 
-### **5.3.1 IoT's API**
+### **5.4.1 IoT's API**
 
 In loading there are 2 scenarios: the first checks if the greenhouse is already set and in that case sets the greenhouse starting a socket, the second case the greenhouse is not present and therefore it is registered in the database. 
 To manage the necessary information and actions, we have APIs available: for authentication, for the request headers, for the request itself, for the response to the request, for the greenhouse and finally for the sensors (greenhouse-iot\GreenCore\backend\src\main\java\backend\model\api).
