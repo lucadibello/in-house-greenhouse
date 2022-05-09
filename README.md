@@ -176,8 +176,10 @@ The API server uses 3 types of tokens for authentication:
 This is a small example diagram showing the authentication process between the API server and the IoT greenhouse/SmartPhone application:
 
 1. Application requests to the API server
+![App-Server authentication](https://user-images.githubusercontent.com/37295664/167380175-8cb5c70b-be73-43f3-98f3-f2453a585869.png)
 
 2. Greenhouse IoT device requests to the API server
+![Greenhouse IoT-Server authentication](https://user-images.githubusercontent.com/37295664/167380293-02ce7bc0-b8f1-4d37-b090-9391e2c5377a.png)
 
 ### **5.3 App**
 
