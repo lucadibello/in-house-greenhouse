@@ -183,17 +183,29 @@ This is a small example diagram showing the authentication process between the A
 
 ### **5.3 App**
 
-The application starts with a login procedure where the user must enter a password containing: at least 8 characters, at least one upper case, at least one digit, at least one lower case, at least one special character, less than 16 characters¨. If the password does not meet all the criteria, it is marked with a red "x" which criteria are not met, and vice versa with a double view of the criteria met, and if all are fine, access is granted (greenhouse-app\app\components\password-validation\password-validation.tsx). In addition, in the app you can see information about the user and in addition there is the possibility of logout.
+The application initially presents a login/registration screen, which allows you to access the system. This authentication process is strictly necessary since the user needs the access and refresh tokens to make calls to the API (see chapter **5.2.3 Authentication**).
 
-Then, it shows information about the greenhouse and plants (greenhouse-app\app\components). The part relating to the greenhouse reports the number of plants planted and the state itself, so if it needs control (red color) or if everything is ok (green color) (greenhouse-app\app\components\greenhouse-card.tsx), in addition you can see the list of greenhouses (greenhouse-app\app\components\greenhouse-list.tsx). As far as the navigation “behind the scenes” is concerned, it is managed in the navigation-utilities file (greenhouse-app\app\navigators).
+![Login/Register page](https://user-images.githubusercontent.com/37295664/167385944-80b4e9cc-fc18-4e8a-8b9b-138006ed4e52.png)
 
-While for what concerns the plant it is shown: the life time (calculated), the date on which the plant was planted, the percentage of soil moisture (greenhouse-app\app\components\plant-card.tsx), trend of the plant with a graph (greenhouse-app\app\components\area-chart.tsx), the position. In addition, there are buttons that allow the following functions related to the plant: adding, modifying and deleting. Furthermore, for the position to be assigned to a plant, the available positions that have not yet been chosen for any plant are made visible when you want to insert a new one(greenhouse-app\app\components\position-select-input).
+Once logged in, the application shows the homepage, where you can view all the greenhouses managed by the user.When you select a greenhouse, the application shows a summary screen showing all the plants in that greenhouse. This is a screenshot:
 
-The navigation within the app is combined within the navigator (greenhouse-app\app\navigators), where there are the switch tabs, which are used for the homepage to the other pages, such as for example to that of the settings. Furthermore, inside there is also the stack, where all the screens are inserted, such as: the greenhouse, the add plant, the plant modification.
+![Greenhouse information](https://user-images.githubusercontent.com/37295664/167384975-369b3eef-233f-45a9-a5e9-e49de852c46a.png)
 
-The plant screen takes care of loading the greenhouse to which you want to add the plant and showing its information, after which it asks for the name of the plant and a description. Finally, after the data collection, it checks them and if they go well they are saved through an API. Furthermore, the screen offers the possibility to modify the plant, where it also takes care of reloading the greenhouse and showing its information, and as regards the plant to be modified, some information is shown: name of the plant, description of the plant, date of creation of the plant, date of the last modification (greenhouse-app\app\screens). The screen of the greenhouse takes care of showing the information and giving the possibility, by means of a button, to remove the plant and to save the changes applied to the greenhouse itself. Finally the homepage screen takes care of reloading all registered greenhouses.
+Plants can be added using the appropriate button at the top right (symbol "+") or modified by tapping on the "Edit plant" button inside the plant card.
 
-**//need to write the part of screen's setting//**
+![Add/Edit plants](https://user-images.githubusercontent.com/37295664/167385598-62a5066b-5105-447d-a3dc-0642774d4571.png)
+
+You can view the statistics of a specific plant by tapping on the "Health status" button inside the plant card. If the plant has not yet received any data, the system will show a warning message, otherwise it will show a summary of the statistics.
+
+![Plant health status](https://user-images.githubusercontent.com/37295664/167386994-9d32158c-b4a0-45aa-824d-cd27117bfde8.png)
+
+È possibile navigare nell'applicazione tramite un drawer a sinistra, apribile sia facendo uno swipe verso destra, sia cliccando la hamburger icon presente nella homepage.
+
+![Drawer menu](https://user-images.githubusercontent.com/37295664/167386241-02f13b2e-347e-4868-b68b-d21405e15f57.png)
+
+You can navigate the app via a drawer on the left, which can be opened either by swiping to the right or by clicking the hamburger icon on the homepage.
+
+Note: In this chapter I have shown only the most important screens, so there are no screenshots of every interface present.
 
 ### **5.3.1 App's API**
 
@@ -209,15 +221,3 @@ Then data API (greenhouse-app\app\services\api\data) takes care of retrieving th
 In addition to the API how services there are also available: the keychain and the reactotron.
 
 The keychain takes care of: saving the user's credentials and loading the credentials. These two processes allow you to manage the data relating to registration and login by the user. Finally, there is the reactotron that allows you to manage the application configuration (setup and the general archive) and the states of the actions that take place "behind the scenes of the application".
-
-### **5.4 Internet of Things (IoT)**
-
-In the greehouse-iot part, the loading part of the greenhouse is managed, where the user sends a token (that is to say that the user authenticates), with which it is possible to verify by means of an HTTP request in the database if actually c 'is the greenhouse associated with that user (user) and if there is, it makes the setup of the greenhouse take place using the socket help (greenhouse-iot\GreenCore\backend\src\main\java\backend\helper). 
-Authentication is handled with the help of a proxy server.
-
-### **5.4.1 IoT's API**
-
-In loading there are 2 scenarios: the first checks if the greenhouse is already set and in that case sets the greenhouse starting a socket, the second case the greenhouse is not present and therefore it is registered in the database. 
-To manage the necessary information and actions, we have APIs available: for authentication, for the request headers, for the request itself, for the response to the request, for the greenhouse and finally for the sensors (greenhouse-iot\GreenCore\backend\src\main\java\backend\model\api).
-
-Finally, for the sensors we have classes (greenhouse-iot\GreenCore\backend\src\main\java\backend\model\sensor) that are used to work with the database to find the inherent data of a given greenhouse, so we have: the possible positions (Position.java), the types of sensors with their fields and the list of sensors (SensorList.java).
