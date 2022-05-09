@@ -199,11 +199,9 @@ You can view the statistics of a specific plant by tapping on the "Health status
 
 ![Plant health status](https://user-images.githubusercontent.com/37295664/167386994-9d32158c-b4a0-45aa-824d-cd27117bfde8.png)
 
-È possibile navigare nell'applicazione tramite un drawer a sinistra, apribile sia facendo uno swipe verso destra, sia cliccando la hamburger icon presente nella homepage.
+You can navigate the app via a drawer on the left, which can be opened either by swiping to the right or by clicking the hamburger icon on the homepage.
 
 ![Drawer menu](https://user-images.githubusercontent.com/37295664/167386241-02f13b2e-347e-4868-b68b-d21405e15f57.png)
-
-You can navigate the app via a drawer on the left, which can be opened either by swiping to the right or by clicking the hamburger icon on the homepage.
 
 Note: In this chapter I have shown only the most important screens, so there are no screenshots of every interface present.
 
