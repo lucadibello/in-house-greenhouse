@@ -205,17 +205,48 @@ You can navigate the app via a drawer on the left, which can be opened either by
 
 Note: In this chapter I have shown only the most important screens, so there are no screenshots of every interface present.
 
-### **5.3.1 App's API**
+### **5.4 GreenProxy**
 
-As for APIs within the application, we find: the authentication API, the core API, the data API, the greenhouse API, the plant API, the position API.
+GreenProxy is an application written in Go (https://go.dev), which allows to manage the communication between Greenhouse IoT and API server. The greenhouse in fact, when it has to perform a request to the API, sends it to GreenProxy which manages the authentication (request of the greenhouse token) and the communication with the API server (sends the GraphQL query to the API server, and returns the response to the sender).
 
-The authentication API (greenhouse-app\app\services\api\authentication) deals with managing the user, where we have: login, registration, token update.
-When logging in, it checks whether the email and password entered are correct or not, so when the user tries to access part of the request to the server to know if the user exists and if everything is fine then the application is loaded with the data retrieval, while in case of denied access, the user is notified. Instead, as far as registration is concerned, we manage: first name, last name, email and password. More precisely for the password you go to check if the required criteria are actually met, that is.: at least 8 characters, at least one upper case, at least one digit, at least one lower case, at least one special character, less than 16 characters¨. If the criteria are met, the user is created. Finally we have the token management, where each authentication is updated.
+This is an example of GreenProxy's output, where it shows the startup process (where the config file is loaded) and the request forwarding process (with its authentication):
+![GreenProxy example](https://user-images.githubusercontent.com/37295664/167389661-40362c1d-7e7c-455a-bf65-ffc6c05f8cd3.png)
 
-As regards the core API (greenhouse-app\app\services\api\core), there is the management of the error in the case of the response from the server, more precisely the part dedicated to authentication. Furthermore we have the part inherent to the configuration and the part of the printouts for the errors that can be generated inside, such as: connection error, client error, network error, elimination error .. In addition, there is the management of the data type and response management to data, more precisely: greenhouse API data, plant API data, location API data.
+GreenProxy is used within a Docker container in order to run the application in isolation from the rest of the application. You can activate the proxy via the command `docker-compose up`.
 
-Then data API (greenhouse-app\app\services\api\data) takes care of retrieving the data by checking the data with GraphQL and the same thing happens with the greenhouse API (greenhouse-app\app\services\api\greenhouse), but with the data of all the greenhouses, therefore a set of data that make up each of them. While for the API of the plant (greenhouse-app\app\services\api\plant) you manage: the addition, the removal and the modification. In all 3 cases, the authentication is always carried out and then the action chosen is secondary. As far as the position API (greenhouse-app\app\services\api\position) is concerned, it takes care of restoring the position of a sensor or of a plant, passing name and type as parameters.
+### **5.5 GreenCore**
 
-In addition to the API how services there are also available: the keychain and the reactotron.
+GreenCore is the software that manages the IoT greenhouse. The system has been programmed as a state machine, where in order to proceed to the next state, the current state must be successfully terminated.
+Each state is called a "Sequence", and is defined by a class that extends the *ISequence* interface. The system uses 3 states:
 
-The keychain takes care of: saving the user's credentials and loading the credentials. These two processes allow you to manage the data relating to registration and login by the user. Finally, there is the reactotron that allows you to manage the application configuration (setup and the general archive) and the states of the actions that take place "behind the scenes of the application".
+1. **SplashScreen sequence**
+
+In this sequence, a splashscreen is printed on the terminal only, showing the title of the application (GreenCore) and its authors..
+
+2. **Setup sequence**
+
+During the setup sequence the greenhouse tries to detect if it has already been configured (if it has been configured, there is a configuration file that keeps the UUID of the device, the name and its description if present). If it has already been configured, it proceeds to the next state (*startup sequence*). Otherwise, a web socket is opened which allows the greenhouse to receive its configuration from the user. The configuration is sent in JSON format and must have this format:
+
+```JSON
+{
+  "token": "<USER ACCESS TOKEN>",
+  "name": "<GREENHOUSE NAME>",
+  "description": "[OPTIONAL DESCRIPTION]",
+}
+```
+
+Note: For security reasons, it is necessary to send an access token (the same one the user uses to make requests to the API from the app) in order to access the greenhouse creation api (Mutation:addGreenhouse)
+
+If the data submitted by the user is valid, the greenhouse announces itself to the API server, sending its name and description. The API (if the creation is successful) will send the greenhouse its UUID, which will be used to request the *greenhouse token* (see chapter *5.2.3 Authentication*). If on the other hand, the configuration provided is invalid, the greenhouse will send the user an error message notifying him of the problem.
+
+3. **Startup sequence**
+
+The startup sequence is the operational state of the greenhouse. During this sequence, the greenhouse dynamically loads sensors and their identifying names directly from the API (Query::getSensors). Next, it assigns each sensor to a separate Thread, managed by the **MonitoringOrchestrator** class. This orchestrator does nothing but manage the pool of threads, handling their startup and possible problems generated. If a thread breaks, the orchestrator will try to restart it automatically to avoid unwanted problems.
+
+The monitoring settings are defined by a **MonitoringConfig** object, which provides the following fields:
+
+| Name | Usage |
+| -----| ------|
+| `greenhouse` | Greenhouse object that represents the current greenhouse |
+| `timeBetweenChecks` | Amount of milliseconds between sensor readings |
+
