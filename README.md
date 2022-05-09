@@ -123,24 +123,59 @@ In addition, the API takes care of data management and communication between Gre
 
 ## **5 Development**
 
-### **5.1 Server**
+### **5.1 Database**
 
-The server is based on 6 principals models (greenhouse-server\prisma), that they are: user, greenhouse, plant, sensor, data, position.
+The database is implemented using PostgreSQL and is hosted on a Docker container. It is connected to the API using the Prisma ORM. This the database ER diagram:
 
-The models save some informations for the app, of which few of them are the same for 3 models: greenhouse, plant, user. These informations are 3: id, date's creation, date's updating. In the case of the id, it is incremented at each new user that we register, while in the case of date, it is managed by a function that it gives the date in that instant of the creation or updating.
+![**Database schema**](./greenhouse-server/extra/db/ERD.svg)
 
-In the user's model we save others 4 informations: email, name, surname, password. While the greenhouse's model is structured with 4 informations: name, description, plants, isOkay. The isOkay's component is a boolean's type, that is used as a "flag", that tell to the user, that the Greenhouse needs attention. While the description's component is a part that the user can use to give some informations about his Greenhouse. Instead the plant component represents the set of plants that the "greenhouse" has inside.
+Every table in the database is defined in the Prisma schema. The schema is defined in this [file](./greenhouse-server/prisma/schema.prisma).
 
-In the case plant's model there are others 6 informations: name, description, greenhouse, greenhouseId, isDeleted, position. The greenhouse's component is used to hold the reference of the greenhouse, in which the plant is planted. While the isDeleted's component is a "flag" that says if the plant is deleted or not.
+A special feature of this database is that the plant data is never completely deleted, but is only hidden by setting the *isDeleted* flag to "true".
 
-Then, as regards the sensor, we save 3 informations: the name, the value, the type of sensor and the position. The saved name is unique, so it means that it can be used as an identifier to distinguish the various sensors, while the value indicates the temperature or humidity of a particular sensor. As regards the position and the type of sensor, enumeratives are used:
+### **5.1 API Server**
 
-- enum for position which may indicate: top left, top right, middle left, middle right, bottom left, bottom right, general.
-- enum for the type of sensor which may indicate: humidity, temperature, soil moisture.
+The API server is the core of In-House Greenhouse. The server, as mentioned earlier, was developed through the use of Apollo Server (webserver) with GraphQL (API query language) and Nexus GraphQL (schema generator). The API server uses the Prisma ORM database to handle queries and changes to the database.
 
-### **5.1.1 Server's API**
+APIs are divided into two major groups:
 
-The 6 models are managed by Query via API, where they allow the creation and the possibility of having a list of users, or greenhouses, plants, sensors, data. In each of the 6 models we have user authentication using a token, and it is verified every time the individual wants to apply changes from the application. If the authentication is correct then it is checked whether the action the user wants to take is feasible or not, and the result is notified (greenhouse-server\src\api\graphql). Authentication is handled in the file Auth.ts. As far as the positions are concerned, it is also possible to have a list of all known positions of plants and sensors. While, for plants, it is also possible: to insert a plant in the greenhouse, to make an update, to remove. clearly all these functions are allowed with the help of GraphQL.
+1. Queries: here reside the APIs that do not go to modify data within the database
+2. Mutation: here, instead, are the APIs that modify data (delete, modify and write).
+
+Here is a diagram showing the structure of the GraphQL API:
+
+![**API schema**](./greenhouse-server/extra/graphql/graph.png)
+
+#### **5.1.1 Building queries**
+
+For the development of the various queries, the server presents a Sandbox for testing, accessible via the loopback address: [http://localhost:4000](http://localhost:4000).
+
+#### **5.1.2 Config file**
+
+You can change server settings via the `.env` configuration file.
+
+This is a list of all available settings:
+
+| Name | Description |
+| --- | --- |
+| DATABASE_URL | URL needed for the database connection. |
+| JWT_ACCESS_TOKEN_SECRET | Secret key needed for the JWT access token encryption (30 minutes validity)|
+| JWT_REFRESH_TOKEN_SECRET | Secret key needed for the JWT refresh token encryption (7 days validity)|
+| JWT_GREENHOUSE_TOKEN_SECRET | Secret key needed for the JWT greenhouse token encryption (1 minute validity) |
+| API_SERVER_PORT | Port where the APIs are accessible |
+| API_SERVER_URL | Host where the APIs are accessible |
+
+#### **5.1.3 Authentication**
+
+The API server uses 3 types of tokens for authentication:
+
+1. Access token: allows access to the API, **validity of 30 minutes**. This token allows access to all APIs.
+2. Refresh token: allows to renew the access token, it has a **validity of 7 days**. This token has no other purpose of operation, in fact you can't use it to access APIs.
+3. Greenhouse token: access token used by the IoT greenhouse to record read data, **validity of 1 minute**. This token can only be used in the API related to the IoT greenhouse: the one to record data in the system (Mutation:recordData) and the one to read the recorded sensors (Query:getSensors).
+
+This is a small example diagram showing the authentication process between the API server and the IoT greenhouse/SmartPhone application:
+
+
 
 ### **5.2 App**
 
