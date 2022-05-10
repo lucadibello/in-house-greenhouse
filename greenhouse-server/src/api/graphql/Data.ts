@@ -139,12 +139,14 @@ export const DataQuery = extendType({
         
           // Check if sensor was found
           if (sensors.length > 0) {
-            // Fetch data related to the plant and greenhouse
+            // Fetch data related to the plant and greenhouse (maximum 1000 rows)
             return context.prisma.data.findMany({
               where: {
                 greenhouseId: plant.greenhouseId,
                 sensor: { in: sensors.map(s => s.name) }
-              }
+              },
+              orderBy: { created_at: 'desc' },
+              take: 1000
             });
           } else {
             if (args.sensorType) {
