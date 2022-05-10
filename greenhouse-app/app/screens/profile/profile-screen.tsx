@@ -44,7 +44,6 @@ export const ProfileScreen: FC<DrawerScreenProps<DrawerParamList, "profile">> = 
       greenhouseStore.greenhouses.forEach(greenhouse => {
         // For each plant in greenhouse, increase total plants by 1 and (if plant is not deleted) increase total plants in greenhouses by 1
         greenhouse.plants.forEach(plant => {
-          console.log(plant.name + " " + totalPlant)
           inTotal += 1
           if (!plant.isDeleted) {
             inGreenhouse += 1
