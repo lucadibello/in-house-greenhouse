@@ -24,7 +24,6 @@ public class MoistureSensor extends AnalogSensor<Double> {
         super(nameId, sensorPosition, defaultValue, adc, channel);
     }
 
-
     /**
      * Updates the value of the sensor and returns it.
      * @return the value of the sensor.
