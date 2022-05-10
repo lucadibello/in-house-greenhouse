@@ -30,4 +30,9 @@ public interface ISensor<T extends Number> {
      * @return The sensor's value
      */
     T getCachedValue();
+
+    /**
+     * Return sensor channel
+     */
+    int getChannel();
 }
