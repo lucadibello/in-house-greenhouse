@@ -254,3 +254,85 @@ The monitoring settings are defined by a **MonitoringConfig** object, which prov
 | `greenhouse` | Greenhouse object that represents the current greenhouse |
 | `timeBetweenChecks` | Amount of milliseconds between sensor readings |
 
+## **6 Directory structures**
+
+### **6.1 Project file structure**
+
+```text
+.
+└── in-house-greenhouse/
+    ├── greenhouse-app    # Greenhouse App
+    ├── greenhouse-server # Greenhouse API server
+    └── greenhouse-iot/   # Greenhouse IoT files
+        ├── GreenCore     # GreenCore
+        ├── GreenProxy    # GreenProxy
+        └── UPnP          # UPnP discovery (UNUSED)
+```
+
+### **6.2 Greenhouse app file structure**
+
+```text
+greenhouse-app/
+├── app/
+│   ├── assets/      # App assets
+│   ├── components/  # React native components
+│   ├── config/      # Config file loader (DO NOT TOUCH!)
+│   ├── i18n/        # Multi-Language 
+│   ├── models/      # MobX State Tree data models
+│   ├── navigators/  # App navigators (Stack, Drawer, Bottom Tab)
+│   ├── screens/     # App screens
+│   ├── services/
+│   │   ├── api/
+│   │   │   ├── core/            # API library core 
+│   │   │   ├── authentication/  # Authentication API service
+│   │   │   ├── data/            # Data API service
+│   │   │   ├── greenhouse/      # Greenhouse API service
+│   │   │   ├── plant/           # Plant API service
+│   │   │   └── position/        # Position API service
+│   │   ├── keychain/            # KeyChain credentails service
+│   │   └── reactotron/          # Reactotron service (DO NOT TOUCH!)
+│   ├── theme/
+│   ├── utils/
+│   └── app.tsx
+├── e2e/             # Detox End-To-End Testing
+└── test/            # Boilerplate default tests
+```
+
+### **6.3 Greenhouse API server file structure**
+
+```text
+greenhouse-server/
+├── extra/
+│   ├── db/              # Database ER diagram
+│   └── graphql/         # GraphQL API diagram
+├── prisma/
+│   ├── ...
+│   ├── schema.prisma    # Prisma schema
+│   └── seed.ts          # Prisma database seeder
+└── src/
+    ├── api/             # GraphQL APIs
+    ├── utils/
+    │   ├── env/
+    │   │   └── env.ts             # Environment loader utility class
+    │   ├── jwt/
+    │   │   └── jwt.ts             # JWT token utility class
+    │   └── request/
+    │       └── authentication.ts  # Requests utility class
+    └── server.ts         # !API server entry point!
+```
+
+### ** 6.4 Greenhouse IoT file structure **
+
+> The file structure for the Greenhouse IoT files is too big to be described here. You can find it in the repository by clicking [here](./greenhouse-iot).
+In addition, here you can find the GreenCore [JavaDoc](./greenhouse-iot/GreenCore/docs/).
+
+## 6 Project links
+
+Links to each of the following project resources:
+
+- [GreenCore]( ./greenhouse-iot/GreenCore/)
+  - [GreenCore Docs](./greenhouse-iot/GreenCore/docs/index.html)
+- [GreenProxy](./greenhouse-iot/GreenProxy/)
+- [UPnP](./greenhouse-iot/UPnP/)
+- [Greenhouse App](./greenhouse-app/)
+- [Greenhouse API Server](./greenhouse-server/)
