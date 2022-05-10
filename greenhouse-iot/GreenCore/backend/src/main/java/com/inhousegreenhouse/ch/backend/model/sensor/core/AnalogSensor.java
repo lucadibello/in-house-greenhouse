@@ -1,6 +1,7 @@
 package com.inhousegreenhouse.ch.backend.model.sensor.core;
 
 import com.inhousegreenhouse.ch.backend.model.sensor.converter.ADC;
+import com.inhousegreenhouse.ch.backend.model.util.Channels;
 
 import java.io.IOException;
 
@@ -9,6 +10,11 @@ import java.io.IOException;
  * @param <T> Type of data read from the sensor.
  */
 public abstract class AnalogSensor<T extends Number> extends BaseSensor<T> {
+
+    /**
+     * Channel manager
+     */
+    public static final Channels channels = new Channels(8);
 
     /**
      * ADC object used to read the analog value of the sensor.
@@ -45,5 +51,13 @@ public abstract class AnalogSensor<T extends Number> extends BaseSensor<T> {
      */
     protected int getConversionData() throws IOException {
         return adc.read(channel);
+    }
+
+    /**
+     * Get the channel where the sensor is connected.
+     * @return The channel where the sensor is connected.
+     */
+    public int getChannel() {
+        return channel;
     }
 }
