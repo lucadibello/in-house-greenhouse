@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, View } from "react-native"
 import { observer } from "mobx-react-lite"
 import { DrawerScreenProps } from "@react-navigation/drawer"
 import { DrawerParamList } from "../../navigators/components/navigators"
-import { Avatar, Icon, Layout, TopNavigation, TopNavigationAction, Text, Tooltip } from '@ui-kitten/components'
+import { Avatar, Icon, Layout, TopNavigation, TopNavigationAction, Text, Tooltip, Divider } from '@ui-kitten/components'
 import { SafeAreaView } from "react-native-safe-area-context"
 import { palette } from "../../theme/palette"
 import { useStores } from "../../models/root-store/root-store-context"
@@ -19,16 +19,43 @@ const getAvatarImageURI = (name: string) => {
 
 export const ProfileScreen: FC<DrawerScreenProps<DrawerParamList, "profile">> = observer(
   ({navigation}) => {
-
     // Load authentication store
-    const { authenticationStore } = useStores()
-
+    const { authenticationStore, greenhouseStore } = useStores()
     const [visible, setVisible] = React.useState(false);
   
     const copyToClipboard = (value: string) => {
       Clipboard.setString(value);
       setVisible(true)
     }
+
+    // Load statistics from data store
+    const [totalPlant, setTotalPlants] = React.useState(0)
+    const [totalPlantsInGreenhouses, setTotalPlantsInGreenhouses] = React.useState(0)
+
+    React.useEffect(() => {
+      // Reset counter
+      setTotalPlants(0)
+      setTotalPlantsInGreenhouses(0)
+
+      let inTotal = 0;
+      let inGreenhouse = 0;
+
+      // Load plants from data store
+      greenhouseStore.greenhouses.forEach(greenhouse => {
+        // For each plant in greenhouse, increase total plants by 1 and (if plant is not deleted) increase total plants in greenhouses by 1
+        greenhouse.plants.forEach(plant => {
+          console.log(plant.name + " " + totalPlant)
+          inTotal += 1
+          if (!plant.isDeleted) {
+            inGreenhouse += 1
+          } 
+        })
+      })
+
+      // Update counter
+      setTotalPlants(inTotal)
+      setTotalPlantsInGreenhouses(inGreenhouse)
+    }, [greenhouseStore.greenhouses])
 
     return (
       <SafeAreaView style={[styles.container, styles.notch]}>
@@ -83,7 +110,13 @@ export const ProfileScreen: FC<DrawerScreenProps<DrawerParamList, "profile">> = 
 
             {/* Follow details buttons */}
             <ScrollView>
-              <Text>User stats will be here</Text>
+              <Layout style={styles.stats}>
+                <Text category={"h5"}>Total plants ever grown:</Text>
+                <Text category={"h5"}>{totalPlant}</Text>
+                <Divider style={styles.statsDivider} />
+                <Text category={"h5"}>Total growing plants:</Text>
+                <Text category={"h5"}>{totalPlantsInGreenhouses}</Text>
+              </Layout>
             </ScrollView>
           </Layout>
       </SafeAreaView>  
@@ -118,4 +151,11 @@ const styles = StyleSheet.create({
   profileName: {
     zIndex: 1,
   },
+  stats: {
+    padding: 10
+  },
+  statsDivider: {
+    marginBottom: 10,
+    marginTop: 10
+  }
 })
