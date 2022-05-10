@@ -22,6 +22,8 @@ public class SensorApi extends Api{
 
     /**
      * Get all sensors from the API.
+     * @param greenhouse The greenhouse where the sensor are attached to.
+     * @param adc The AdC to use to read the sensor.
      * @return List of all sensors.
      * @throws ProxyRequestFailException If the request fails.
      */

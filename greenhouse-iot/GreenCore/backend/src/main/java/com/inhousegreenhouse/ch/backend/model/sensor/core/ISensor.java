@@ -9,6 +9,7 @@ public interface ISensor<T extends Number> {
     /**
      * Returns the sensor's value.
      * @return the sensor's value
+     * @throws SpiCannotBeInitializedException if the sensor is not initialized
      */
     T updateAndGet() throws SpiCannotBeInitializedException;
 
@@ -26,6 +27,7 @@ public interface ISensor<T extends Number> {
 
     /**
      * Update sensor's value.
+     * @return The sensor's value
      */
     T getCachedValue();
 }

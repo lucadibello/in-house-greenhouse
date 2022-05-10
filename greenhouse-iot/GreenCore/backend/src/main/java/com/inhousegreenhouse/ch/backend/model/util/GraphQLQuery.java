@@ -45,6 +45,7 @@ public class GraphQLQuery {
      * Adds a variable to the query.
      * @param variableName The name of the variable.
      * @param variableValue The value of the variable.
+     * @param <T> The type of the variable.
      * @return The updated GraphQLQuery object.
      */
     public <T> GraphQLQuery addVariable (String variableName, T variableValue) {

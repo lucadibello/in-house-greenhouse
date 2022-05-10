@@ -36,6 +36,7 @@ public class ADC {
 
     /**
      * Reads the value of the specified ADC channel.
+     * @param channel The AdC channel to read.
      * @return The value of the specified ADC channel.
      * @throws IOException If the SPI interface cannot be opened.
      */

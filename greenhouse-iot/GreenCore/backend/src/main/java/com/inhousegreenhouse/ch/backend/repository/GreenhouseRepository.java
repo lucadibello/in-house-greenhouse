@@ -37,6 +37,8 @@ public class GreenhouseRepository implements IRepository {
 
     /**
      * Initialize an empty repository.
+     * @throws RepositoryLoadException If the repository cannot be initialized.
+     * @return True if the repository was initialized, false otherwise.
      */
     public boolean initializeRepository () throws RepositoryLoadException {
         // Create user repository if not exists
