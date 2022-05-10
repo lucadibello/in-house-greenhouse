@@ -124,7 +124,10 @@ export const DataQuery = extendType({
       async resolve(_, args, context) {
         // Fetch information related to the plant
         const plant = await context.prisma.plant.findFirst({
-          where: { id: args.plantId }
+          where: { 
+            id: args.plantId,
+            isDeleted: false
+          }
         });
 
         // Check if plant exists
