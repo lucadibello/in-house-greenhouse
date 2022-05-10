@@ -21,7 +21,8 @@ export const PlantModel = types
     greenhouseId: types.maybeNull(types.string),
     updated_at: types.string,
     position: PositionModel,
-    isDeleted: types.boolean
+    isDeleted: types.boolean,
+    soilMoisture: types.optional(types.number, -1)
   })
   .actions(self => ({
     updatePlant: flow(function* updatePlant (update: {name: string, description?: string, position: Position}) {
@@ -60,6 +61,12 @@ export const PlantModel = types
         __DEV__ && console.tron.log(result.kind)
       }
     })
+  }))
+  .actions(self => ({
+    setSoilMoisture: (soilMoisture: number) => {
+      // Truncate to only 1 decimal place
+      self.soilMoisture = Math.trunc(soilMoisture * 10) / 10
+    } 
   }))
 
 type PlantType = Instance<typeof PlantModel>
