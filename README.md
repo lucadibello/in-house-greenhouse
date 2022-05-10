@@ -223,6 +223,8 @@ Each state is called a "Sequence", and is defined by a class that extends the *I
 
 In this sequence, a splashscreen is printed on the terminal only, showing the title of the application (GreenCore) and its authors..
 
+<img width="862" alt="green-core-splashscreen" src="https://user-images.githubusercontent.com/37295664/167556681-231e9333-6cb6-4029-aaa4-c4842a2ff95d.png">
+
 2. **Setup sequence**
 
 During the setup sequence the greenhouse tries to detect if it has already been configured (if it has been configured, there is a configuration file that keeps the UUID of the device, the name and its description if present). If it has already been configured, it proceeds to the next state (*startup sequence*). Otherwise, a web socket is opened which allows the greenhouse to receive its configuration from the user. The configuration is sent in JSON format and must have this format:
@@ -242,6 +244,8 @@ If the data submitted by the user is valid, the greenhouse announces itself to t
 3. **Startup sequence**
 
 The startup sequence is the operational state of the greenhouse. During this sequence, the greenhouse dynamically loads sensors and their identifying names directly from the API (Query::getSensors). Next, it assigns each sensor to a separate Thread, managed by the **MonitoringOrchestrator** class. This orchestrator does nothing but manage the pool of threads, handling their startup and possible problems generated. If a thread breaks, the orchestrator will try to restart it automatically to avoid unwanted problems.
+
+<img width="423" alt="greencore-startup" src="https://user-images.githubusercontent.com/37295664/167563315-c258c912-fccb-4905-b216-8562ca857edd.png">
 
 The monitoring settings are defined by a **MonitoringConfig** object, which provides the following fields:
 
