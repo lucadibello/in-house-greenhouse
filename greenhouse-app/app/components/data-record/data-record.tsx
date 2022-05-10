@@ -20,20 +20,26 @@ export const DataRecord = observer(function DataRecord(props: DataRecordProps) {
       <Text category={"h4"}>Soil moisture</Text>
       <View style={styles.dataRecordBar}>
         <ProgressCircle
-            percent={props.percentage !== null ? props.percentage * 100 : 100}
+            percent={props.percentage !== null ? props.percentage : 100}
             radius={70}
             borderWidth={12}
-            color={props.percentage !== null ? palette.success : palette.angry}
+            color={props.percentage !== null && props.percentage <= 100 ? palette.success : palette.angry}
             shadowColor="#999"
             bgColor="#FFF"
           >
             <Text style={styles.text}>{props.percentage !== null ? 'Soil Moisture' : 'No data'}</Text>
             {
               props.percentage !== null &&
-                <Text style={styles.text}>{Math.floor(props.percentage * 100)}%</Text>
+                <Text style={styles.text}>{props.percentage}%</Text>
             }
           </ProgressCircle>
       </View>
+      {/* If the percentage is greater than 100, notify that the sensor could be damaged or not at contact with soil */}
+      {props.percentage !== null && props.percentage > 100 &&
+        <Card status='danger'>
+          <Text>Sensor could be damaged or not at contact with soil.</Text>
+        </Card>
+      }
     </Layout>
   )
 })

@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators/components/navigators"
-import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
+import { Divider, Icon, Layout, Spinner, Text, TopNavigation, TopNavigationAction } from "@ui-kitten/components"
 import { useStores } from "../../models"
 import { SafeAreaView, StyleSheet } from "react-native"
 import { palette } from "../../theme/palette"
@@ -13,18 +13,30 @@ export const InspectPlantScreen: FC<StackScreenProps<NavigatorParamList, "inspec
   ({navigation}) => {
   const { navigationStore, dataStore } = useStores()
   const [chartData, setChartData] = React.useState<number[]>([]); 
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-  React.useEffect(() => {
+  const updateGraph = () => {
     if (navigationStore.inspectPlantScreenParams.plant !== undefined) {
+      // Set loading flag
+      setIsLoading(true);
       // Clear all data 
       dataStore.clear()
       // Get plant data
       dataStore.getPlantData(navigationStore.inspectPlantScreenParams.plant).then(() => {
         // Save data inside chart data
-        setChartData(dataStore.data.map(data => data.value * 100))
+        setChartData(dataStore.data.map(data => data.value))
+      }).finally (() => {
+        // Set loading flag
+        setIsLoading(false);
       })
     }
+  }
+
+  // Update graph at load
+  React.useEffect(() => {
+    updateGraph();
   }, [])
+  
 
   // Check if a plant has been selected
   if (navigationStore.inspectPlantScreenParams.plant !== undefined) {
@@ -35,20 +47,26 @@ export const InspectPlantScreen: FC<StackScreenProps<NavigatorParamList, "inspec
           title={navigationStore.inspectPlantScreenParams.plant.name}
           subtitle={'Inspect your plant health parameters'}
           accessoryLeft={<TopNavigationAction icon={<Icon name='arrow-back'/>} onPress={() => navigation.goBack()} />}
+          accessoryRight={<TopNavigationAction icon={<Icon name='refresh-outline' />} onPress={() => updateGraph()} />}
         />
         <Divider />
         <Layout style={[styles.container, styles.dataContainer]}>
-          <DataRecord
-            style={styles.healthCard}
-            percentage={dataStore.data.length !== 0 ? dataStore.data[dataStore.data.length - 1].value : null}
-          />
-          
+          {!isLoading &&
+            <DataRecord
+              style={styles.healthCard}
+              percentage={dataStore.data.length !== 0 ? dataStore.data[dataStore.data.length - 1].value : null}
+            />
+          }
+          {isLoading && <Spinner size='large'/>} 
+         
           <Layout style={[styles.container, styles.chartContainer]}>
             { /* Soil moisture chart */ }  
             <Text category='h4'>Soil chart</Text>
             
             {/* Humidity chart */}
-            <AreaChart data={chartData}/>
+            {!isLoading && <AreaChart data={chartData}/>}
+            { /* Spinner if loading */}
+            {isLoading && <Spinner size='large'/>}
           </Layout>
         </Layout>
       </SafeAreaView>
