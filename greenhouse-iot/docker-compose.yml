@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+  proxy:
+    restart: unless-stopped
+    container_name: green-proxy
+    build:
+      context: ./GreenProxy
+      dockerfile: ./Dockerfile
+    ports:
+      - 6864:6864
+  core:
+    restart: unless-stopped
+    container_name: green-core
+    build:
+      context: ./GreenCore
+      dockerfile: ./Dockerfile
+    ports:
+      - 4686:4686
