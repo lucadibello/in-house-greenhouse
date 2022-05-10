@@ -22,7 +22,6 @@ export interface PlantCardProps {
 export const PlantCard = observer(function (props: PlantCardProps) {
   // React state for collapsible plant information
   const [expanded, setExpanded] = React.useState(false);
-  const [soilMoisture, setSoilMoisture] = React.useState(0);
 
   // use store
   const { dataStore } = useStores();
@@ -39,10 +38,10 @@ export const PlantCard = observer(function (props: PlantCardProps) {
       // Check if plant has data
       if (dataStore.data.length > 0) {
         // Get last data point
-        setSoilMoisture(dataStore.data[dataStore.data.length - 1].value);
+        props.plant.setSoilMoisture(dataStore.data[dataStore.data.length - 1].value)
     } else {
         // Plant has no data
-        setSoilMoisture(-1);
+        props.plant.setSoilMoisture(-1)
       }      
     })
   }, [dataStore.data])
@@ -61,7 +60,7 @@ export const PlantCard = observer(function (props: PlantCardProps) {
         <View style={props.style}>
           <Card
             style={styles.card}
-            status={soilMoisture > 100 ? "danger" : "success"}
+            status={props.plant.soilMoisture > 100 ? "danger" : "success"}
           >
             <Ripple style={styles.fullWidth} rippleCentered={true} rippleColor={"rgb(169,151,223)"} onPress={() => {
               setExpanded(!expanded);
@@ -100,8 +99,8 @@ export const PlantCard = observer(function (props: PlantCardProps) {
                 {/* Plant soil moisture */}
                 <View style={styles.row}>
                   <Text style={styles.cardText}>Soil moisture</Text>
-                  <Text category='label' style={[styles.cardText, soilMoisture > 100 ? styles.soilMoistureError : null ]}>
-                    {soilMoisture > 100 ? "ERROR" : soilMoisture + "%"}
+                  <Text category='label' style={[styles.cardText, props.plant.soilMoisture > 100 ? styles.soilMoistureError : null ]}>
+                    {props.plant.soilMoisture > 100 ? "ERROR" : props.plant.soilMoisture + "%"}
                   </Text>
                 </View>
                 

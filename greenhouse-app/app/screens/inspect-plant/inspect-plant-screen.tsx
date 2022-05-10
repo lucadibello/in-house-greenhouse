@@ -25,6 +25,8 @@ export const InspectPlantScreen: FC<StackScreenProps<NavigatorParamList, "inspec
       dataStore.getPlantData(navigationStore.inspectPlantScreenParams.plant).then(() => {
         // Save data inside chart data
         setChartData(dataStore.data.map(data => data.value))
+        // Update plant soil data
+        navigationStore.inspectPlantScreenParams.plant.setSoilMoisture(dataStore.data[dataStore.data.length - 1].value || -1);
       }).finally (() => {
         // Set loading flag
         setIsLoading(false);
@@ -54,7 +56,8 @@ export const InspectPlantScreen: FC<StackScreenProps<NavigatorParamList, "inspec
           {!isLoading &&
             <DataRecord
               style={styles.healthCard}
-              percentage={dataStore.data.length !== 0 ? dataStore.data[dataStore.data.length - 1].value : null}
+              percentage={navigationStore.inspectPlantScreenParams.plant.soilMoisture !== -1 ?
+                navigationStore.inspectPlantScreenParams.plant.soilMoisture : null}
             />
           }
           {isLoading && <Spinner size='large'/>} 
