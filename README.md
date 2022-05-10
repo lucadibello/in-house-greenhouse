@@ -328,17 +328,17 @@ greenhouse-server/
     └── server.ts         # !API server entry point!
 ```
 
-### ** 6.4 Greenhouse IoT file structure **
+### **6.4 Greenhouse IoT file structure**
 
 > The file structure for the Greenhouse IoT files is too big to be described here. You can find it in the repository by clicking [here](./greenhouse-iot).
-In addition, here you can find the GreenCore [JavaDoc](./greenhouse-iot/GreenCore/docs/).
+In addition, here you can find the GreenCore [JavaDoc](https://lucadibello.github.io/in-house-greenhouse/).
 
 ## 6 Project links
 
 Links to each of the following project resources:
 
 - [GreenCore]( ./greenhouse-iot/GreenCore/)
-  - [GreenCore Docs](./greenhouse-iot/GreenCore/docs/index.html)
+  - [GreenCore Docs](https://lucadibello.github.io/in-house-greenhouse/)
 - [GreenProxy](./greenhouse-iot/GreenProxy/)
 - [UPnP](./greenhouse-iot/UPnP/)
 - [Greenhouse App](./greenhouse-app/)
