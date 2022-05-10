@@ -4,9 +4,11 @@ import com.inhousegreenhouse.ch.backend.exception.ProxyRequestFailException;
 import com.inhousegreenhouse.ch.backend.exception.SpiCannotBeInitializedException;
 import com.inhousegreenhouse.ch.backend.model.sensor.converter.ADC;
 import com.inhousegreenhouse.ch.backend.model.sensor.*;
+import com.inhousegreenhouse.ch.backend.model.sensor.core.AnalogSensor;
 import com.inhousegreenhouse.ch.backend.model.sensor.core.ISensor;
 import com.inhousegreenhouse.ch.backend.model.sensor.core.Position;
 import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorType;
+import com.inhousegreenhouse.ch.backend.model.util.Channels;
 import com.inhousegreenhouse.ch.backend.model.util.GraphQLQuery;
 import com.inhousegreenhouse.ch.backend.model.util.Greenhouse;
 import org.json.JSONArray;
@@ -18,7 +20,7 @@ import java.util.List;
 /**
  * SensorApi is a class that handles all requests to the Sensor API.
  */
-public class SensorApi extends Api{
+public class SensorApi extends Api {
 
     /**
      * Get all sensors from the API.
@@ -67,22 +69,22 @@ public class SensorApi extends Api{
                     SensorType typeEnum = SensorType.valueOf(type);
                     Position positionEnum = Position.valueOf(positionType);
 
+                    // Get next channel for the sensor type
+                    final int channel = AnalogSensor.channels.getNextChannel(typeEnum);
+
+                    // Notify chosen channel to console
+                    System.out.println("Chosen channel for sensor " + name + ": " + channel);
+
                     // Check type of sensor
                     if (typeEnum == SensorType.TEMPERATURE) {
                         // Create temperature sensor
-
-                        // FIXME: Set channel automatically
-                        sensors.add(new TemperatureSensor(name, 0, adc, 1));
+                        sensors.add(new TemperatureSensor(name, 0, adc, channel));
                     } else if (typeEnum == SensorType.HUMIDITY) {
                         // Create humidity sensor
-
-                        // FIXME: Set channel automatically
-                        sensors.add(new HumiditySensor(name, 0, adc, 1));
+                        sensors.add(new HumiditySensor(name, 0, adc, channel));
                     } else if (typeEnum == SensorType.SOIL_MOISTURE) {
                         // Create soil moisture sensor
-
-                        // FIXME: Set channel automatically
-                        sensors.add(new MoistureSensor(name, positionEnum,0, adc, 1));
+                        sensors.add(new MoistureSensor(name, positionEnum,0, adc, channel));
                     } else {
                         // Unsupported sensor type
                         System.out.printf(
@@ -93,6 +95,10 @@ public class SensorApi extends Api{
                 } catch (IllegalArgumentException e) {
                     System.out.printf("[SensorApi] Sensor with name %s has an unknown" +
                             " position (%s) or type (%s) . I'll skip this sensor.\n", name, positionType, type);
+                } catch (IllegalCallerException e) {
+                    System.out.println("Sensor " + name + " has not been registered inside the channel manager.");
+                } catch (NullPointerException e) {
+                    System.out.println("Sensor " + name + " has no more available channels.");
                 }
             }
 
@@ -113,7 +119,7 @@ public class SensorApi extends Api{
                 "}"
         )
             .addVariable("sensor", sensor.getName())
-            .addVariable("value", sensor.updateAndGet())
+            .addVariable("value", sensor.getCachedValue())
             .addVariable("greenhouseId", greenhouse.getId());
 
         // Build API request
@@ -126,12 +132,12 @@ public class SensorApi extends Api{
         // Send HTTP requests to API base URL and get response
         final ApiResponse response = sendRequest(request);
 
-        // Check if response is valid
+        // check if request was successful
         if (!response.isSuccess) {
-            // Check if response is a GraphQL error
-            if (response.isGraphQLResponseError()) {
-                throw new ProxyRequestFailException(response);
-            }
+            throw new ProxyRequestFailException(response);
+        } else if (response.isGraphQLResponseError()) {
+            ApiResponse copy = new ApiResponse(true, "Cannot save data. !MAYBE! There is any plant placed in that position", response.data.toString());
+            throw new ProxyRequestFailException(copy);
         }
     }
 }
