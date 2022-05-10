@@ -40,7 +40,7 @@ public class ADC {
      * @return The value of the specified ADC channel.
      * @throws IOException If the SPI interface cannot be opened.
      */
-    public int read(int channel) throws IOException {
+    public synchronized int read(int channel) throws IOException {
         // Check if channel is valid, otherwise throw an exception.
         if (channel < 0 || channel > ADC_CHANNEL_COUNT) {
             throw new IllegalArgumentException("Invalid channel number");
@@ -55,8 +55,6 @@ public class ADC {
 
         // send data to the MCP3008 via the SPI bus
         byte[] result = spi.write(data);
-        // Print result length
-        System.out.println("Result length: " + result.length);
 
         // Convert the result to an integer
         return (result[2] & 0xFF) | ((result[1] & 0xFF) << 8) | ((result[0] & 0x0F) << 16);
