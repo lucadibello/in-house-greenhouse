@@ -31,22 +31,58 @@ export const DataMutation = extendType({
           description: 'Greenhouse ID'
         }))
       },
-      resolve(_, args, context) {
+      resolve: async (_, args, context) => {
         // Check if user is authenticated using access token or greenhouse's temporary token
         if (!isLoggedIn(context.req)) {
           if (!isLoggedIn(context.req, true)) {
             throw new AuthenticationError('You must send a valid greenhouse temporary token')
           }
         }
-        
-        // Save data inside DB
-        return context.prisma.data.create({
-          data: {
-            sensor: args.sensor,
-            value: args.value,
-            greenhouseId: args.greenhouseId
+
+        // Save data inside database only if in the passed greenhouse (fetched using greenhouseId) there are plants in the same
+        // position as the sensor
+        const greenhouse = await context.prisma.greenhouse.findFirst({
+          where: {
+            id: args.greenhouseId
           }
         })
+        // check if greenhouse exists
+        if (!greenhouse) {
+          throw new UserInputError('No greenhouse found with the given ID')
+        }
+
+        // Get sensor from database
+        const sensor = await context.prisma.sensor.findFirst({
+          where: {
+            name: args.sensor
+          }
+        })
+        // check if sensor exists
+        if (!sensor) {
+          throw new UserInputError('No sensor found with the given name')
+        }
+
+        // check if there is at least a plant in the greenhouse in the same position as the sensor
+        const plant = await context.prisma.plant.findFirst({
+          where: {
+            greenhouseId: args.greenhouseId,
+            positionType: sensor.positionType
+          }
+        })
+
+        // Save data inside database only if at least a plant has been retrived
+        if (plant) {
+          // Save data inside DB
+          return context.prisma.data.create({
+            data: {
+              sensor: args.sensor,
+              value: args.value,
+              greenhouseId: args.greenhouseId
+            }
+          })
+        } else {
+          throw new UserInputError('No plant found in the same position as the sensor');
+        }
       }
     })
   }
