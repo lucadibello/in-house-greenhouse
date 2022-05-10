@@ -65,8 +65,6 @@ export const AuthMutation = extendType({
           }
         } catch (e: any) {
           // Add console.log to see error
-          console.log(e)
-
           return {
             token: null,
             accessToken: null,

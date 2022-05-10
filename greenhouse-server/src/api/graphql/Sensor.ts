@@ -30,7 +30,9 @@ export const SensorQuery = extendType({
       resolve(_, args, context) {
         // Check if user is authenticated
         if (!isLoggedIn(context.req)) {
-          throw new AuthenticationError('You must be logged in to perform this action')
+          if (!isLoggedIn(context.req, true)) {
+            throw new AuthenticationError('You must send a valid greenhouse temporary token')
+          }
         }
 
         return context.prisma.sensor.findMany();

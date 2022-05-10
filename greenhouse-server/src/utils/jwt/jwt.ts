@@ -111,7 +111,6 @@ export class JWT {
         return null
       }
     } catch (err) {
-      console.log(err)
       return null
     }
   }
@@ -124,7 +123,6 @@ export class JWT {
     try {
       return verify(token, this.greenhouseSecret) as Greenhouse
     } catch (err) {
-      console.log(err)
       return null
     }
   }

@@ -28,8 +28,10 @@
     "nexus": "1.2.0"
   },
   "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^9.0.3",
     "@types/node": "16.11.26",
     "prisma": "3.10.0",
+    "prisma-erd-generator": "^0.11.0",
     "ts-node": "10.5.0",
     "ts-node-dev": "1.1.8",
     "typescript": "4.5.5"
