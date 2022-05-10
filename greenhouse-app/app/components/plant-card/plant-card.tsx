@@ -5,6 +5,7 @@ import { Button, Card, Divider, Icon, Text } from "@ui-kitten/components"
 import { Plant } from "../../models/plant/plant";
 import { palette } from "../../theme/palette";
 import Ripple from "react-native-material-ripple";
+import { useStores } from "../../models";
 
 export interface PlantCardProps {
   plant: Plant;
@@ -21,12 +22,31 @@ export interface PlantCardProps {
 export const PlantCard = observer(function (props: PlantCardProps) {
   // React state for collapsible plant information
   const [expanded, setExpanded] = React.useState(false);
+  const [soilMoisture, setSoilMoisture] = React.useState(0);
+
+  // use store
+  const { dataStore } = useStores();
 
   // calculate life of plant
   const startDate = new Date(props.plant.created_at)
   const currentDate = new Date()
   const hoursDiff = ((currentDate.getTime() - startDate.getTime()) / 1000 / 60 / 60).toFixed(1);
   const animatedHeight = React.useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    // Create DataApi service
+    dataStore.getPlantData(props.plant).then(() => {
+      // Check if plant has data
+      if (dataStore.data.length > 0) {
+        // Get last data point
+        setSoilMoisture(dataStore.data[dataStore.data.length - 1].value);
+    } else {
+        // Plant has no data
+        setSoilMoisture(-1);
+      }      
+    })
+  }, [dataStore.data])
+
 
   React.useEffect(() => {
       Animated.spring(animatedHeight, {
@@ -41,7 +61,7 @@ export const PlantCard = observer(function (props: PlantCardProps) {
         <View style={props.style}>
           <Card
             style={styles.card}
-            status='info'
+            status={soilMoisture > 100 ? "danger" : "success"}
           >
             <Ripple style={styles.fullWidth} rippleCentered={true} rippleColor={"rgb(169,151,223)"} onPress={() => {
               setExpanded(!expanded);
@@ -80,7 +100,9 @@ export const PlantCard = observer(function (props: PlantCardProps) {
                 {/* Plant soil moisture */}
                 <View style={styles.row}>
                   <Text style={styles.cardText}>Soil moisture</Text>
-                  <Text category='label' style={styles.cardText}>13%</Text>
+                  <Text category='label' style={[styles.cardText, soilMoisture > 100 ? styles.soilMoistureError : null ]}>
+                    {soilMoisture > 100 ? "ERROR" : soilMoisture + "%"}
+                  </Text>
                 </View>
                 
                 {/* Edit / Delete Buttons */}
@@ -201,5 +223,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: "100%",
+  },
+  soilMoistureError: {
+    color: palette.angry
   },
 });
