@@ -73,6 +73,7 @@ public class Channels {
 
     /**
      * Set the maximum number of channels.
+     * @param numberOfChannels the number of channels
      */
     public void changeMaxNumberOfChannels(int numberOfChannels) {
         maxChannels = numberOfChannels;

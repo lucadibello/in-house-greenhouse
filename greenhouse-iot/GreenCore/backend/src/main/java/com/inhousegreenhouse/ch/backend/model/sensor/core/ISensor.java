@@ -33,6 +33,7 @@ public interface ISensor<T extends Number> {
 
     /**
      * Return sensor channel
+     * @return sensor channel
      */
     int getChannel();
 }
