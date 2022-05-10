@@ -42,8 +42,7 @@ public class SensorObserver<T extends ISensor<?>> implements Runnable {
      */
     @Override
     public void run() {
-        System.out.println("[Thread Orchestrator] " +
-                threadIdentifier + ": Started sensor observer for sensor " + sensor.getName());
+        System.out.println("[Thread Orchestrator] " + threadIdentifier + " [CH. " + sensor.getChannel() +": Started sensor observer for sensor " + sensor.getName());
 
         while (MonitoringOrchestrator.isRunning) {
             // Wait a certain amount of time
@@ -51,8 +50,6 @@ public class SensorObserver<T extends ISensor<?>> implements Runnable {
                 Thread.sleep(config.getTimeBetweenChecks());
             } catch (InterruptedException ignored) {
             }
-
-            System.out.println("Checking sensor " + sensor.getName() + " ...");
 
             // Record data
             try {
@@ -62,7 +59,7 @@ public class SensorObserver<T extends ISensor<?>> implements Runnable {
                 // Record data
                 recordData();
             } catch (ProxyRequestFailException e) {
-                System.out.println("[Thread Orchestrator] " + threadIdentifier + ": Error while recording data inside DB." + e.getResponse().errorMessage);
+                System.out.println("[Thread Orchestrator] " + threadIdentifier + ": Error while recording data inside DB. ERROR=" + e.getResponse().errorMessage);
             } catch (SpiCannotBeInitializedException e) {
                 e.printStackTrace();
             }
