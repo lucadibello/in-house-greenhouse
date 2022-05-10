@@ -2,6 +2,7 @@ package com.inhousegreenhouse.ch.app.core.sequence;
 
 import com.inhousegreenhouse.ch.backend.controller.GreenhouseController;
 import com.inhousegreenhouse.ch.backend.controller.SensorController;
+import com.inhousegreenhouse.ch.backend.exception.CriticalGreenhouseError;
 import com.inhousegreenhouse.ch.backend.exception.GreenhouseNotInitializedException;
 import com.inhousegreenhouse.ch.backend.exception.SpiCannotBeInitializedException;
 import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorList;
@@ -29,9 +30,10 @@ public class StartupSequence extends Sequence implements IGreenhouseSequence {
 
     /**
      * Starts the monitoring system.
+     * @throws CriticalGreenhouseError if the monitoring system cannot be started.
      */
     @Override
-    public void run() {
+    public void run() throws CriticalGreenhouseError {
         System.out.println("-- S T A R T U P\t S E Q U E N C E --");
         System.out.println("[!] Starting up In-House Greenhouse system...");
         try {
@@ -60,6 +62,24 @@ public class StartupSequence extends Sequence implements IGreenhouseSequence {
             System.out.println("[!] \t - Temperature sensor: " + sensors.getTemperatureSensors().size());
             System.out.println("[!] \t - Humidity sensor: " + sensors.getHumiditySensors().size());
             System.out.println("[!] \t - Moisture sensor: " + sensors.getMoistureSensors().size());
+
+            // Check if any sensor has been loaded
+            if (sensors.size() == 0) {
+                // Error: no sensor loaded
+                System.out.println("[!] Any sensor has been loaded. Restarting startup phase in 10 seconds...");
+
+                // FIXME: Try to detect if docker is running
+                // FIXME: Then, check if the proxy is running
+                // FIXME: Then, check if the proxy is running
+
+                // Wait for 10 seconds
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                }
+                // Restart startup sequence
+                throw new CriticalGreenhouseError("No sensor has been loaded.");
+            }
 
             // Start the monitoring system
             System.out.println();
