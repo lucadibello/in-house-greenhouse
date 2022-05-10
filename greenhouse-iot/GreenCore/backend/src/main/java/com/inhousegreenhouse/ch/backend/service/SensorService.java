@@ -1,7 +1,6 @@
 package com.inhousegreenhouse.ch.backend.service;
 
-import com.inhousegreenhouse.ch.backend.exception.RepositoryLoadException;
-import com.inhousegreenhouse.ch.backend.model.sensor.SensorList;
+import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorList;
 import com.inhousegreenhouse.ch.backend.repository.SensorRepository;
 
 /**

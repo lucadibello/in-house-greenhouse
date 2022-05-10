@@ -3,7 +3,8 @@ package com.inhousegreenhouse.ch.app.core.sequence;
 import com.inhousegreenhouse.ch.backend.controller.GreenhouseController;
 import com.inhousegreenhouse.ch.backend.controller.SensorController;
 import com.inhousegreenhouse.ch.backend.exception.GreenhouseNotInitializedException;
-import com.inhousegreenhouse.ch.backend.model.sensor.SensorList;
+import com.inhousegreenhouse.ch.backend.exception.SpiCannotBeInitializedException;
+import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorList;
 import com.inhousegreenhouse.ch.backend.model.util.Greenhouse;
 import com.inhousegreenhouse.ch.backend.orchestrator.MonitoringConfig;
 import com.inhousegreenhouse.ch.backend.orchestrator.MonitoringOrchestrator;
@@ -70,6 +71,8 @@ public class StartupSequence extends Sequence implements IGreenhouseSequence {
 
         } catch (GreenhouseNotInitializedException ex) {
             throw new RuntimeException("FATAL ERROR. Setup sequence failed to initialize greenhouse");
+        } catch (SpiCannotBeInitializedException e) {
+            throw new RuntimeException("FATAL ERROR. SPI cannot be initialized");
         }
     }
 }

@@ -1,7 +1,12 @@
 package com.inhousegreenhouse.ch.backend.model.api;
 
 import com.inhousegreenhouse.ch.backend.exception.ProxyRequestFailException;
+import com.inhousegreenhouse.ch.backend.exception.SpiCannotBeInitializedException;
+import com.inhousegreenhouse.ch.backend.model.sensor.converter.ADC;
 import com.inhousegreenhouse.ch.backend.model.sensor.*;
+import com.inhousegreenhouse.ch.backend.model.sensor.core.ISensor;
+import com.inhousegreenhouse.ch.backend.model.sensor.core.Position;
+import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorType;
 import com.inhousegreenhouse.ch.backend.model.util.GraphQLQuery;
 import com.inhousegreenhouse.ch.backend.model.util.Greenhouse;
 import org.json.JSONArray;
@@ -17,10 +22,12 @@ public class SensorApi extends Api{
 
     /**
      * Get all sensors from the API.
+     * @param greenhouse The greenhouse where the sensor are attached to.
+     * @param adc The AdC to use to read the sensor.
      * @return List of all sensors.
      * @throws ProxyRequestFailException If the request fails.
      */
-    public List<ISensor<? extends Number>> getSensors(Greenhouse greenhouse) throws ProxyRequestFailException {
+    public List<ISensor<? extends Number>> getSensors(Greenhouse greenhouse, ADC adc) throws ProxyRequestFailException {
         // Build GraphQL query
         final GraphQLQuery query = new GraphQLQuery(
                 "query Sensors {",
@@ -63,13 +70,19 @@ public class SensorApi extends Api{
                     // Check type of sensor
                     if (typeEnum == SensorType.TEMPERATURE) {
                         // Create temperature sensor
-                        sensors.add(new TemperatureSensor(name, 0));
+
+                        // FIXME: Set channel automatically
+                        sensors.add(new TemperatureSensor(name, 0, adc, 1));
                     } else if (typeEnum == SensorType.HUMIDITY) {
                         // Create humidity sensor
-                        sensors.add(new HumiditySensor(name, 0));
+
+                        // FIXME: Set channel automatically
+                        sensors.add(new HumiditySensor(name, 0, adc, 1));
                     } else if (typeEnum == SensorType.SOIL_MOISTURE) {
                         // Create soil moisture sensor
-                        sensors.add(new MoistureSensor(name, positionEnum,0));
+
+                        // FIXME: Set channel automatically
+                        sensors.add(new MoistureSensor(name, positionEnum,0, adc, 1));
                     } else {
                         // Unsupported sensor type
                         System.out.printf(
@@ -90,7 +103,7 @@ public class SensorApi extends Api{
         }
     }
 
-    public void recordData (ISensor<? extends Number> sensor, Greenhouse greenhouse) throws ProxyRequestFailException {
+    public void recordData (ISensor<? extends Number> sensor, Greenhouse greenhouse) throws ProxyRequestFailException, SpiCannotBeInitializedException {
         // Build GraphQL query
         final GraphQLQuery query = new GraphQLQuery(
                 "mutation RecordData($sensor: String!, $value: Float!, $greenhouseId: String!) {",
@@ -100,7 +113,7 @@ public class SensorApi extends Api{
                 "}"
         )
             .addVariable("sensor", sensor.getName())
-            .addVariable("value", sensor.getValue())
+            .addVariable("value", sensor.updateAndGet())
             .addVariable("greenhouseId", greenhouse.getId());
 
         // Build API request
