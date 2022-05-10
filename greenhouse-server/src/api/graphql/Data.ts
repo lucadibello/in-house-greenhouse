@@ -66,7 +66,8 @@ export const DataMutation = extendType({
         const plant = await context.prisma.plant.findFirst({
           where: {
             greenhouseId: args.greenhouseId,
-            positionType: sensor.positionType
+            positionType: sensor.positionType,
+            isDeleted: false
           }
         })
 
@@ -125,8 +126,7 @@ export const DataQuery = extendType({
         // Fetch information related to the plant
         const plant = await context.prisma.plant.findFirst({
           where: { 
-            id: args.plantId,
-            isDeleted: false
+            id: args.plantId
           }
         });
 
