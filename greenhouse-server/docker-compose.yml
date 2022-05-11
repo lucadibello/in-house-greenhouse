@@ -1,6 +1,6 @@
 version: '3'
 services:
-  postgres:
+  greehouse-db:
     image: postgres:11.10
     ports:
       - "55432:5432"
@@ -8,3 +8,13 @@ services:
       POSTGRES_PASSWORD: i-love-plants
       POSTGRES_USER: greenhouse
       POSTGRES_DB: greenhouse
+  greenhouse-api:
+    restart: unless-stopped
+    container_name: greenhouse-api
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - ${API_SERVER_PORT}:${API_SERVER_PORT}
+    depends_on:
+      - greehouse-db
