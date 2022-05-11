@@ -14,7 +14,7 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    command: "npx prisma db push || npx prisma seed; yarn start"
+    command: sh -c "npx prisma db push; npx prisma db seed; yarn start"
     ports:
       - ${API_SERVER_PORT}:${API_SERVER_PORT}
     depends_on:
