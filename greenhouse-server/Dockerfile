@@ -23,6 +23,3 @@ COPY .env .env
 
 # Build project
 RUN yarn build
-
-# Run the app
-CMD ["yarn","start"]
