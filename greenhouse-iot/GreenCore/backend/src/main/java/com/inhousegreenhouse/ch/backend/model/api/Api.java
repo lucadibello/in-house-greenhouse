@@ -16,7 +16,7 @@ public abstract class Api {
     /**
      * The base URL of the API.
      */
-    private final String BASE_URL = "http://localhost:6864/greenproxy";
+    private final String BASE_URL = "http://0.0.0.0:6864/greenproxy";
 
     /**
      * Send a GraphQL query to the API.
