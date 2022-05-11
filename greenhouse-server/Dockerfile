@@ -24,8 +24,5 @@ COPY .env .env
 # Build project
 RUN yarn build
 
-# Seed database
-RUN npx prisma db seed
-
 # Run the app
 CMD ["yarn","start"]
