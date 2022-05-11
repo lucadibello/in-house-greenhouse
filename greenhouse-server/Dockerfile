@@ -1,10 +1,8 @@
 # syntax=docker/dockerfile:1
 
-
 #
 # Build stage
 #
-
 FROM node:18-alpine as builder
 
 # Create base file structure
@@ -28,5 +26,3 @@ RUN yarn build
 
 # Run the app
 CMD ["yarn","start"]
-
-
