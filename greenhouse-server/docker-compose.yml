@@ -4,6 +4,7 @@ services:
     image: postgres:11.10
     ports:
       - "55432:5432"
+    container_name: greenhouse-db
     environment:
       POSTGRES_PASSWORD: i-love-plants
       POSTGRES_USER: greenhouse
