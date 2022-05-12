@@ -42,9 +42,6 @@ public class Api {
                 HttpResponse.BodyHandlers.ofString()
             );
 
-            // Print the response body
-            System.out.println(response.body());
-
             // Convert the response to a JSON object.
             JSONObject json = new JSONObject(response.body());
 
