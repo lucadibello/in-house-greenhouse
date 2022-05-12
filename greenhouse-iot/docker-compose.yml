@@ -14,5 +14,7 @@ services:
     build:
       context: ./GreenCore
       dockerfile: ./Dockerfile
+    depends_on:
+      - proxy
     ports:
       - 4686:4686
