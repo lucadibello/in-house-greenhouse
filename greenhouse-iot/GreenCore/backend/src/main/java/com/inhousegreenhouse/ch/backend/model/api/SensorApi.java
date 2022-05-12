@@ -55,9 +55,6 @@ public class SensorApi extends Api {
         // Send HTTP requests to API base URL and get response
         final ApiResponse response = sendRequest(request);
 
-        // Parse response
-        System.out.println(response.data);
-
         // Check if response is valid
         if (response.isSuccess) {
             // Create empty list of sensors
