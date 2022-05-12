@@ -1,6 +1,6 @@
 version: '3'
 services:
-  greehouse-db:
+  greenhouse-db:
     image: postgres:11.10
     ports:
       - "55432:5432"
@@ -19,9 +19,4 @@ services:
     ports:
       - ${API_SERVER_PORT}:${API_SERVER_PORT}
     depends_on:
-      - greehouse-db
-
-networks:
-  default:
-    external:
-      name: external-api-server-network 
+      - greenhouse-db
