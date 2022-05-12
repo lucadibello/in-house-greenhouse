@@ -32,7 +32,7 @@ public class SensorService {
             // Return sensor list
             return sensorRepository.getGreenhouseSensors();
         } catch (Exception e) {
-            System.out.println("Error loading sensors from database. Creating an empty list");
+            System.out.println("Error loading sensors from database. Creating an empty list: " + e.getMessage());
             return new SensorList();
         }
     }

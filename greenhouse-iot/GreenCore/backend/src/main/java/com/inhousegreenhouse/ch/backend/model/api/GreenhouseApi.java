@@ -19,7 +19,8 @@ public class GreenhouseApi extends Api {
      * Constructor for GreenhouseApi.
      * @param userToken The access token needed to access the Greenhouse API.
      */
-    public GreenhouseApi(String userToken) {
+    public GreenhouseApi(String userToken, String proxyURL) {
+        super(proxyURL);
         this.USER_TOKEN = userToken;
     }
 

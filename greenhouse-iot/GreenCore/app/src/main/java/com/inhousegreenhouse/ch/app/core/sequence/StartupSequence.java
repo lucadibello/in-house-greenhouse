@@ -10,6 +10,8 @@ import com.inhousegreenhouse.ch.backend.model.util.Greenhouse;
 import com.inhousegreenhouse.ch.backend.orchestrator.MonitoringConfig;
 import com.inhousegreenhouse.ch.backend.orchestrator.MonitoringOrchestrator;
 
+import java.util.Properties;
+
 /**
  * This class is responsible for starting the monitoring system.
  */
@@ -21,11 +23,17 @@ public class StartupSequence extends Sequence implements IGreenhouseSequence {
     private final GreenhouseController greenhouseController;
 
     /**
+     * Settings for the GreenCore system.
+     */
+    private final Properties settings;
+
+    /**
      * Constructor.
      */
-    public StartupSequence() {
+    public StartupSequence(Properties settings) {
         super("START_UP_SEQUENCE");
-        greenhouseController = new GreenhouseController();
+        greenhouseController = new GreenhouseController(settings);
+        this.settings = settings;
     }
 
     /**
@@ -49,7 +57,7 @@ public class StartupSequence extends Sequence implements IGreenhouseSequence {
             System.out.println();
 
             // Create sensor controller
-            SensorController sensorController = new SensorController(greenhouse);
+            SensorController sensorController = new SensorController(greenhouse, settings);
 
             // Read fetching sensors from API server
             System.out.println("[!] Fetching sensors from API server...");
@@ -84,7 +92,7 @@ public class StartupSequence extends Sequence implements IGreenhouseSequence {
             // Start the monitoring system
             System.out.println();
             System.out.println("[!] Starting monitor system orchestrator...");
-            MonitoringOrchestrator monitoringOrchestrator = new MonitoringOrchestrator(sensors);
+            MonitoringOrchestrator monitoringOrchestrator = new MonitoringOrchestrator(sensors, settings);
             monitoringOrchestrator.startMonitoring(
                 new MonitoringConfig(10000, greenhouse)
             );

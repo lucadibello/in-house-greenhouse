@@ -28,11 +28,17 @@ public class GreenhouseRepository implements IRepository {
     private final Path repositoryPath;
 
     /**
+     * The proxy URL
+     */
+    private final String proxyURL;
+
+    /**
      * Constructor.
      * @param repositoryPath The repository path.
      */
-    public GreenhouseRepository(String repositoryPath) {
+    public GreenhouseRepository(String repositoryPath, String proxyUrl) {
         this.repositoryPath = Paths.get(repositoryPath);
+        this.proxyURL = proxyUrl;
     }
 
     /**
@@ -126,7 +132,7 @@ public class GreenhouseRepository implements IRepository {
      * @throws RepositoryLoadException If the repository is not initialized.
      */
     public void addGreenhouse (String name, String description, String userToken) throws ProxyRequestFailException, RepositoryLoadException {
-        GreenhouseApi api = new GreenhouseApi(userToken);
+        GreenhouseApi api = new GreenhouseApi(userToken, proxyURL);
         this.greenhouse = api.registerGreenhouse(name, description);
 
         System.out.println("[!] Greenhouse registered successfully!");

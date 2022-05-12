@@ -8,7 +8,6 @@ import com.inhousegreenhouse.ch.backend.model.sensor.core.AnalogSensor;
 import com.inhousegreenhouse.ch.backend.model.sensor.core.ISensor;
 import com.inhousegreenhouse.ch.backend.model.sensor.core.Position;
 import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorType;
-import com.inhousegreenhouse.ch.backend.model.util.Channels;
 import com.inhousegreenhouse.ch.backend.model.util.GraphQLQuery;
 import com.inhousegreenhouse.ch.backend.model.util.Greenhouse;
 import org.json.JSONArray;
@@ -21,6 +20,11 @@ import java.util.List;
  * SensorApi is a class that handles all requests to the Sensor API.
  */
 public class SensorApi extends Api {
+
+    public SensorApi(String proxyUrl) {
+        // Print proxy URl
+        super(proxyUrl);
+    }
 
     /**
      * Get all sensors from the API.
@@ -50,6 +54,9 @@ public class SensorApi extends Api {
 
         // Send HTTP requests to API base URL and get response
         final ApiResponse response = sendRequest(request);
+
+        // Parse response
+        System.out.println(response.data);
 
         // Check if response is valid
         if (response.isSuccess) {

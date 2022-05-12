@@ -5,6 +5,8 @@ import com.inhousegreenhouse.ch.backend.exception.SpiCannotBeInitializedExceptio
 import com.inhousegreenhouse.ch.backend.model.api.SensorApi;
 import com.inhousegreenhouse.ch.backend.model.sensor.core.ISensor;
 
+import java.util.Properties;
+
 /**
  * The sensor observer is the interface that is used to observe the sensor.
  * @param <T> The type of the sensor that will be observed.
@@ -26,15 +28,23 @@ public class SensorObserver<T extends ISensor<?>> implements Runnable {
     private final String threadIdentifier;
 
     /**
+     * GreenCore proxy URL
+     */
+    private final String proxyURL;
+
+    /**
      * Constructor.
      * @param config The monitoring configuration.
      * @param sensor The sensor to observe.
      * @param threadIdentifier The thread identifier.
      */
-    public SensorObserver(MonitoringConfig config, T sensor, String threadIdentifier) {
+    public SensorObserver(MonitoringConfig config, T sensor, String threadIdentifier, Properties greenhouseSettings) {
         this.config = config;
         this.sensor = sensor;
         this.threadIdentifier = threadIdentifier;
+
+        // Build proxy URL using host and port
+        this.proxyURL = "http://" + greenhouseSettings.getProperty("greencore.proxy.host") + ":" + greenhouseSettings.getProperty("greencore.proxy.port") + greenhouseSettings.getProperty("greencore.proxy.route");
     }
 
     /**
@@ -73,7 +83,7 @@ public class SensorObserver<T extends ISensor<?>> implements Runnable {
      */
     private void recordData () throws ProxyRequestFailException, SpiCannotBeInitializedException {
         // Create sensor api
-        SensorApi sensorApi = new SensorApi();
+        SensorApi sensorApi = new SensorApi(proxyURL);
 
         // Record data
         sensorApi.recordData(sensor, config.getGreenhouse());

@@ -1,5 +1,6 @@
 package com.inhousegreenhouse.ch.backend.model.api;
 
+import com.inhousegreenhouse.ch.backend.exception.CriticalGreenhouseError;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -11,12 +12,16 @@ import java.net.http.HttpResponse;
 /**
  * This class is used to send requests to the GraphQL API.
  */
-public abstract class Api {
+public class Api {
 
     /**
      * The base URL of the API.
      */
-    private final String BASE_URL = "http://0.0.0.0:6864/greenproxy";
+    private final String BASE_URL;
+
+    public Api (String proxyUrl) {
+        BASE_URL = proxyUrl;
+    }
 
     /**
      * Send a GraphQL query to the API.
@@ -36,6 +41,9 @@ public abstract class Api {
                 request,
                 HttpResponse.BodyHandlers.ofString()
             );
+
+            // Print the response body
+            System.out.println(response.body());
 
             // Convert the response to a JSON object.
             JSONObject json = new JSONObject(response.body());

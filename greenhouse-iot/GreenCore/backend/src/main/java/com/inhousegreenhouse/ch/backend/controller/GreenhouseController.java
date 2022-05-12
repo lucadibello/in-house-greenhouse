@@ -6,6 +6,8 @@ import com.inhousegreenhouse.ch.backend.model.util.GreenhouseSetup;
 import com.inhousegreenhouse.ch.backend.repository.GreenhouseRepository;
 import com.inhousegreenhouse.ch.backend.service.GreenhouseService;
 
+import java.util.Properties;
+
 /**
  * Controller for the greenhouse.
  */
@@ -19,7 +21,7 @@ public class GreenhouseController {
     /**
      * Constructor.
      */
-    public GreenhouseController() {
+    public GreenhouseController(Properties settings) {
         // Get user home directory
         String homeDirectory = System.getProperty("user.home");
 
@@ -29,8 +31,11 @@ public class GreenhouseController {
         // Append a file called "greenhouse.json" to the user home directory
         greenRepo = greenRepo + "/greenhouse.json";
 
+        // Build proxy URL using host and port
+        String proxyUrl = "http://" + settings.getProperty("greencore.proxy.host") + ":" + settings.getProperty("greencore.proxy.port") + settings.getProperty("greencore.proxy.route");
+
         // Create a new GreenhouseService
-        this.greenhouseService = new GreenhouseService(new GreenhouseRepository(greenRepo));
+        this.greenhouseService = new GreenhouseService(new GreenhouseRepository(greenRepo, proxyUrl));
     }
 
     /**

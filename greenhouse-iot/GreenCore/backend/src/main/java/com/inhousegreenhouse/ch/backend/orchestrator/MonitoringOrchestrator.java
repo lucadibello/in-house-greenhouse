@@ -5,6 +5,7 @@ import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Sensor observers orchestrator required to monitor the greenhouse sensors.
@@ -25,12 +26,19 @@ public class MonitoringOrchestrator {
      */
     private final List<Thread> threadPool = new ArrayList<>();
 
+
+    /**
+     * Settings for the greencore system.
+     */
+    private final Properties settings;
+
     /**
      * Constructor.
      * @param sensorList List of sensors to monitor.
      */
-    public MonitoringOrchestrator(SensorList sensorList) {
+    public MonitoringOrchestrator(SensorList sensorList, Properties settings) {
         this.sensorList = sensorList;
+        this.settings = settings;
     }
 
     /**
@@ -59,15 +67,15 @@ public class MonitoringOrchestrator {
         // Create a thread pool
         int counter = 0;
         for (TemperatureSensor sensor : sensorList.getTemperatureSensors()) {
-            tempPool.add(new Thread(new SensorObserver<>(config, sensor, "TemperatureSensor-" + counter++)));
+            tempPool.add(new Thread(new SensorObserver<>(config, sensor, "TemperatureSensor-" + counter++, settings)));
         }
         counter = 0;
         for (HumiditySensor sensor : sensorList.getHumiditySensors()) {
-            tempPool.add(new Thread(new SensorObserver<>(config, sensor, "HumiditySensor-" + counter++)));
+            tempPool.add(new Thread(new SensorObserver<>(config, sensor, "HumiditySensor-" + counter++, settings)));
         }
         counter = 0;
         for (MoistureSensor sensor : sensorList.getMoistureSensors()) {
-            tempPool.add(new Thread(new SensorObserver<>(config, sensor, "MoistureSensor-" + counter++)));
+            tempPool.add(new Thread(new SensorObserver<>(config, sensor, "MoistureSensor-" + counter++, settings)));
         }
 
         // Return the thread pool

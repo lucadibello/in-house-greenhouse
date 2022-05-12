@@ -6,6 +6,8 @@ import com.inhousegreenhouse.ch.backend.helper.SetupHelper;
 import com.inhousegreenhouse.ch.backend.model.util.GreenhouseSetup;
 import com.inhousegreenhouse.ch.backend.helper.SetupHelper;
 
+import java.util.Properties;
+
 /**
  * This class is used to setup the greenhouse.
  */
@@ -19,9 +21,9 @@ public class SetupSequence extends Sequence implements IGreenhouseSequence{
     /**
      * Constructor.
      */
-    public SetupSequence() {
+    public SetupSequence(Properties settings) {
         super("SET_UP_SEQUENCE");
-        greenhouseController = new GreenhouseController();
+        greenhouseController = new GreenhouseController(settings);
     }
 
     /**

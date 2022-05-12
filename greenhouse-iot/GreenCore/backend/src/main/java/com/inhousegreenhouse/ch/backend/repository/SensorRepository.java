@@ -24,7 +24,7 @@ public class SensorRepository implements IRepository {
     /**
      * Sensor API object
      */
-    private final SensorApi api = new SensorApi();
+    private final SensorApi api ;
 
     /**
      * ADC object
@@ -36,9 +36,10 @@ public class SensorRepository implements IRepository {
      */
     private final Greenhouse greenhouse;
 
-    public SensorRepository (Greenhouse greenhouse, ADC adc) {
+    public SensorRepository (Greenhouse greenhouse, ADC adc, String proxyUrl) {
         this.greenhouse = greenhouse;
         this.adc = adc;
+        this.api = new SensorApi(proxyUrl);
     }
 
     /**

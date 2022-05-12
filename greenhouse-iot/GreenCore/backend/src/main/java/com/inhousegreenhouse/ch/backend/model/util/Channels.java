@@ -70,6 +70,13 @@ public class Channels {
         channels.put(type, channelList);
     }
 
+    /**
+     * Clear the registered channels
+     */
+    public void clear () {
+        this.channels.clear();
+    }
+
 
     /**
      * Set the maximum number of channels.

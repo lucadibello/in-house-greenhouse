@@ -9,6 +9,7 @@ import com.inhousegreenhouse.ch.app.core.sequence.IGreenhouseSequence;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Entry point for the In-House Greenhouse monitoring system.
@@ -19,6 +20,8 @@ public class GreenhouseManager {
      * List of all the sequences of the greenhouse life cycle.
      */
     private final List<IGreenhouseSequence> sequences;
+
+    public static Properties settings = null;
 
     /**
      * Constructor.
@@ -40,10 +43,34 @@ public class GreenhouseManager {
         // Create new instance of GreenhouseManager
         GreenhouseManager greenhouseManager = new GreenhouseManager();
 
-        // Add sequences to the list
+        // Try to load the properties file
+        Properties prop = new Properties();
+        try {
+            // Load properties and build the base URL.
+
+            //load a properties file from class path, inside static method
+            prop.load(GreenhouseManager.class.getClassLoader().getResourceAsStream("greencore.properties"));
+
+            // Check if the properties have been set
+            if (prop.getProperty("greencore.proxy.host") == null) {
+                // Throw exception to exit the program
+                throw new CriticalGreenhouseError("No proxy host set in the properties file.");
+            } else if (prop.getProperty("greencore.proxy.port") == null) {
+                // Throw exception to exit the program
+                throw new CriticalGreenhouseError("No proxy port set in the properties file.");
+            }
+        } catch (Exception e) {
+            // If an error occurs, print the error message and exit the program
+            SplashScreen.printCriticalError(new CriticalGreenhouseError("Error while loading properties file: " + e.getMessage()));
+
+            // Exit program
+            System.exit(1);
+        }
+
+        // Continue the life cycle
         greenhouseManager.addSequence(new SplashScreenSequence());
-        greenhouseManager.addSequence(new SetupSequence());
-        greenhouseManager.addSequence(new StartupSequence());
+        greenhouseManager.addSequence(new SetupSequence(prop));
+        greenhouseManager.addSequence(new StartupSequence(prop));
 
         // Start the sequences
         greenhouseManager.startSequences();

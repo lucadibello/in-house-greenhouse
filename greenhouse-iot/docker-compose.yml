@@ -14,6 +14,8 @@ services:
     build:
       context: ./GreenCore
       dockerfile: ./Dockerfile
+    environment:
+      - PROXY_URL=http://192.168.0.96:6864/greenproxy
     depends_on:
       - proxy
     ports:
