@@ -36,4 +36,16 @@ public interface ISensor<T extends Number> {
      * @return sensor channel
      */
     int getChannel();
+
+    /**
+     * Flag indicating whether the sensor is enabled.
+     * @return true if the sensor is enabled, false otherwise
+     */
+    boolean isEnabled();
+
+    /**
+     * Change sensor's state.
+     * @param enabled true if the sensor is enabled, false otherwise
+     */
+    void setEnabled(boolean enabled);
 }

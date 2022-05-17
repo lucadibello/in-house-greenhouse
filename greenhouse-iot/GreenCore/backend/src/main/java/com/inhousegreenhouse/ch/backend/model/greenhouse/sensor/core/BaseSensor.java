@@ -21,6 +21,11 @@ public abstract class BaseSensor<T extends Number> implements ISensor<T> {
     public final Position POSITION;
 
     /**
+     * Flag indicating if the sensor is active.
+     */
+    public boolean isEnabled = true;
+
+    /**
      * Set the sensor value.
       * @param nameId The sensor name.
      * @param sensorPosition The sensor position inside the greenhouse.
@@ -54,5 +59,21 @@ public abstract class BaseSensor<T extends Number> implements ISensor<T> {
      */
     public T getCachedValue() {
         return value;
+    }
+
+    /**
+     * Check if the sensor is currently enabled.
+     * @return True if the sensor is enabled, false otherwise.
+     */
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    /**
+     * Set the sensor enabled status.
+     * @param state The new status.
+     */
+    public void setEnabled(boolean state) {
+        this.isEnabled = state;
     }
 }

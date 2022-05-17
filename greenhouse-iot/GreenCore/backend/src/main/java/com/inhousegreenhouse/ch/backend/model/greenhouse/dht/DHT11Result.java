@@ -1,4 +1,4 @@
-package com.inhousegreenhouse.ch.backend.model.rasp.dht;
+package com.inhousegreenhouse.ch.backend.model.raspberry.dht;
 
 public class DHT11Result {
     // DHT11 sensor result returned by DHT11.read() method
