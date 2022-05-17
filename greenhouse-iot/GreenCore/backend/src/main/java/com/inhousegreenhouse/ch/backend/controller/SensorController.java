@@ -25,6 +25,7 @@ public class SensorController {
     /**
      * Constructor.
      * @param greenhouse Greenhouse where the sensors are attached.
+     * @param settings The loaded greenhouse settings.
      * @throws SpiCannotBeInitializedException If the SPI interface, needed to read the sensors, cannot be initialized.
      */
     public SensorController (Greenhouse greenhouse, Properties settings) throws SpiCannotBeInitializedException {

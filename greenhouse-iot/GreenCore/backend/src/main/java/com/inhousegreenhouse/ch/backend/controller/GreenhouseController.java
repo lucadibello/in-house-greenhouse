@@ -20,6 +20,7 @@ public class GreenhouseController {
 
     /**
      * Constructor.
+     * @param settings The loaded settings of the greenhouse.
      */
     public GreenhouseController(Properties settings) {
         // Get user home directory

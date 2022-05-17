@@ -20,6 +20,7 @@ public class SetupSequence extends Sequence implements IGreenhouseSequence{
 
     /**
      * Constructor.
+     * @param settings The loaded settings of the greenhouse.
      */
     public SetupSequence(Properties settings) {
         super("SET_UP_SEQUENCE");

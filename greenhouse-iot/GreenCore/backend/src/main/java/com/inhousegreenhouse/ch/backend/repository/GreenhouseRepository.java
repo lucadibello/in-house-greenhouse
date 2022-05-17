@@ -35,6 +35,7 @@ public class GreenhouseRepository implements IRepository {
     /**
      * Constructor.
      * @param repositoryPath The repository path.
+     * @param proxyUrl The URL of the proxy server.
      */
     public GreenhouseRepository(String repositoryPath, String proxyUrl) {
         this.repositoryPath = Paths.get(repositoryPath);

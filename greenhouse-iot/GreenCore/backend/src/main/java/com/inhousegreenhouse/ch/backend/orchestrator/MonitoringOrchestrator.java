@@ -54,6 +54,7 @@ public class MonitoringOrchestrator {
     /**
      * Constructor.
      * @param sensorList List of sensors to monitor.
+     * @param settings The loaded greenhouse settings.
      */
     public MonitoringOrchestrator(SensorList sensorList, Properties settings) {
         this.sensorList = sensorList;
@@ -84,6 +85,7 @@ public class MonitoringOrchestrator {
     /**
      * Start the monitoring orchestrator.
      * @param config Monitoring configuration.
+     * @param wateringSystem A reference to the watering system object.
      */
     public void startMonitoring (MonitoringConfig config, WateringSystem wateringSystem) {
         // Initialize the thread pool

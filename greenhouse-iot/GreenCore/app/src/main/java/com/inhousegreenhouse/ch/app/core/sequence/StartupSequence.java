@@ -31,6 +31,7 @@ public class StartupSequence extends Sequence implements IGreenhouseSequence {
 
     /**
      * Constructor.
+     * @param settings The loaded greenhouse settings.
      */
     public StartupSequence(Properties settings) {
         super("START_UP_SEQUENCE");
@@ -86,6 +87,7 @@ public class StartupSequence extends Sequence implements IGreenhouseSequence {
                 try {
                     Thread.sleep(10000);
                 } catch (InterruptedException e) {
+                    System.out.println("[!] Sleep interrupted");
                 }
                 // Restart startup sequence
                 throw new CriticalGreenhouseError("No sensor has been loaded.");

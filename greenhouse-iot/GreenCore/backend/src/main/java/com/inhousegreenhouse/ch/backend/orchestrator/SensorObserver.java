@@ -34,6 +34,7 @@ public class SensorObserver<T extends ISensor<? extends Number>> implements Runn
      *
      * @param config           The monitoring configuration.
      * @param sensor           The sensor to observe.
+     * @param greenhouseSettings The loaded greenhouse settings.
      */
     public SensorObserver(MonitoringConfig config, T sensor, Properties greenhouseSettings) {
         this.config = config;
