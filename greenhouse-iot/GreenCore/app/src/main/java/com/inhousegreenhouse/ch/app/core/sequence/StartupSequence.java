@@ -5,10 +5,12 @@ import com.inhousegreenhouse.ch.backend.controller.SensorController;
 import com.inhousegreenhouse.ch.backend.exception.CriticalGreenhouseError;
 import com.inhousegreenhouse.ch.backend.exception.GreenhouseNotInitializedException;
 import com.inhousegreenhouse.ch.backend.exception.SpiCannotBeInitializedException;
-import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorList;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core.SensorList;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.watering.WateringSystem;
 import com.inhousegreenhouse.ch.backend.model.util.Greenhouse;
 import com.inhousegreenhouse.ch.backend.orchestrator.MonitoringConfig;
 import com.inhousegreenhouse.ch.backend.orchestrator.MonitoringOrchestrator;
+import com.pi4j.io.gpio.RaspiPin;
 
 import java.util.Properties;
 
@@ -89,14 +91,17 @@ public class StartupSequence extends Sequence implements IGreenhouseSequence {
                 throw new CriticalGreenhouseError("No sensor has been loaded.");
             }
 
+            // Create watering system controller
+            WateringSystem wateringSystem = new WateringSystem(RaspiPin.GPIO_17);
+
             // Start the monitoring system
             System.out.println();
             System.out.println("[!] Starting monitor system orchestrator...");
             MonitoringOrchestrator monitoringOrchestrator = new MonitoringOrchestrator(sensors, settings);
             monitoringOrchestrator.startMonitoring(
-                new MonitoringConfig(10000, greenhouse)
+                new MonitoringConfig(10000, greenhouse),
+                wateringSystem
             );
-
         } catch (GreenhouseNotInitializedException ex) {
             throw new RuntimeException("FATAL ERROR. Setup sequence failed to initialize greenhouse");
         } catch (SpiCannotBeInitializedException e) {
