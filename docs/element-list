@@ -5,10 +5,11 @@ com.inhousegreenhouse.ch.backend.controller
 com.inhousegreenhouse.ch.backend.exception
 com.inhousegreenhouse.ch.backend.helper
 com.inhousegreenhouse.ch.backend.model.api
-com.inhousegreenhouse.ch.backend.model.rasp.dht
-com.inhousegreenhouse.ch.backend.model.sensor
-com.inhousegreenhouse.ch.backend.model.sensor.converter
-com.inhousegreenhouse.ch.backend.model.sensor.core
+com.inhousegreenhouse.ch.backend.model.greenhouse.converter
+com.inhousegreenhouse.ch.backend.model.greenhouse.dht
+com.inhousegreenhouse.ch.backend.model.greenhouse.sensor
+com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core
+com.inhousegreenhouse.ch.backend.model.greenhouse.watering
 com.inhousegreenhouse.ch.backend.model.util
 com.inhousegreenhouse.ch.backend.orchestrator
 com.inhousegreenhouse.ch.backend.repository
