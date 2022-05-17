@@ -21,8 +21,6 @@ public class GreenhouseManager {
      */
     private final List<IGreenhouseSequence> sequences;
 
-    public static Properties settings = null;
-
     /**
      * Constructor.
      */
@@ -58,6 +56,15 @@ public class GreenhouseManager {
             } else if (prop.getProperty("greencore.proxy.port") == null) {
                 // Throw exception to exit the program
                 throw new CriticalGreenhouseError("No proxy port set in the properties file.");
+            } else if (prop.getProperty("greencore.proxy.route") == null) {
+                // Throw exception to exit the program
+                throw new CriticalGreenhouseError("No proxy route set in the properties file.");
+            } else if (prop.getProperty("greencore.watering.wateringTimeMillisecond") == null) {
+                // Throw exception to exit the program
+                throw new CriticalGreenhouseError("No watering time set in the properties file.");
+            } else if (prop.getProperty("greencore.watering.minHumidityBeforeWatering") == null) {
+                // Throw exception to exit the program
+                throw new CriticalGreenhouseError("No minimum humidity before watering set in the properties file.");
             }
         } catch (Exception e) {
             // If an error occurs, print the error message and exit the program
