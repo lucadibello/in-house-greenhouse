@@ -1,11 +1,10 @@
 package com.inhousegreenhouse.ch.backend.controller;
 
 import com.inhousegreenhouse.ch.backend.exception.SpiCannotBeInitializedException;
-import com.inhousegreenhouse.ch.backend.model.sensor.converter.ADC;
-import com.inhousegreenhouse.ch.backend.model.sensor.core.AnalogSensor;
-import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorList;
-import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorType;
-import com.inhousegreenhouse.ch.backend.model.util.Channels;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.converter.ADC;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core.AnalogSensor;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core.SensorList;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core.SensorType;
 import com.inhousegreenhouse.ch.backend.model.util.Greenhouse;
 import com.inhousegreenhouse.ch.backend.repository.SensorRepository;
 import com.inhousegreenhouse.ch.backend.service.SensorService;

@@ -1,9 +1,9 @@
-package com.inhousegreenhouse.ch.backend.model.sensor;
+package com.inhousegreenhouse.ch.backend.model.greenhouse.sensor;
 
 import com.inhousegreenhouse.ch.backend.exception.SpiCannotBeInitializedException;
-import com.inhousegreenhouse.ch.backend.model.sensor.converter.ADC;
-import com.inhousegreenhouse.ch.backend.model.sensor.core.AnalogSensor;
-import com.inhousegreenhouse.ch.backend.model.sensor.core.Position;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.converter.ADC;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core.AnalogSensor;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core.Position;
 
 /**
  * TemperatureSensor class defines a temperature sensor.

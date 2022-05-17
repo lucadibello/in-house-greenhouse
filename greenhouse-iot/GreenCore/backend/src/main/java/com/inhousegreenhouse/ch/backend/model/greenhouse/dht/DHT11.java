@@ -1,4 +1,4 @@
-package com.inhousegreenhouse.ch.backend.model.raspberry.dht;
+package com.inhousegreenhouse.ch.backend.model.greenhouse.dht;
 
 import com.pi4j.io.gpio.*;
 import com.pi4j.wiringpi.Gpio;

@@ -3,10 +3,12 @@ package com.inhousegreenhouse.ch.backend.repository;
 import com.inhousegreenhouse.ch.backend.exception.ProxyRequestFailException;
 import com.inhousegreenhouse.ch.backend.exception.RepositoryLoadException;
 import com.inhousegreenhouse.ch.backend.model.api.SensorApi;
-import com.inhousegreenhouse.ch.backend.model.sensor.converter.ADC;
-import com.inhousegreenhouse.ch.backend.model.sensor.*;
-import com.inhousegreenhouse.ch.backend.model.sensor.core.ISensor;
-import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorList;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.converter.ADC;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.HumiditySensor;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.MoistureSensor;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.TemperatureSensor;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core.ISensor;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core.SensorList;
 import com.inhousegreenhouse.ch.backend.model.util.Greenhouse;
 
 import java.util.List;

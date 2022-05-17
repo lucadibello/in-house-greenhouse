@@ -1,6 +1,6 @@
-package com.inhousegreenhouse.ch.backend.model.sensor.core;
+package com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core;
 
-import com.inhousegreenhouse.ch.backend.model.sensor.converter.ADC;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.converter.ADC;
 import com.inhousegreenhouse.ch.backend.model.util.Channels;
 
 import java.io.IOException;

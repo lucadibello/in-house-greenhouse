@@ -1,6 +1,6 @@
 package com.inhousegreenhouse.ch.backend.service;
 
-import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorList;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core.SensorList;
 import com.inhousegreenhouse.ch.backend.repository.SensorRepository;
 
 /**

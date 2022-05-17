@@ -1,9 +1,9 @@
-package com.inhousegreenhouse.ch.backend.model.sensor.core;
+package com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core;
 
-import com.inhousegreenhouse.ch.backend.model.sensor.HumiditySensor;
-import com.inhousegreenhouse.ch.backend.model.sensor.MoistureSensor;
-import com.inhousegreenhouse.ch.backend.model.sensor.TemperatureSensor;
-import com.inhousegreenhouse.ch.backend.model.sensor.WaterSensor;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.HumiditySensor;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.MoistureSensor;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.TemperatureSensor;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.WaterSensor;
 
 import java.util.ArrayList;
 import java.util.List;

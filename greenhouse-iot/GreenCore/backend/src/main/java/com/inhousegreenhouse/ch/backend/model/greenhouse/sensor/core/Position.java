@@ -1,4 +1,4 @@
-package com.inhousegreenhouse.ch.backend.model.sensor.core;
+package com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core;
 
 /**
  * This class represents a position on the board with a string value that defines the position id.

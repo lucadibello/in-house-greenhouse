@@ -1,7 +1,7 @@
 package com.inhousegreenhouse.ch.backend.model.util;
 
 
-import com.inhousegreenhouse.ch.backend.model.sensor.core.SensorType;
+import com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core.SensorType;
 
 import java.util.HashMap;
 import java.util.LinkedList;

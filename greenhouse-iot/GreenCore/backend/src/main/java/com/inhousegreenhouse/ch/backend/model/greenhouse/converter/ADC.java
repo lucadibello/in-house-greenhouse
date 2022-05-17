@@ -1,4 +1,4 @@
-package com.inhousegreenhouse.ch.backend.model.sensor.converter;
+package com.inhousegreenhouse.ch.backend.model.greenhouse.converter;
 
 import com.pi4j.io.spi.SpiChannel;
 import com.pi4j.io.spi.SpiDevice;

@@ -1,4 +1,4 @@
-package com.inhousegreenhouse.ch.backend.model.sensor.core;
+package com.inhousegreenhouse.ch.backend.model.greenhouse.sensor.core;
 
 /**
  * BaseSensor is the base class for all sensors.
