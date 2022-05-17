@@ -261,9 +261,25 @@ The monitoring settings are defined by a **MonitoringConfig** object, which prov
 | `greenhouse` | Greenhouse object that represents the current greenhouse |
 | `timeBetweenChecks` | Amount of milliseconds between sensor readings |
 
-## **6 Directory structures**
+## **6 Design**
 
-### **6.1 Project file structure**
+The following render images show the design of the In-House Greenhouse:
+
+- Isometric View
+
+  ![In-House Greenhouse Isometric View](./extra/design/DesignIsometric.jpg)
+
+- Side View
+
+  ![In-House Greenhouse Side View](./extra/design/DesignSide.jpg)
+
+- Top View
+
+  ![In-House Greenhouse Top View](./extra/design/DesignTop.jpg)
+
+## **7 Directory structures**
+
+### **7.1 Project file structure**
 
 ```text
 .
@@ -276,7 +292,7 @@ The monitoring settings are defined by a **MonitoringConfig** object, which prov
         └── UPnP          # UPnP discovery (UNUSED)
 ```
 
-### **6.2 Greenhouse app file structure**
+### **7.2 Greenhouse app file structure**
 
 ```text
 greenhouse-app/
@@ -305,7 +321,7 @@ greenhouse-app/
 └── test/            # Boilerplate default tests
 ```
 
-### **6.3 Greenhouse API server file structure**
+### **7.3 Greenhouse API server file structure**
 
 ```text
 greenhouse-server/
@@ -328,12 +344,12 @@ greenhouse-server/
     └── server.ts         # !API server entry point!
 ```
 
-### **6.4 Greenhouse IoT file structure**
+### **7.4 Greenhouse IoT file structure**
 
 > The file structure for the Greenhouse IoT files is too big to be described here. You can find it in the repository by clicking [here](./greenhouse-iot).
 In addition, here you can find the GreenCore [JavaDoc](https://lucadibello.github.io/in-house-greenhouse/).
 
-## 6 Project links
+## 8 Project links
 
 Links to each of the following project resources:
 
