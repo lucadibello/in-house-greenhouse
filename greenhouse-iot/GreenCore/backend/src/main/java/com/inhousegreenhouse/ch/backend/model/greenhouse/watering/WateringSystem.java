@@ -21,7 +21,7 @@ public class WateringSystem {
         final GpioController gpio = GpioFactory.getInstance();
 
         // provision gpio pin #01 as an output pin and turn on
-        wateringPin = gpio.provisionDigitalOutputPin(pin, "WaterPump", PinState.HIGH);
+        wateringPin = gpio.provisionDigitalOutputPin(pin, "WaterPump", PinState.LOW);
 
         // set shutdown state for this pin to low
         wateringPin.setShutdownOptions(true, PinState.LOW);
