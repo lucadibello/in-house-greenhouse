@@ -128,9 +128,17 @@ The whole thing was developed through Apollo Server (<https://www.apollographql.
 The database is a simple PostgreSQL server and is managed autonomously through a Docker container (managed with docker-compose, <https://docs.docker.com/compose/reference>) using the following image: *postgres:11.10*.
 Through the config file related to docker-compose (*docker-compose.yml*) you can change several essential parameters, such as the username and password, or the name of the database created by default at startup.
 
-## **5 Development**
+## **5 Circuit Diagram**
 
-### **5.1 Database**
+This is the circuit diagram of the physical system. It shows how the various components are connected together.
+
+![Circuit Diagram](/extra/schematics/Schematic_InHouseGreenhouse_Zoomed.png)
+
+Click [here](/extra/schematics/Schematic_InHouseGreenhouse.pdf) for the full-size version of the circuit diagram.
+
+## **6 Development**
+
+### **6.1 Database**
 
 The database is implemented using PostgreSQL and is hosted on a Docker container. It is connected to the API using the Prisma ORM. This the database ER diagram:
 
@@ -140,7 +148,7 @@ Every table in the database is defined in the Prisma schema. The schema is defin
 
 A special feature of this database is that the plant data is never completely deleted, but is only hidden by setting the *isDeleted* flag to "true".
 
-### **5.2 API Server**
+### **6.2 API Server**
 
 The API server is the core of In-House Greenhouse. The server, as mentioned earlier, was developed through the use of Apollo Server (webserver) with GraphQL (API query language) and Nexus GraphQL (schema generator). The API server uses the Prisma ORM database to handle queries and changes to the database.
 
@@ -153,11 +161,11 @@ Here is a diagram showing the structure of the GraphQL API:
 
 ![**API schema**](./greenhouse-server/extra/graphql/graph.png)
 
-#### **5.2.1 Building queries**
+#### **6.2.1 Building queries**
 
 For the development of the various queries, the server presents a Sandbox for testing, accessible via the loopback address: [http://localhost:4000](http://localhost:4000).
 
-#### **5.2.2 Config file**
+#### **6.2.2 Config file**
 
 You can change server settings via the `.env` configuration file.
 
@@ -172,7 +180,7 @@ This is a list of all available settings:
 | API_SERVER_PORT | Port where the APIs are accessible |
 | API_SERVER_URL | Host where the APIs are accessible |
 
-#### **5.2.3 Authentication**
+#### **6.2.3 Authentication**
 
 The API server uses 3 types of tokens for authentication:
 
@@ -188,9 +196,9 @@ This is a small example diagram showing the authentication process between the A
 2. Greenhouse IoT device requests to the API server
 ![Greenhouse IoT-Server authentication](https://user-images.githubusercontent.com/37295664/167380293-02ce7bc0-b8f1-4d37-b090-9391e2c5377a.png)
 
-### **5.3 App**
+### **6.3 App**
 
-The application initially presents a login/registration screen, which allows you to access the system. This authentication process is strictly necessary since the user needs the access and refresh tokens to make calls to the API (see chapter **5.2.3 Authentication**).
+The application initially presents a login/registration screen, which allows you to access the system. This authentication process is strictly necessary since the user needs the access and refresh tokens to make calls to the API (see chapter **6.2.3 Authentication**).
 
 ![Login/Register page](https://user-images.githubusercontent.com/37295664/167385944-80b4e9cc-fc18-4e8a-8b9b-138006ed4e52.png)
 
@@ -212,7 +220,7 @@ You can navigate the app via a drawer on the left, which can be opened either by
 
 Note: In this chapter I have shown only the most important screens, so there are no screenshots of every interface present.
 
-### **5.4 GreenProxy**
+### **6.4 GreenProxy**
 
 GreenProxy is an application written in Go (https://go.dev), which allows to manage the communication between Greenhouse IoT and API server. The greenhouse in fact, when it has to perform a request to the API, sends it to GreenProxy which manages the authentication (request of the greenhouse token) and the communication with the API server (sends the GraphQL query to the API server, and returns the response to the sender).
 
@@ -221,7 +229,7 @@ This is an example of GreenProxy's output, where it shows the startup process (w
 
 GreenProxy is used within a Docker container in order to run the application in isolation from the rest of the application. You can activate the proxy via the command `docker-compose up`.
 
-### **5.5 GreenCore**
+### **6.5 GreenCore**
 
 GreenCore is the software that manages the IoT greenhouse. The system has been programmed as a state machine, where in order to proceed to the next state, the current state must be successfully terminated.
 Each state is called a "Sequence", and is defined by a class that extends the *ISequence* interface. The system uses 3 states:
@@ -261,7 +269,7 @@ The monitoring settings are defined by a **MonitoringConfig** object, which prov
 | `greenhouse` | Greenhouse object that represents the current greenhouse |
 | `timeBetweenChecks` | Amount of milliseconds between sensor readings |
 
-## **6 Design**
+## **7 Design**
 
 The following render images show the design of the In-House Greenhouse:
 
@@ -277,9 +285,9 @@ The following render images show the design of the In-House Greenhouse:
 
   ![In-House Greenhouse Top View](./extra/design/DesignTop.jpg)
 
-## **7 Directory structures**
+## **8 Directory structures**
 
-### **7.1 Project file structure**
+### **8.1 Project file structure**
 
 ```text
 .
@@ -292,7 +300,7 @@ The following render images show the design of the In-House Greenhouse:
         └── UPnP          # UPnP discovery (UNUSED)
 ```
 
-### **7.2 Greenhouse app file structure**
+### **8.2 Greenhouse app file structure**
 
 ```text
 greenhouse-app/
@@ -321,7 +329,7 @@ greenhouse-app/
 └── test/            # Boilerplate default tests
 ```
 
-### **7.3 Greenhouse API server file structure**
+### **8.3 Greenhouse API server file structure**
 
 ```text
 greenhouse-server/
@@ -344,12 +352,12 @@ greenhouse-server/
     └── server.ts         # !API server entry point!
 ```
 
-### **7.4 Greenhouse IoT file structure**
+### **8.4 Greenhouse IoT file structure**
 
 > The file structure for the Greenhouse IoT files is too big to be described here. You can find it in the repository by clicking [here](./greenhouse-iot).
 In addition, here you can find the GreenCore [JavaDoc](https://lucadibello.github.io/in-house-greenhouse/).
 
-## 8 Project links
+## 9 Project links
 
 Links to each of the following project resources:
 
