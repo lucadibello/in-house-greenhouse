@@ -94,7 +94,7 @@ public class StartupSequence extends Sequence implements IGreenhouseSequence {
             }
 
             // Create watering system controller
-            WateringSystem wateringSystem = new WateringSystem(RaspiPin.GPIO_17);
+            WateringSystem wateringSystem = new WateringSystem(RaspiPin.GPIO_00);
 
             // Start the monitoring system
             System.out.println();
