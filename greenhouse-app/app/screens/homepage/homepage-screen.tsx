@@ -14,7 +14,7 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
   ({navigation}) => {
     
     // Load greenhouses from store
-    const { greenhouseStore, navigationStore } = useStores()
+    const { greenhouseStore, navigationStore, positionStore } = useStores()
 
     useEffect(() => {
       async function fetchData() {
@@ -22,6 +22,8 @@ export const HomepageScreen: FC<StackScreenProps<(TabParamList & NavigatorParamL
         console.tron.debug("[HOMEPAGE] Fetching greenhouses..")
         // load greenhouses
         await greenhouseStore.getGreenhouses()
+        // load positions
+        await positionStore.getPositions()
       }
       fetchData() // trigger update
     }, [])

@@ -22,12 +22,15 @@ export const PositionSelectInput = observer(function (props: PositionSelectInput
   
   // Get all positions
   React.useEffect (() => {
-    // Load positions from DB
-    positionStore.getPositions();
-    // Notify parent the default position used
-    if (props.value == null && positionStore.positions.length > 0) {
-      props.onSelect(positionStore.positions[0]);
+    async function fetchData () {
+      // Notify parent the default position used
+      if (props.value == null && positionStore.positions.length > 0) {
+        props.onSelect(positionStore.positions[0]);
+      } else {
+        await positionStore.getPositions();
+      }
     }
+    fetchData();
   }, [])
   
   const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
