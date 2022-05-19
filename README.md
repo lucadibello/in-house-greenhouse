@@ -285,9 +285,11 @@ The following render images show the design of the In-House Greenhouse:
 
   ![In-House Greenhouse Top View](./extra/design/DesignTop.jpg)
 
-## **8 Directory structures**
+## **8 Prototype**
 
-### **8.1 Project file structure**
+## **9 Directory structures**
+
+### **9.1 Project file structure**
 
 ```text
 .
@@ -300,7 +302,7 @@ The following render images show the design of the In-House Greenhouse:
         └── UPnP          # UPnP discovery (UNUSED)
 ```
 
-### **8.2 Greenhouse app file structure**
+### **9.2 Greenhouse app file structure**
 
 ```text
 greenhouse-app/
@@ -329,7 +331,7 @@ greenhouse-app/
 └── test/            # Boilerplate default tests
 ```
 
-### **8.3 Greenhouse API server file structure**
+### **9.3 Greenhouse API server file structure**
 
 ```text
 greenhouse-server/
@@ -352,12 +354,12 @@ greenhouse-server/
     └── server.ts         # !API server entry point!
 ```
 
-### **8.4 Greenhouse IoT file structure**
+### **9.4 Greenhouse IoT file structure**
 
 > The file structure for the Greenhouse IoT files is too big to be described here. You can find it in the repository by clicking [here](./greenhouse-iot).
 In addition, here you can find the GreenCore [JavaDoc](https://lucadibello.github.io/in-house-greenhouse/).
 
-## 9 Project links
+## 10 Project links
 
 Links to each of the following project resources:
 
