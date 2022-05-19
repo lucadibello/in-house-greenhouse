@@ -148,7 +148,7 @@ export const DataQuery = extendType({
                 greenhouseId: plant.greenhouseId,
                 sensor: { in: sensors.map(s => s.name) }
               },
-              orderBy: { created_at: 'asc' },
+              orderBy: { created_at: 'desc' },
               take: 500 
             });
           } else {
