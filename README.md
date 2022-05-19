@@ -287,6 +287,10 @@ The following render images show the design of the In-House Greenhouse:
 
 ## **8 Prototype**
 
+![In-House Greenhouse IoT Prototype](./extra/prototype/prototype_greenhouse.png)
+
+![In-House Greenhouse App Prototype](./extra/prototype/prototype_app.png)
+
 ## **9 Directory structures**
 
 ### **9.1 Project file structure**
