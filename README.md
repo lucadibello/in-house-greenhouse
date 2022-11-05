@@ -385,4 +385,4 @@ Links to each of the following project resources:
   <img src="https://user-images.githubusercontent.com/37295664/200133922-59c51a9d-061e-4cf0-b06a-6656ca75e86c.png" width="260" /> 
 </p>
 
-This project was the result of collaboration with [SUPSI](https://www.supsi.ch/dti) (University of Applied Sciences of Southern Switzerland) and [Penn State University](https://www.psu.edu/). We thank you for this opportunity.
+This project was the result of collaboration with [SUPSI](https://www.supsi.ch/dti) (University of Applied Sciences of Southern Switzerland) and [Penn State University](https://www.psu.edu/). Thank you for this opportunity.
