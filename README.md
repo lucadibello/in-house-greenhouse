@@ -20,11 +20,11 @@ https://user-images.githubusercontent.com/37295664/169318002-b878eddd-9390-4225-
 - [5. Circuit Diagram](#5-circuit-diagram)
 - [6. Development](#6-development)
   - [6.1. Database](#61-database)
-  - [6.2. API - Server](#62-api---server)
+  - [6.2. Server and APIs](#62-server-and-apis)
     - [6.2.1. Building queries](#621-building-queries)
     - [6.2.2. Config file](#622-config-file)
     - [6.2.3. Authentication](#623-authentication)
-  - [6.3. App](#63-app)
+  - [6.3. Mobile app](#63-mobile-app)
   - [6.4. GreenProxy](#64-greenproxy)
   - [6.5. GreenCore](#65-greencore)
 - [7. 3D renderings](#7-3d-renderings)
@@ -181,7 +181,7 @@ Every table in the database is defined in the Prisma schema. The schema is defin
 
 A special feature of this database is that the plant data is never completely deleted, but is only hidden by setting the *isDeleted* flag to "true".
 
-### 6.2. API - Server
+### 6.2. Server and APIs
 
 The API server is the core of In-House Greenhouse. The server, as mentioned earlier, was developed through the use of Apollo Server (webserver) with GraphQL (API query language) and Nexus GraphQL (schema generator). The API server uses the Prisma ORM database to handle queries and changes to the database.
 
@@ -229,7 +229,7 @@ This is a small example diagram showing the authentication process between the A
 2. Greenhouse IoT device requests to the API server
 ![Greenhouse IoT-Server authentication](https://user-images.githubusercontent.com/37295664/167380293-02ce7bc0-b8f1-4d37-b090-9391e2c5377a.png)
 
-### 6.3. App
+### 6.3. Mobile app
 
 The application initially presents a login/registration screen, which allows you to access the system. This authentication process is strictly necessary since the user needs the access and refresh tokens to make calls to the API (see chapter **6.2.3 Authentication**).
 
